@@ -1,0 +1,3 @@
+enum WorkShift{
+  MORNING, AFTERNOON, EVENING, NIGHT
+}
