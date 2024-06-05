@@ -1,0 +1,416 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/review/model/review_model.dart';
+import 'package:provider/provider.dart';
+
+class ReviewPage extends StatefulWidget {
+  ReviewPage({super.key, required this.productId, this.numberOfRating,this.rating});
+  String productId;
+  int? numberOfRating;
+  double? rating;
+  @override
+  State<ReviewPage> createState() => _ReviewPageState();
+}
+
+class _ReviewPageState extends State<ReviewPage> {
+  TextEditingController reviewTextController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) => Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Text(
+                        "Rating&Reviews",
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        widget.rating.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                      ),
+                                    ),
+                                    Text("${widget.numberOfRating} ratings")
+                                  ],
+                                )),
+                            Expanded(
+                                flex: 8,
+                                child: Flex(
+                                  direction: Axis.vertical,
+                                  children: [
+                                    RatingHeader(
+                                      itemCount: 5,
+                                    ),
+                                    RatingHeader(
+                                      itemCount: 4,
+                                    ),
+                                    RatingHeader(
+                                      itemCount: 3,
+                                    ),
+                                    RatingHeader(
+                                      itemCount: 2,
+                                    ),
+                                    RatingHeader(
+                                      itemCount: 1,
+                                    ),
+                                  ],
+                                ))
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              ListReview(
+                productId: widget.productId,
+              )
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+
+          // fixedSize: Size(170, 15)
+        ),
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.white,
+            context: context,
+            builder: (context) {
+              return Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Container(
+                  height: 500,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          "What is your rate?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        RatingBar(
+                          itemPadding: EdgeInsets.all(2),
+                          itemSize: 35.0,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          ignoreGestures: true,
+                          initialRating: 0,
+                          ratingWidget: RatingWidget(
+                            full: Image.asset('assets/images/heart.png'),
+                            half: Image.asset('assets/images/heart_haft.png'),
+                            empty:
+                                Image.asset('assets/images/heart_border.png'),
+                          ),
+                          onRatingUpdate: (value) {},
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "Please share your opinion",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "about the product",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(15),
+                            elevation: 1,
+                            child: TextField(
+                              controller: reviewTextController,
+                              decoration: InputDecoration(
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none)),
+                              maxLines: 5,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.red,
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text("Add your photo")
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red),
+                              onPressed: () {},
+                              child: Text(
+                                "SEND REVIEW",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "Write a review",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.white),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ListReview extends StatefulWidget {
+  ListReview({super.key, required this.productId});
+
+  String productId;
+  @override
+  State<ListReview> createState() => _ListReviewState();
+}
+
+class _ListReviewState extends State<ListReview> {
+  final controller = ScrollController();
+  int page = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller.addListener(() async {
+      print("scroll ");
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          print('scroll di');
+          page++;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: context.read<ShopProvider>().reviewOfProduct(
+          domain: context.read<AuthenticateProvider>().domain,
+          page: page,
+          pageSize: 5,
+          productId: widget.productId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.primary),
+            child: Center(),
+          );
+        }
+        final result = context.read<ShopProvider>().httpResponseFlutter.result!;
+        final reviews = List<Map<String, dynamic>>.from(result['reviews']);
+       
+        return Expanded(
+            flex: 8,
+            child: ListView.builder(
+              itemCount: reviews.length + 1,
+              itemBuilder: (context, index) {
+                if (index >= reviews.length) {
+                  return Padding(
+                    padding: EdgeInsets.zero,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (reviews.isNotEmpty) {
+                  final review = ReviewModel.fromJson(reviews[index]);
+                  return LayoutBuilder(
+                    builder: (context, constraints) => Container(
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      child: Stack(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(
+                              top: 8,
+                            ),
+                            margin: EdgeInsets.only(top: 5),
+                            width: constraints.maxWidth,
+                            child: Material(
+                              elevation: 2,
+                              borderRadius: BorderRadius.circular(10),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Text(review.user!),
+                                  ),
+                                  Container(
+                                    child: Text(review.review!),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              height: 35,
+                              child: CircleAvatar(
+                                child: Image(
+                                    image:
+                                        AssetImage("assets/images/avatar.png")),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+            ));
+      },
+    );
+  }
+}
+
+class RatingHeader extends StatelessWidget {
+  int itemCount;
+  RatingHeader({
+    required this.itemCount,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      textDirection: TextDirection.rtl,
+      children: [
+        Expanded(
+          child: Container(
+            height: 10,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.red,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: Row(
+            textDirection: TextDirection.rtl,
+            children: [
+              RatingBar(
+                itemPadding: EdgeInsets.all(2),
+                itemSize: 18.0,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: itemCount,
+                ignoreGestures: true,
+                initialRating: 0,
+                ratingWidget: RatingWidget(
+                  full: Image.asset('assets/images/heart.png'),
+                  half: Image.asset('assets/images/heart_haft.png'),
+                  empty: Image.asset('assets/images/heart_border.png'),
+                ),
+                onRatingUpdate: (value) {},
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
