@@ -24,7 +24,6 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> getAllOrder({required String token, String? stage}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
-
       Map<String, dynamic> queryParameters = {"stage": stage};
       queryParameters.removeWhere((key, value) => value == null);
       Uri? uri =
@@ -32,12 +31,13 @@ class ProfileProvider extends ChangeNotifier {
             queryParameters: queryParameters
           );
       
+    
       final rs = await http.get(headers: {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'Content-type': 'application/json',
         'Accept': 'application/json',
       }, uri!);
-
+      
       final body = json.decode(rs.body);
       if (rs.statusCode >= 400) {
         throw FlutterException(body['message'], rs.statusCode);

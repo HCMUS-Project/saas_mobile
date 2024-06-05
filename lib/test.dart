@@ -1,12 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
+import 'package:mobilefinalhcmus/config/exception_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
 
@@ -58,9 +63,7 @@ class _TestPageState extends State<TestPage> {
             title: Text("Hello"),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: listSkeletonWidget(context),
-            ),
+            child: FetchdataWidget() 
           ),
           SliverGrid(
             gridDelegate: SliverQuiltedGridDelegate(
@@ -84,42 +87,61 @@ class _TestPageState extends State<TestPage> {
   }
 }
 
-class FetchdataWidget extends StatelessWidget {
-  const FetchdataWidget({super.key});
+class FetchdataWidget extends StatefulWidget {
+   FetchdataWidget({super.key});
+
+  @override
+  State<FetchdataWidget> createState() => _FetchdataWidgetState();
+}
+
+class _FetchdataWidgetState extends State<FetchdataWidget> {
+  String a = "ae";
+  Stream? steam;
+  StreamController _streamController = StreamController();
+  Future<void> getStream()async{
+    try {
+      final client = http.Client();
+      final request = http.Request(
+        "get", Uri.parse("http://192.168.189.216:3000/api/ecommerce/voucher/testStream")
+      )..headers['Accept'] = 'application/json';
+      print(request);
+      final response  = await client.send(request);
+      print("Response: $response");
+      response.stream.listen((value) { 
+        print(String.fromCharCodes(value));
+        setState(() {
+          a = String.fromCharCodes(value);
+        });
+      });
+    } on FlutterException catch (e) {
+      
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return FutureBuilder(
-      future: context.read<ShopProvider>().findProductTopSeller(
-          domain: context.read<AuthenticateProvider>().domain!),
+      future: getStream(),
       builder: (context, snapshot) {
-        final result = snapshot.data?.result;
+        // final result = snapshot.data?.result;
+      
+        // List<Map<String, dynamic>> products = [];
 
-        List<Map<String, dynamic>> products = [];
-
-        if (result != null) {
-          products = List<Map<String, dynamic>>.from(result['products']);
+        // if (result != null) {
+        //   products = List<Map<String, dynamic>>.from(result['products']);
+        // }
+        if (snapshot.connectionState == ConnectionState.waiting){
+          return Container();
         }
-
-        return Container(
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: 10,
-              );
-            },
-            itemCount: result == null ? 4 : products.length,
-            itemBuilder: (context, index) {
-              return result == null
-                  ? buildSkeleton(context)
-                  : Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(color: Colors.amber),
-                    );
-            },
-          ),
-        );
+        return StreamBuilder(
+          stream:_streamController.stream ,
+          builder:(context, snapshot) {
+            print(snapshot.data);
+            return Container(
+            child: Text(a)
+          );
+      });
       },
     );
   }
