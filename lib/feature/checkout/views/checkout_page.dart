@@ -67,16 +67,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
         LoadingScreen.instance().show(context: context);
       } else {
         LoadingScreen.instance().hide();
-        if (_checkoutProvider!.httpResponseFlutter.errorMessage != null){
+        if (_checkoutProvider!.httpResponseFlutter.errorMessage != null) {
           print(_checkoutProvider!.httpResponseFlutter.errorMessage);
-        }else{
+        } else {
           Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) {
-            return SuccessPage();
-          },
-        ));
+            builder: (context) {
+              return SuccessPage();
+            },
+          ));
         }
-        
       }
     }
   }
@@ -86,8 +85,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
     for (int i = 0; i < products.length; i++) {
       final product = products[i].product;
 
-      productReturn.add(
-        Container(
+      productReturn.add(Container(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -108,11 +106,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         flex: 2,
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              ),
-                            child: Image(image: NetworkImage("${product.image![0]}")),
-                          )
-                        ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Image(
+                              image: NetworkImage("${product.image![0]}")),
+                        )),
                     Expanded(
                         flex: 8,
                         child: Container(
@@ -145,14 +143,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
           ),
         ),
       ));
-   
     }
     return productReturn;
   }
 
   @override
   Widget build(BuildContext context) {
-  
     Size size = MediaQuery.of(context).size;
     final profile = context.read<AuthenticateProvider>().profile;
 
@@ -251,28 +247,58 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       children: listProducts(products: widget.products!),
                     ),
                   ),
-                 
-                  //voucher
-                  Container(
-                    height: 200,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: Text("Have a promo code? Enter here"),
-                          ),
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              
-                            },
-                            child: Text("Apply"),
-                          ),
-                        )
-                      ],
-                    )
 
+                  //Voucher
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                color: Theme.of(context).colorScheme.secondary),
+                            shape: BoxShape.rectangle),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 7,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    child:
+                                        Text("Have a promo code? Enter here"),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    height: 30,
+                                    alignment: Alignment.center,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await showModalBottomSheet(
+                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                          context: context,
+                                          builder: (context) {
+                                            return Container(
+                                              width: double.infinity,
+                                              child: Column(
+                                                children: [
+                                                  Container(child: Text("troi oi la troi"),)
+                                                ],
+                                              ));
+                                          },
+                                        );
+                                      },
+                                      child: Text("Apply"),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        )),
                   ),
 
                   //Payment
@@ -587,7 +613,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 child: SizedBox.expand(
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          
                           shape: BeveledRectangleBorder()),
                       onPressed: () async {
                         List<ProductModel> products = [];
@@ -606,10 +631,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       },
                       child: Text(
                         "Order",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary),
                       )),
                 ),
               ),

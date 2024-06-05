@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         theme: customTheme,
         initialRoute: '/',
         routes: {
-          '/': (context) => TestPage(),
+          '/': (context) => IntroPage(),
           '/tenant': (context) => TenantPage(),
           '/auth/login':(context) => LoginPage(),
           '/auth/signup':(context) => RegisterPage(),

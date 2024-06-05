@@ -20,32 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget buildSkeleton(BuildContext context) => Column(
-        children: <Widget>[
-          Expanded(
-            child: SkeletonContainer.rounded(
-              width: double.infinity,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SkeletonContainer.rounded(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: 25,
-                ),
-                const SizedBox(height: 8),
-                SkeletonContainer.rounded(
-                   width: 60,
-                height: 13,
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

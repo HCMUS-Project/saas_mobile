@@ -191,6 +191,8 @@ class ShopProvider extends ChangeNotifier {
       {required String domain}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
+      httpResponseFlutter.update(isLoading: true);
+      
       Map<String, dynamic> queryParameters = {
         "domain": domain,
       };
@@ -212,7 +214,9 @@ class ShopProvider extends ChangeNotifier {
       final result = Map<String, dynamic>.from(body);
 
       httpResponseFlutter.update(
+        isLoading: false,
           result: result['data'], statusCode: rs.statusCode);
+      notifyListeners();
       return httpResponseFlutter;
     } on FlutterException catch (e) {
       print(e);
