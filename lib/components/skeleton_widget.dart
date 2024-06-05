@@ -46,30 +46,33 @@ class SkeletonContainer extends StatelessWidget {
       );
 }
 
-Widget buildSkeleton(BuildContext context) => Column(
-      children: <Widget>[
-        Expanded(
-          child: SkeletonContainer.rounded(
-              height: MediaQuery.of(context).size.height * 0.3,
-              width: MediaQuery.of(context).size.width * 0.5,
+Widget buildSkeleton(BuildContext context) => Container(
+  height: 120,
+  child: Column(
+        children: <Widget>[
+          Expanded(
+            child: SkeletonContainer.rounded(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 0.5,
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SkeletonContainer.rounded(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: 25,
-              ),
-              const SizedBox(height: 8),
-              SkeletonContainer.rounded(
-                width: 60,
-                height: 13,
-              ),
-            ],
+          const SizedBox(height: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SkeletonContainer.rounded(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: 25,
+                ),
+                const SizedBox(height: 8),
+                SkeletonContainer.rounded(
+                  width: 60,
+                  height: 13,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      ),
+);

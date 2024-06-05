@@ -72,13 +72,12 @@ class _ProductPageState extends State<ProductPage> {
               );
             }
             List<Map<String, dynamic>> products = [];
-            final result =
+            var result =
                 context.read<ShopProvider>().httpResponseFlutter.result;
-            if (result != null){
+            if (result != null) {
               products = List<Map<String, dynamic>>.from(result['products']);
-
             }
-
+            
             return Container(
               decoration: BoxDecoration(color: Colors.white),
               child: SingleChildScrollView(
@@ -111,12 +110,8 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     result == null
                         ? Container(
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                return buildSkeleton(context);
-                              },
-                            ),
-                          )
+                          child: Column(children: List.generate(5, (index) => buildSkeleton(context))
+                          ))
                         : ShowProduct(
                             selectedGrid: selectedGrid,
                             showProductStream: showProductStream,

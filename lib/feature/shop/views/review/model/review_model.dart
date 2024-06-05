@@ -30,7 +30,7 @@ class ReviewModel {
       domain: json['domain'],
       createdAt: json['createdAt'],
       productId: json['productId'],
-      rating: json['rating'],
+      rating: double.parse(json['rating'].toString()),
       review: json['review'],
       updatedAt: json['updateAt'],
       user: json['user']
