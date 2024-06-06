@@ -260,4 +260,52 @@ class ShopProvider extends ChangeNotifier {
       return httpResponseFlutter;
     }
   }
+
+  Future<HttpResponseFlutter> getAllVoucher (
+    {
+      required String domain,
+      String? code,
+      String? id
+    }
+  )async{
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      Map<String, dynamic> queryParameters = {
+        "domain": domain,
+        "code":code,
+        "id":id
+      };
+
+      queryParameters.removeWhere((key, value) => value == null);
+      final uri =
+          Uri.parse('${dotenv.env['HTTP_URI']}ecommerce/voucher/find')
+              .replace(queryParameters: queryParameters);
+      final rs = await http.get(
+        headers: {
+           'Content-type': 'application/json',
+        'Accept': 'application/json',
+        },
+        uri
+      );
+
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400){
+        throw FlutterException(
+          body['message'], rs.statusCode
+        );
+      }
+
+      final resutl = Map<String,dynamic>.from(body);
+      httpResponseFlutter.update(
+        result: resutl['data'],
+        statusCode: resutl['statusCode']
+      );
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
+    }
+  }
 }

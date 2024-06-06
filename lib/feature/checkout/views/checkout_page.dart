@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/loading_screen.dart';
@@ -13,6 +14,8 @@ import 'package:mobilefinalhcmus/feature/checkout/providers/checkout_provider.da
 import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
+import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
+import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -40,7 +43,7 @@ class CheckOutPage extends StatefulWidget {
 class _CheckOutPageState extends State<CheckOutPage> {
   CheckoutProvider? _checkoutProvider;
   int selectedPaymentMethod = 0;
-
+  List<VoucherModel> listChosenVoucher = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -82,6 +85,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
   List<Widget> listProducts({required List<CartModel> products}) {
     List<Widget> productReturn = [];
+    
     for (int i = 0; i < products.length; i++) {
       final product = products[i].product;
 
@@ -91,13 +95,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Nike",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
+             
               Container(
                 height: 100,
                 child: Row(
@@ -146,12 +144,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
     }
     return productReturn;
   }
-
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final profile = context.read<AuthenticateProvider>().profile;
-
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -264,10 +262,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 Expanded(
                                   flex: 7,
                                   child: Container(
-                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(left: 2),
+                                    alignment: Alignment.centerLeft,
                                     height: 40,
                                     child:
-                                        Text("Have a promo code? Enter here"),
+                                        Text(listChosenVoucher.isNotEmpty ? listChosenVoucher[0].voucherName! :"Have a promo code? Enter here", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),),
                                   ),
                                 ),
                                 Expanded(
@@ -277,19 +278,198 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                     alignment: Alignment.center,
                                     child: ElevatedButton(
                                       onPressed: () async {
-                                        await showModalBottomSheet(
-                                          backgroundColor: Theme.of(context).colorScheme.primary,
+                                        final voucher = await showModalBottomSheet(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                           context: context,
                                           builder: (context) {
-                                            return Container(
-                                              width: double.infinity,
-                                              child: Column(
-                                                children: [
-                                                  Container(child: Text("troi oi la troi"),)
-                                                ],
-                                              ));
+                                            return FutureBuilder(
+                                              future: context
+                                                  .read<ShopProvider>()
+                                                  .getAllVoucher(
+                                                      domain: context
+                                                          .read<
+                                                              AuthenticateProvider>()
+                                                          .domain!),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return Container();
+                                                }
+                                                final result =
+                                                    snapshot.data?.result;
+                                                final vouchers = List<
+                                                        Map<String,
+                                                            dynamic>>.from(
+                                                    result?['vouchers']);
+                                                bool isChoose = true;
+
+                                                return StatefulBuilder(
+                                                  builder: (context, setState) {
+                                                    return Column(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 10,
+                                                          child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              width: double
+                                                                  .infinity,
+                                                              child: ListView
+                                                                  .separated(
+                                                                separatorBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  return SizedBox(
+                                                                    height: 10,
+                                                                  );
+                                                                },
+                                                                itemCount:
+                                                                    vouchers
+                                                                        .length,
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  final voucher =
+                                                                      VoucherModel
+                                                                          .fromJson(
+                                                                              vouchers[index]);
+                                                                  final expiredTime = DateFormat('dd-MM-yyyy').format(DateFormat(
+                                                                          "EEE MMM dd yyyy HH:mm:ss 'GMT'Z")
+                                                                      .parse(voucher
+                                                                          .expireAt!)
+                                                                      .toLocal());
+
+                                                                  return Container(
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(15),
+                                                                            border: Border.all(
+                                                                              color: Theme.of(context).colorScheme.secondary,
+                                                                            )),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Expanded(
+                                                                            flex:
+                                                                                3,
+                                                                            child:
+                                                                                Container(
+                                                                              child: Image(height: 100, width: 100, image: AssetImage("assets/images/voucher.png")),
+                                                                            )),
+                                                                        Expanded(
+                                                                            flex:
+                                                                                7,
+                                                                            child:
+                                                                                Container(
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Container(
+                                                                                    child: Text(
+                                                                                      "${voucher.voucherCode}",
+                                                                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    child: Text("Max discount: ${CurrencyConfig.convertTo(price: voucher.maxDiscount!).toString()}"),
+                                                                                  ),
+                                                                                  Container(
+                                                                                    child: Text("Min order: ${CurrencyConfig.convertTo(price: voucher.minAppValue!).toString()}"),
+                                                                                  ),
+                                                                                  Container(child: Text("Expired ${expiredTime}"))
+                                                                                ],
+                                                                              ),
+                                                                            )),
+                                                                        Expanded(
+                                                                            child:
+                                                                                Checkbox(
+                                                                          checkColor: Theme.of(context)
+                                                                              .colorScheme
+                                                                              .secondary,
+                                                                          shape:
+                                                                              CircleBorder(),
+                                                                          side:
+                                                                              MaterialStateBorderSide.resolveWith(
+                                                                            (states) =>
+                                                                                BorderSide(width: 1.0, color: Theme.of(context).colorScheme.secondary),
+                                                                          ),
+                                                                          fillColor: MaterialStatePropertyAll(Theme.of(context)
+                                                                              .colorScheme
+                                                                              .primary),
+                                                                          value: listChosenVoucher
+                                                                              .where((element) => element.id == voucher.id)
+                                                                              .isNotEmpty,
+                                                                          onChanged:
+                                                                              (value) {
+                                                                            print(value);
+                                                                            setState(
+                                                                              () {
+                                                                                if (value!) {
+                                                                                  listChosenVoucher.add(voucher);
+                                                                                } else {
+                                                                                  listChosenVoucher.removeWhere(
+                                                                                    (element) {
+                                                                                      return element.id == voucher.id;
+                                                                                    },
+                                                                                  );
+                                                                                  print(listChosenVoucher);
+                                                                                }
+                                                                              },
+                                                                            );
+                                                                          },
+                                                                        ))
+                                                                      ],
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              )),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Container(
+                                                           
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Column(
+                                                              children: [
+                                                                Expanded(
+                                                                    child: Container(
+                                                                      alignment: Alignment.center,
+                                                                      child: Text(
+                                                                          "${listChosenVoucher.length} have been chosen"),
+                                                                    )),
+                                                                Expanded(
+                                                                  child: SizedBox(
+                                                                      width: double
+                                                                          .infinity,
+                                                                      child: ElevatedButton(
+                                                                          style: Theme.of(context)
+                                                                              .elevatedButtonTheme
+                                                                              .style
+                                                                              ?.copyWith(shape: MaterialStatePropertyAll(BeveledRectangleBorder())),
+                                                                          onPressed: () {
+                                                                            Navigator.of(context).pop();
+                                                                          },
+                                                                          child: Text("Agree"))),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            );
                                           },
                                         );
+                                        setState(() {
+                                          
+                                        });
                                       },
                                       child: Text("Apply"),
                                     ),
@@ -621,6 +801,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         });
 
                         await context.read<CheckoutProvider>().createOrder(
+                            voucherId: listChosenVoucher.isNotEmpty ? listChosenVoucher[0].id : null,
                             token: context.read<AuthenticateProvider>().token!,
                             productsId: products.map((e) => e.id!).toList(),
                             quantities: widget.products!
@@ -629,6 +810,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             phone: profile?['phone'],
                             address: profile?['address']);
                       },
+
                       child: Text(
                         "Order",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(

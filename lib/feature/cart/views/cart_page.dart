@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -21,20 +23,27 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  CartProvider? cartProvider;
+  late CartProvider? cartProvider;
   @override
   void initState() {
     // TODO: implement initState
-    cartProvider = context.read<CartProvider>();
-    cartProvider?.setTotal = 0;
-    cartProvider?.setSelectedList = [];
-
+    
     super.initState();
+    cartProvider = context.read<CartProvider>();
+    
+        
+    print("cart init");
   }
 
   @override
   void dispose() {
+   
     // TODO: implement dispose
+    SchedulerBinding.instance.scheduleFrameCallback((timeStamp) {
+      print("qeoqheweh"); 
+      cartProvider?.setCartList = [];
+      cartProvider?.setTotal = 0;
+    });
     super.dispose();
   }
 
@@ -42,6 +51,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     final cartList = context.read<CartProvider>().cartList;
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -92,6 +102,7 @@ class _CartPageState extends State<CartPage> {
               final cartItems =
                   List<Map<String, dynamic>>.from(carts[0]['cartItems']);
               final cartId = carts[0]['id'];
+              print("taij sao lai rebuild o day v");
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,311 +113,57 @@ class _CartPageState extends State<CartPage> {
                         itemCount: cartItems.length,
                         itemBuilder: (context, index) {
                           final item = cartItems[index];
-             
 
-                          return FutureBuilder(
-                              future: context
-                                  .read<ShopProvider>()
-                                  .findProduct(
-                                      domain: context.read<AuthenticateProvider>().domain!,
-                                      productId: item['productId'],
-                                  ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Container();
-                                }
-                                final data = snapshot.data?.result?['data'];
-
-                                final cartItem = CartModel.fromJson({
-                                  "product": ProductModel.fromJson(data),
-                                  "quantity": item['quantity']
-                                });
-                               
-                                int quantityChange = cartItem.quantity;
-                                return StatefulBuilder(
-                                  builder: (context, setState2) => Container(
-                                    height: size.width / 3,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1,
-                                            child: Checkbox(
-                                              activeColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              onChanged: (value) {
-                                                setState2(() {
-                                                  cartItem.isSelected =
-                                                      !cartItem.isSelected;
-                                                
-                                                  if (cartItem.isSelected) {
-                                                  
-                                                    context
-                                                        .read<CartProvider>()
-                                                        .updateCheckout(
-                                                            typeFlag:
-                                                                "ADD_ITEM",
-                                                            item: cartItem);
-                                                  } else {
-                                                    context
-                                                        .read<CartProvider>()
-                                                        .updateCheckout(
-                                                            typeFlag:
-                                                                "REMOVE_ITEM",
-                                                            item: cartItem);
-                                                  }
-                                                });
-                                              },
-                                              shape: BeveledRectangleBorder(
-                                                  side: BorderSide(width: 1)),
-                                              value: cartItem.isSelected,
-                                            )),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Container(
-                                              height: size.width * 0.3,
-                                              alignment: Alignment.centerLeft,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          (cartItem.product
-                                                              .image![0])),
-                                                      fit: BoxFit.fill)),
-                                            )),
-                                        Expanded(
-                                            flex: 6,
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                      flex: 7,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Align(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Text(cartItem
-                                                                .product.name!),
-                                                          ),
-                                                          // Row(
-                                                          //   mainAxisAlignment:
-                                                          //       MainAxisAlignment
-                                                          //           .spaceAround,
-                                                          //   children: [
-                                                          //     Text(
-                                                          //         "Color: Black"),
-                                                          //     Text("Size: L")
-                                                          //   ],
-                                                          // ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              ElevatedButton(
-                                                                  style: ElevatedButton.styleFrom(
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      minimumSize:
-                                                                          Size(
-                                                                              36,
-                                                                              36),
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await context.read<CartProvider>().updateCart(
-                                                                        token: context
-                                                                            .read<
-                                                                                AuthenticateProvider>()
-                                                                            .token!,
-                                                                        cartId:
-                                                                            cartId,
-                                                                        quantity:
-                                                                            quantityChange -
-                                                                                1,
-                                                                        productId: cartItem
-                                                                            .product
-                                                                            .id!);
-                                                                    final result = context
-                                                                        .read<
-                                                                            CartProvider>()
-                                                                        .httpResponseFlutter
-                                                                        .result;
-                                                                    if (result ==
-                                                                        null) {
-                                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                          duration: Duration(
-                                                                              milliseconds:
-                                                                                  100),
-                                                                          content: Text(context
-                                                                              .read<CartProvider>()
-                                                                              .httpResponseFlutter
-                                                                              .errorMessage!)));
-                                                                    } else {
-                                                                      setState2(
-                                                                        () {
-                                                                          quantityChange =
-                                                                              quantityChange - 1;
-                                                                          cartItem.quantity =
-                                                                              quantityChange;
-                                                                        },
-                                                                      );
-                                                                    }
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .remove,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  )),
-                                                              Text(
-                                                                quantityChange
-                                                                    .toString(),
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodyLarge
-                                                                    ?.copyWith(
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                              ),
-                                                              ElevatedButton(
-                                                                  style: ElevatedButton.styleFrom(
-                                                                      shape:
-                                                                          CircleBorder(),
-                                                                      minimumSize:
-                                                                          Size(
-                                                                              36,
-                                                                              36),
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await context.read<CartProvider>().updateCart(
-                                                                        token: context
-                                                                            .read<
-                                                                                AuthenticateProvider>()
-                                                                            .token!,
-                                                                        cartId:
-                                                                            cartId,
-                                                                        quantity:
-                                                                            quantityChange +
-                                                                                1,
-                                                                        productId: cartItem
-                                                                            .product
-                                                                            .id!);
-                                                                    final result = context
-                                                                        .read<
-                                                                            CartProvider>()
-                                                                        .httpResponseFlutter
-                                                                        .result;
-                                                                    if (result ==
-                                                                        null) {
-                                                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                          duration: Duration(
-                                                                              milliseconds:
-                                                                                  100),
-                                                                          content: Text(context
-                                                                              .read<CartProvider>()
-                                                                              .httpResponseFlutter
-                                                                              .errorMessage!)));
-                                                                    } else {
-                                                                      setState2(
-                                                                          () {
-                                                                        quantityChange =
-                                                                            quantityChange +
-                                                                                1;
-                                                                        cartItem.quantity =
-                                                                            quantityChange;
-                                                                      });
-                                                                    }
-                                                                  },
-                                                                  child: Icon(
-                                                                    Icons.add,
-                                                                    color: Colors
-                                                                        .black,
-                                                                  )),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      )),
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: Container(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              flex: 3,
-                                                              child: IconButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  icon: Icon(Icons
-                                                                      .more_vert)),
-                                                            ),
-                                                            Expanded(
-                                                                flex: 8,
-                                                                child: Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    child: Text(
-                                                                      CurrencyConfig.convertTo(
-                                                                              price: cartItem.product.price! * quantityChange)
-                                                                          .toString(),
-                                                                      style: Theme.of(
-                                                                              context)
-                                                                          .textTheme
-                                                                          .bodySmall,
-                                                                    )))
-                                                          ],
-                                                        ),
-                                                      ))
-                                                ],
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              });
+                          return CartItemWidget(
+                              item: item,
+                              size: size,
+                              cartProvider: cartProvider,
+                              cartList: cartList,
+                              cartId: cartId);
                         },
                       ),
                     ),
                   ),
-                  if (cartList.length > 0)
-                    Row(
-                      children: [
-                        Text("Total amount: "),
-                        Text(
-                            "${CurrencyConfig.convertTo(price: context.read<CartProvider>().total).toString()}")
-                      ],
-                    ),
+                  Consumer(
+                    builder: (context, value, child) {
+                      final totalTemp = context.select(
+                        (CartProvider value) => value.total,
+                      );
+                      return context.select(
+                        (CartProvider value) => value.cartList.isNotEmpty,
+                      )
+                          ? Container(
+                              child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "Total: ${CurrencyConfig.convertTo(price: totalTemp).toString()}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ))
+                          : Container();
+                    },
+                  ),
                   Expanded(
                       flex: 1,
                       child: Consumer(
                         builder: (context, value, child) {
+                          final totalTemp = context.select(
+                            (CartProvider value) => value.total,
+                          );
+                          print("adasdsadsadsad: $totalTemp");
                           return GestureDetector(
-                            onTap: context
-                                    .watch<CartProvider>()
-                                    .selectedList
-                                    .isNotEmpty
+                            onTap: context.select(
+                              (CartProvider value) => value.cartList.isNotEmpty,
+                            )
                                 ? () {
-                                    final selectedListTemp = context.read<CartProvider>().selectedList;
-                                    final totalTemp =  context.read<CartProvider>().total;
-                                    Navigator.of(context).push(MaterialPageRoute(
+                                    final selectedListTemp =
+                                        context.read<CartProvider>().cartList;
+
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
                                       builder: (context) {
                                         return CheckOutPage(
                                           cartID: cartId as String,
@@ -414,23 +171,17 @@ class _CartPageState extends State<CartPage> {
                                           total: totalTemp,
                                         );
                                       },
-                                    )).then((value) => setState(() {
-                                              context
-                                                  .read<CartProvider>()
-                                                  .setSelectedList = [];
-                                            }));
-                                    context.read<CartProvider>().setTotal = 0;
-                                    // cartProvider?.setTotal = 0;
+                                    ));
                                   }
                                 : null,
                             child: Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  color: context
-                                          .watch<CartProvider>()
-                                          .selectedList
-                                          .isNotEmpty
+                                  color: context.select(
+                                    (CartProvider value) =>
+                                        value.cartList.isNotEmpty,
+                                  )
                                       ? Theme.of(context).colorScheme.secondary
                                       : Colors.grey),
                               child: Text(
@@ -438,7 +189,10 @@ class _CartPageState extends State<CartPage> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
-                                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
                               ),
                             ),
                           );
@@ -449,5 +203,331 @@ class _CartPageState extends State<CartPage> {
             }),
       ),
     );
+  }
+}
+
+class CartItemWidget extends StatefulWidget {
+  const CartItemWidget({
+    super.key,
+    required this.item,
+    required this.size,
+    required this.cartProvider,
+    required this.cartList,
+    required this.cartId,
+  });
+
+  final Map<String, dynamic> item;
+  final Size size;
+  final CartProvider? cartProvider;
+  final List<CartModel> cartList;
+  final String cartId;
+
+  @override
+  State<CartItemWidget> createState() => _CartItemWidgetState();
+}
+
+class _CartItemWidgetState extends State<CartItemWidget>
+    with TickerProviderStateMixin {
+  late SlidableController slidableController;
+  bool isToggle = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    slidableController = SlidableController(this);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+   
+  @override
+  Widget build(BuildContext context) {
+    // final isClosed = Slidable.of(context)!.actionPaneType.value == ActionPaneType.none;
+    return FutureBuilder(
+        future: context.read<ShopProvider>().findProduct(
+              domain: context.read<AuthenticateProvider>().domain!,
+              productId: widget.item['productId'],
+            ),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          }
+          final data = snapshot.data?.result?['data'];
+
+          final cartItem = CartModel.fromJson({
+            "product": ProductModel.fromJson(data),
+            "quantity": widget.item['quantity']
+          });
+
+          int quantityChange = cartItem.quantity;
+          return StatefulBuilder(
+            builder:(context, setState2) =>  Container(
+                height: widget.size.width / 3,
+                child: Slidable(
+                  enabled: true,
+                  controller: slidableController,
+                  endActionPane:
+                      ActionPane(motion: const ScrollMotion(), children: [
+                    SlidableAction(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      icon: Icons.delete,
+                      onPressed: (context) {},
+                    ),
+                  ]),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Checkbox(
+                            activeColor: Theme.of(context).colorScheme.secondary,
+                            onChanged: (value) {
+                              setState2(() {
+                                if (value!) {
+                                  widget.cartProvider?.updateCheckout(
+                                      item: cartItem, typeFlag: "ADD_ITEM");
+                                  // cartList.add(cartItem);
+                                } else {
+                                  widget.cartProvider?.updateCheckout(
+                                      item: cartItem, typeFlag: "REMOVE_ITEM");
+                                }
+                              });
+                            },
+                            shape: BeveledRectangleBorder(
+                                side: BorderSide(width: 1)),
+                            value: widget.cartList
+                                .where((element) =>
+                                    element.product.id == cartItem.product.id)
+                                .isNotEmpty,
+                          )),
+                      Expanded(
+                          flex: 3,
+                          child: Container(
+                            height: widget.size.width * 0.3,
+                            alignment: Alignment.centerLeft,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        (cartItem.product.image![0])),
+                                    fit: BoxFit.fill)),
+                          )),
+                      Expanded(
+                          flex: 6,
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    flex: 7,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(cartItem.product.name!),
+                                        ),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment
+                                        //           .spaceAround,
+                                        //   children: [
+                                        //     Text(
+                                        //         "Color: Black"),
+                                        //     Text("Size: L")
+                                        //   ],
+                                        // ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    shape: CircleBorder(),
+                                                    minimumSize: Size(36, 36),
+                                                    backgroundColor:
+                                                        Colors.white),
+                                                onPressed: () async {
+                                                  await context
+                                                      .read<CartProvider>()
+                                                      .updateCart(
+                                                          token: context
+                                                              .read<
+                                                                  AuthenticateProvider>()
+                                                              .token!,
+                                                          cartId: widget.cartId,
+                                                          quantity:
+                                                              quantityChange - 1,
+                                                          productId: cartItem
+                                                              .product.id!);
+                                                  final result = context
+                                                      .read<CartProvider>()
+                                                      .httpResponseFlutter
+                                                      .result;
+                                                  if (result == null) {
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(SnackBar(
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    100),
+                                                            content: Text(context
+                                                                .read<
+                                                                    CartProvider>()
+                                                                .httpResponseFlutter
+                                                                .errorMessage!)));
+                                                  } else {
+                                                    setState2(
+                                                      () {
+                                                        quantityChange =
+                                                            quantityChange - 1;
+                                                        cartItem.quantity =
+                                                            quantityChange;
+            
+                                                        widget.cartProvider
+                                                            ?.setTotal = widget
+                                                                .cartProvider!
+                                                                .total -
+                                                            cartItem
+                                                                .product.price!;
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                                child: Icon(
+                                                  Icons.remove,
+                                                  color: Colors.black,
+                                                )),
+                                            Text(
+                                              quantityChange.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                            ),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    shape: CircleBorder(),
+                                                    minimumSize: Size(36, 36),
+                                                    backgroundColor:
+                                                        Colors.white),
+                                                onPressed: () async {
+                                                  await context
+                                                      .read<CartProvider>()
+                                                      .updateCart(
+                                                          token: context
+                                                              .read<
+                                                                  AuthenticateProvider>()
+                                                              .token!,
+                                                          cartId: widget.cartId,
+                                                          quantity:
+                                                              quantityChange + 1,
+                                                          productId: cartItem
+                                                              .product.id!);
+                                                  final result = context
+                                                      .read<CartProvider>()
+                                                      .httpResponseFlutter
+                                                      .result;
+                                                  if (result == null) {
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(SnackBar(
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    100),
+                                                            content: Text(context
+                                                                .read<
+                                                                    CartProvider>()
+                                                                .httpResponseFlutter
+                                                                .errorMessage!)));
+                                                  } else {
+                                                    setState2(() {
+                                                      quantityChange =
+                                                          quantityChange + 1;
+                                                      cartItem.quantity =
+                                                          quantityChange;
+                                                      if (widget
+                                                          .cartProvider!.cartList
+                                                          .where((element) =>
+                                                              element
+                                                                  .product.id ==
+                                                              cartItem.product.id)
+                                                          .isNotEmpty) {
+                                                        widget.cartProvider
+                                                            ?.setTotal = widget
+                                                                .cartProvider!
+                                                                .total +
+                                                            cartItem
+                                                                .product.price!;
+                                                      }
+                                                    });
+                                                  }
+                                                },
+                                                child: Icon(
+                                                  Icons.add,
+                                                  color: Colors.black,
+                                                )),
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                                Expanded(
+                                    flex: 3,
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: IconButton(
+                                                onPressed: ()async {
+                                                  final isClose = slidableController.actionPaneType.value == ActionPaneType.none;
+                                                  if (isClose) {
+                                          
+                                                    await slidableController
+                                                        .openEndActionPane(
+                                                            curve: Curves.linear,
+                                                            duration: Durations
+                                                                .medium1);
+                                                  } else {
+                                                    await slidableController.close(
+                                                        duration:
+                                                            Durations.medium1);
+                                                  }
+                                                 
+                                                },
+                                                icon: Icon(Icons.more_vert)),
+                                          ),
+                                          Expanded(
+                                              flex: 8,
+                                              child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    CurrencyConfig.convertTo(
+                                                            price: cartItem
+                                                                    .product
+                                                                    .price! *
+                                                                quantityChange)
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                  )))
+                                        ],
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+              ),
+          );
+        });
   }
 }

@@ -11,21 +11,25 @@ import "package:http/http.dart" as http;
 
 class CartProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
-  final List<CartModel> _cartList = [];
+  List<CartModel> _cartList = [];
   List<CartModel> get cartList => _cartList;
   List<CartModel> _selectedList = [];
   List<CartModel> get selectedList => _selectedList;
   String? _cartId;
   String? get cartId => _cartId;
 
+  set setCartList(List<CartModel> list) {
+    _cartList = list;
+  }
+
   set setSelectedList(List<CartModel> list) {
     _selectedList = list;
   }
 
-  int _total = 0;
-  int get total => _total;
-  set setTotal(int total) {
-    _total = total;
+  int total = 0;
+  set setTotal(int price){
+    total = price;
+    notifyListeners();
   }
 
   Future<void> getAllItem({required String token}) async {
@@ -131,16 +135,16 @@ class CartProvider extends ChangeNotifier {
 
   void updateCheckout({required String typeFlag, required CartModel item}) {
     print("what the ${item.quantity}");
+
     if (typeFlag == "ADD_ITEM") {
-      _total = _total + (item.product.price! * item.quantity);
-      _selectedList.add(item);
+      setTotal = (total ?? 0) + (item.product.price! * item.quantity);
+      cartList.add(item);
     }
 
     if (typeFlag == "REMOVE_ITEM") {
-      _selectedList.remove(item);
-      _total = _total - (item.product.price! * item.quantity);
+      cartList.removeWhere((element) => element.product.id == item.product.id,);
+      setTotal = ( total ?? 0) - (item.product.price! * item.quantity);
     }
-    print(_total);
     notifyListeners();
   }
 }
