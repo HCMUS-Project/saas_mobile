@@ -72,16 +72,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     print("rebuil;d");
-    final _appLinks = AppLinks();
-  _appLinks.uriLinkStream.listen((uri) {
-    // Do something (navigation, ...)
-    print(uri);
-    if (uri.toString() == "https://nvukhoi.id.vn"){
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return SuccessPage();
-      },));
-    }
-  }); 
+  
     print(isToggle);
     return Scaffold(
       floatingActionButton: FloatingActionButton(

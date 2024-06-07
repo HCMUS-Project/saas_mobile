@@ -1,7 +1,6 @@
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/config/custom_theme.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
@@ -21,16 +20,13 @@ import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
-import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences prefs;
+final appLinks = AppLinks();
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  
-
-  
   prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());

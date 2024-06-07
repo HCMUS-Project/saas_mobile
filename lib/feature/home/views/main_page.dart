@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
+import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/booking_page.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
@@ -24,7 +25,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-
   Timer? expiredTokenTime;
   late HomeProvider homeProvider;
   late AuthenticateProvider authenticateProvider;
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     // ServicePage(),
     ProfiePage()
   ];
-  
+
   Timer getRefreshToken() {
     return Timer.periodic(Duration(hours: 1), (timer) async {
       print("expired token");
@@ -50,28 +50,40 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     homeProvider = context.read<HomeProvider>();
     final token = authenticateProvider.token;
     if (token != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_)async{
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        appLinks.uriLinkStream.listen((uri) {
+          // Do something (navigation, ...)
+          Map<String, dynamic> params = uri.queryParameters;
+          if (params['message'].toString().toLowerCase() == "success") {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return SuccessPage();
+              },
+            ));
+          }
+        });
+        
         await FutureBuilder(
-          future: checkToken(context),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                decoration:
-                    BoxDecoration(color: Theme.of(context).colorScheme.primary),
-                child: Center(),
-              );
-            }
+            future: checkToken(context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary),
+                  child: Center(),
+                );
+              }
 
-            if (snapshot.connectionState == ConnectionState.done) {
-              print('done'); 
-              // WidgetsBinding.instance.addPostFrameCallback((_) {
-              // });
-            }
-            return Container();
-          });
+              if (snapshot.connectionState == ConnectionState.done) {
+                print('done');
+                // WidgetsBinding.instance.addPostFrameCallback((_) {
+                // });
+              }
+              return Container();
+            });
       });
     }
-   
+
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
@@ -87,7 +99,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     expiredTokenTime?.cancel();
-    
+
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -121,7 +133,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           cancelBtnText: "No",
           showCancelBtn: true,
           onConfirmBtnTap: () async {
-            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false,);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/',
+              (route) => false,
+            );
             // Navigator.of(context).pushAndRemoveUntil(
             //     MaterialPageRoute(
             //       builder: (context) => IntroPage(),
@@ -129,8 +145,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             //     (route) => false);
           },
           type: QuickAlertType.info);
-    }else{
-        expiredTokenTime = getRefreshToken();
+    } else {
+      expiredTokenTime = getRefreshToken();
     }
   }
 
@@ -138,22 +154,21 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     context.read<AuthenticateProvider>().setHomeRoute =
         (ModalRoute.of(context)!.settings.name)!;
-   
+
     return Scaffold(
       body: Center(
         child: tabItems[homeProvider.seletedIndex!],
       ),
       bottomNavigationBar: FlashyTabBar(
         animationCurve: Curves.linear,
-        selectedIndex:  context.read<HomeProvider>().seletedIndex!,
+        selectedIndex: context.read<HomeProvider>().seletedIndex!,
         iconSize: 30,
         showElevation: false, // use this to remove appBar's elevation
         onItemSelected: (index) => setState(() {
-
           homeProvider.setIndex = index;
           context.read<HomeProvider>().setTemp = 0;
         }),
-        
+
         items: [
           FlashyTabBarItem(
             icon: Icon(Icons.home_outlined),

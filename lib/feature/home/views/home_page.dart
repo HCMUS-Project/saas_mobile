@@ -26,18 +26,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    final _appLinks = AppLinks();
-    _appLinks.uriLinkStream.listen((uri) {
-      // Do something (navigation, ...)
-      print(uri);
-      if (uri.toString() == "https://nvukhoi.id.vn") {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) {
-            return SuccessPage();
-          },
-        ));
-      }
-    });
+    
   }
 
   @override

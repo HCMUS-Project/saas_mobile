@@ -16,7 +16,7 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
       InputDecorationTheme? inputDecorationTheme});
 
   @override
-  String? get searchFieldLabel => "Troi oi";
+  String? get searchFieldLabel => "Search";
 
   @override
   ThemeData appBarTheme(BuildContext context) {
