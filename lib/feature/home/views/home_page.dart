@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
+import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
@@ -20,7 +22,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final _appLinks = AppLinks();
+    _appLinks.uriLinkStream.listen((uri) {
+      // Do something (navigation, ...)
+      print(uri);
+      if (uri.toString() == "https://nvukhoi.id.vn") {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return SuccessPage();
+          },
+        ));
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -49,9 +68,10 @@ class _HomePageState extends State<HomePage> {
             services = List<Map<String, dynamic>>.from(result_1['services']);
           }
 
-          final result_2 = context.read<ShopProvider>().httpResponseFlutter.result;
+          final result_2 =
+              context.read<ShopProvider>().httpResponseFlutter.result;
           if (result_2 != null) {
-            products =List<Map<String, dynamic>>.from (result_2['products']);
+            products = List<Map<String, dynamic>>.from(result_2['products']);
           }
 
           print(products);
@@ -60,30 +80,30 @@ class _HomePageState extends State<HomePage> {
             body: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(child: CarosselWidget()),
-                result_1 == null ? SliverGrid(
-                          gridDelegate: SliverQuiltedGridDelegate(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 4,
-                            crossAxisSpacing: 4,
-                            repeatPattern: QuiltedGridRepeatPattern.inverted,
-                            pattern: [
-                              QuiltedGridTile(1, 1),
-                              QuiltedGridTile(1, 1),
-                            ],
-                          ),
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: 4,
-                            (context, index) => buildSkeleton(context),
-                          ),
-                        ):
-                SliverToBoxAdapter(
-                  child: ServiceCategory(
+                result_1 == null
+                    ? SliverGrid(
+                        gridDelegate: SliverQuiltedGridDelegate(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                          repeatPattern: QuiltedGridRepeatPattern.inverted,
+                          pattern: [
+                            QuiltedGridTile(1, 1),
+                            QuiltedGridTile(1, 1),
+                          ],
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: 4,
+                          (context, index) => buildSkeleton(context),
+                        ),
+                      )
+                    : SliverToBoxAdapter(
+                        child: ServiceCategory(
                           services: services,
                           serviceName: "Top Service",
                           image_path: "assets/images/image_214.png",
                         ),
-                ),
-
+                      ),
                 SliverMainAxisGroup(
                   slivers: <Widget>[
                     SliverPadding(
@@ -94,53 +114,56 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
                     ),
-                    result_2 == null ? SliverGrid(
-                          gridDelegate: SliverQuiltedGridDelegate(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 4,
-                            crossAxisSpacing: 4,
-                            repeatPattern: QuiltedGridRepeatPattern.inverted,
-                            pattern: [
-                              QuiltedGridTile(2, 2),
-                              QuiltedGridTile(1, 1),
-                              QuiltedGridTile(1, 1),
-                            ],
+                    result_2 == null
+                        ? SliverGrid(
+                            gridDelegate: SliverQuiltedGridDelegate(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 4,
+                              crossAxisSpacing: 4,
+                              repeatPattern: QuiltedGridRepeatPattern.inverted,
+                              pattern: [
+                                QuiltedGridTile(2, 2),
+                                QuiltedGridTile(1, 1),
+                                QuiltedGridTile(1, 1),
+                              ],
+                            ),
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: 3,
+                              (context, index) => buildSkeleton(context),
+                            ),
+                          )
+                        : SliverPadding(
+                            padding: const EdgeInsets.all(8.0),
+                            sliver: SliverGrid(
+                              gridDelegate: SliverQuiltedGridDelegate(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 4,
+                                crossAxisSpacing: 4,
+                                repeatPattern:
+                                    QuiltedGridRepeatPattern.inverted,
+                                pattern: [
+                                  QuiltedGridTile(2, 2),
+                                  QuiltedGridTile(1, 1),
+                                  QuiltedGridTile(1, 1),
+                                ],
+                              ),
+                              delegate: SliverChildBuilderDelegate(
+                                childCount: products.isNotEmpty ? 3 : 0,
+                                (context, index) {
+                                  final product =
+                                      ProductModel.fromJson(products[index]);
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Image(
+                                        image: NetworkImage(product.image![0]),
+                                        fit: BoxFit.fill),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: 3,
-                            (context, index) => buildSkeleton(context),
-                          ),
-                        ):
-                    SliverPadding(
-                      padding: const EdgeInsets.all(8.0),
-                      sliver: SliverGrid(
-                        gridDelegate: SliverQuiltedGridDelegate(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 4,
-                          crossAxisSpacing: 4,
-                          repeatPattern: QuiltedGridRepeatPattern.inverted,
-                          pattern: [
-                            QuiltedGridTile(2, 2),
-                            QuiltedGridTile(1, 1),
-                            QuiltedGridTile(1, 1),
-                          ],
-                        ),
-                        delegate: SliverChildBuilderDelegate(
-                          childCount: products.isNotEmpty ? 3 : 0,
-                          (context, index) {
-                            final product =
-                                ProductModel.fromJson(products[index]);
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Image(
-                                  image: NetworkImage(product.image![0]),
-                                  fit: BoxFit.fill),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ],

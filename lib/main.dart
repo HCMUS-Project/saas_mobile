@@ -1,5 +1,7 @@
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/config/custom_theme.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
@@ -26,6 +28,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 late SharedPreferences prefs;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  
+
+  
   prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
@@ -37,6 +42,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SettingsProvider(),),
@@ -54,7 +60,7 @@ class MyApp extends StatelessWidget {
         theme: customTheme,
         initialRoute: '/',
         routes: {
-          '/': (context) => TestPage(),
+          '/': (context) => IntroPage(),
           '/tenant': (context) => TenantPage(),
           '/auth/login':(context) => LoginPage(),
           '/auth/signup':(context) => RegisterPage(),

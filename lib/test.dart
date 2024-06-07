@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_links/app_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
+import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/config/exception_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
@@ -57,7 +59,8 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     return data;
   }
 
-  final Uri _url = Uri.parse('https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=19960000&vnp_Command=pay&vnp_CreateDate=20240606210659&vnp_CurrCode=VND&vnp_IpAddr=1.1.1.1&vnp_Locale=vn&vnp_OrderInfo=Payment+for+order&vnp_OrderType=210000&vnp_ReturnUrl=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fpayment%2Furl%2Freturn&vnp_TmnCode=H0OFYK66&vnp_TxnRef=272164-1717708019958&vnp_Version=2.1.0&vnp_SecureHash=65bb827a2017beb7b26a56af07242a7ce31a0852a91f2a855823792020455908162289e3f6240ae540223c2e476057b481bf2738d2341f5fde42891ec702e7ae');
+  final Uri _url = Uri.parse(
+    'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=10000000&vnp_Command=pay&vnp_CreateDate=20240607122138&vnp_CurrCode=VND&vnp_IpAddr=1.1.1.1&vnp_Locale=vn&vnp_OrderInfo=ipsum+et&vnp_OrderType=210000&vnp_ReturnUrl=https%3A%2F%2Fnvukhoi.id.vn&vnp_TmnCode=H0OFYK66&vnp_TxnRef=905720-1717762898394&vnp_Version=2.1.0&vnp_SecureHash=92f20e2fa59c8888e6e2f847c3521e469f6ed04afd00bb961cac26e284e5e27f01d35a17613d2c4051f23306c23a924c49addf813cd441c0925b3d9cc1873d38');
   SlidableController? slidableController;
   @override
   void initState() {
@@ -69,6 +72,16 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     print("rebuil;d");
+    final _appLinks = AppLinks();
+  _appLinks.uriLinkStream.listen((uri) {
+    // Do something (navigation, ...)
+    print(uri);
+    if (uri.toString() == "https://nvukhoi.id.vn"){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return SuccessPage();
+      },));
+    }
+  }); 
     print(isToggle);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
