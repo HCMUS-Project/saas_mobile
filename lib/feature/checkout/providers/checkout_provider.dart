@@ -6,12 +6,52 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobilefinalhcmus/config/exception_config.dart';
 import 'package:mobilefinalhcmus/config/http_response.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobilefinalhcmus/feature/checkout/model/payment_method_model.dart';
 
 class CheckoutProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
+  PaymentMethod chosenMethod = PaymentMethod();
+  int _selectedPayMethod = 0;
+  String? listenerFlag;
+  void setSelectedPayMethod(int index) {
+    _selectedPayMethod = index;
+    notifyListeners();
+  }
+
+  int get selectedPayMethod => _selectedPayMethod;
+
+  void update() {
+    notifyListeners();
+  }
+
+  Future<HttpResponseFlutter> getPaymentMethods({required String token}) async {
+    try {
+      Uri uri = Uri.parse("${dotenv.env['HTTP_URI']}payment/method/find/all");
+      final rs = await http.get(headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }, uri);
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+      final result = Map<String, dynamic>.from(body);
+      httpResponseFlutter.update(
+          result: result['data'], statusCode: rs.statusCode);
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          errorMessage: e.toJson()['message'],
+          statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
+    }
+  }
 
   Future<void> createOrder(
       {required String token,
+      required String paymentMethod,
       required List<String> productsId,
       required List<int> quantities,
       required String phone,
@@ -26,6 +66,7 @@ class CheckoutProvider extends ChangeNotifier {
       data["quantities"] = quantities;
       data["phone"] = phone;
       data["address"] = address;
+      data["paymentMethod"] = paymentMethod;
       data["voucherId"] = voucherId ?? "040421e4-fb5b-48b3-8947-9c41c1574261";
       Uri? uri =
           Uri.tryParse("${dotenv.env['HTTP_URI']}ecommerce/order/create");

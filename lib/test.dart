@@ -13,6 +13,7 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -56,6 +57,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     return data;
   }
 
+  final Uri _url = Uri.parse('https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=19960000&vnp_Command=pay&vnp_CreateDate=20240606210659&vnp_CurrCode=VND&vnp_IpAddr=1.1.1.1&vnp_Locale=vn&vnp_OrderInfo=Payment+for+order&vnp_OrderType=210000&vnp_ReturnUrl=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fpayment%2Furl%2Freturn&vnp_TmnCode=H0OFYK66&vnp_TxnRef=272164-1717708019958&vnp_Version=2.1.0&vnp_SecureHash=65bb827a2017beb7b26a56af07242a7ce31a0852a91f2a855823792020455908162289e3f6240ae540223c2e476057b481bf2738d2341f5fde42891ec702e7ae');
   SlidableController? slidableController;
   @override
   void initState() {
@@ -70,7 +72,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     print(isToggle);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           if (isToggle) {
             slidableController?.openEndActionPane(
                 curve: Curves.linear, duration: Durations.medium1);
@@ -78,9 +80,11 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
             slidableController?.close(duration: Durations.medium1);
           }
 
-          setState(() {
-            isToggle = !isToggle;
-          });
+          if (await canLaunchUrl(_url)) {
+            await launchUrl(_url);
+          } else {
+            throw Exception('Could not launch $_url');
+          }
         },
       ),
       body: CustomScrollView(

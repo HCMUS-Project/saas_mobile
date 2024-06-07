@@ -308,4 +308,8 @@ class ShopProvider extends ChangeNotifier {
       return httpResponseFlutter;
     }
   }
+
+  
+
+
 }
