@@ -9,11 +9,11 @@ import "package:http/http.dart" as http;
 
 class BookingProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
-  int? _selectedIndexEmployee;
-  int? get selectedIndexEmployee => _selectedIndexEmployee;
+  String? _selectedIndexEmployee;
+  String? get selectedIndexEmployee => _selectedIndexEmployee;
   String? _seletedTimeForBooking;
   String? get selectedTimeForBooking => _seletedTimeForBooking;
-  set indexEmployee(int index) {
+  set indexEmployee(String? index) {
     _selectedIndexEmployee = index;
     notifyListeners();
   }
@@ -24,8 +24,7 @@ class BookingProvider extends ChangeNotifier {
   }
 
   Future<HttpResponseFlutter> getAllService(
-      {
-      required String domain,
+      {required String domain,
       int? priceLower,
       int? priceHigher,
       String? name}) async {
@@ -35,7 +34,7 @@ class BookingProvider extends ChangeNotifier {
         "priceLower": priceLower,
         "priceHigher": priceHigher,
         "name": name,
-        "domain":domain
+        "domain": domain
       };
 
       queryParameters.removeWhere((key, value) => value == null);
@@ -76,8 +75,7 @@ class BookingProvider extends ChangeNotifier {
   }
 
   Future<HttpResponseFlutter> getAllEmployee(
-      {
-      required List<String> workDays,
+      {required List<String> workDays,
       required List<String> workShift,
       required List<String> services,
       String? firstName,
@@ -104,7 +102,6 @@ class BookingProvider extends ChangeNotifier {
       );
 
       final rs = await http.get(headers: {
- 
         'Content-type': 'application/json',
         'Accept': 'application/json',
       }, uri!);
@@ -177,6 +174,7 @@ class BookingProvider extends ChangeNotifier {
       required String date,
       required String service,
       required String note,
+      String? employee,
       required String startTime}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
@@ -186,6 +184,7 @@ class BookingProvider extends ChangeNotifier {
       data['note'] = note;
       data['service'] = service;
       data['startTime'] = startTime;
+      data['employee'] = employee;
       print(date);
       print(service);
       print(startTime);
