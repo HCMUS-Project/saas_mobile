@@ -289,7 +289,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                           print(flag);
                                           return Container(
                                             margin: EdgeInsets.only(left: 2),
-                                            alignment: Alignment.centerLeft,
+                                            alignment: Alignment.center,
                                             height: 40,
                                             child: Text(
                                               listChosenVoucher.isNotEmpty

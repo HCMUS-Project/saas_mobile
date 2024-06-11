@@ -310,6 +310,54 @@ class ShopProvider extends ChangeNotifier {
   }
 
   
+  Future<void> ReviewProduct ({
+    required String token,
+    required String productId,
+    String? userId,
+    double? rating,
+    required String review
+  })async{
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      print(productId);
+      print(userId);
+      print("13123 $review");
+      print(rating);
+      Map<String, dynamic> data = Map();
+      data['productId'] = productId;
+      // data['userId'] = userId ?? "volehoai070902@gmail.com";
+      data['rating'] = rating;
+      data['review'] = review;
 
+      final uri = Uri.parse('${dotenv.env['HTTP_URI']}ecommerce/review/create');
+      final rs = await http.post(
+        headers: {
+           'Content-type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer $token"
+        },
+        body: json.encode(data),
+        uri,
+        
+      );
+
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400){
+        throw FlutterException(
+          body['message'], rs.statusCode
+        );
+      }
+      
+      final resutl = Map<String,dynamic>.from(body);
+      httpResponseFlutter.update(
+        result: resutl['data'],
+        statusCode: resutl['statusCode']
+      );
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+    }
+  }
 
 }

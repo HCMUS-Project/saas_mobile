@@ -185,7 +185,7 @@ class ProductDetail extends StatelessWidget {
                               direction: Axis.horizontal,
                               allowHalfRating: true,
                               itemCount: 5,
-                              initialRating: 3.3,
+                              initialRating: product.rating!,
                               ratingWidget: RatingWidget(
                                 full: Image.asset('assets/images/heart.png'),
                                 half:
@@ -249,7 +249,7 @@ class ProductDetail extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar:(product.quantity!) > 0  ?Container(
           decoration: BoxDecoration(color: Colors.amber),
           padding: EdgeInsets.zero,
           child: Row(
@@ -594,7 +594,16 @@ class ProductDetail extends StatelessWidget {
                         ],
                       )))
             ],
-          )),
+          )): Container(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: BeveledRectangleBorder(),
+                fixedSize: Size(56, 56)
+              ),
+              onPressed: product.quantity! > 0  ?(){} : null, 
+              child: Text("SOLD OUT")),
+          ),
     );
   }
 }

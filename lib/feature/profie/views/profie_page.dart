@@ -4,7 +4,9 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/register_page.dart';
 import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profile_inf/profile_inf.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/shipping_address/shipping_address_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/widgets/feature_profile.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/widgets/sign_out_profile.dart';
@@ -58,6 +60,9 @@ class ProfiePage extends StatelessWidget {
                       },
                     ));
                   } else {
+                    context.read<ProfileProvider>().GetOrder(
+                      state: OrderState.pending.name
+                    );
                     Navigator.of(context).pushNamed("/profile/orders");
                   }
                 },

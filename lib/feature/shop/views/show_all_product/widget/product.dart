@@ -56,7 +56,7 @@ class ProductWidget extends StatelessWidget {
                               direction: Axis.horizontal,
                               allowHalfRating: true,
                               itemCount: 5,
-                              initialRating: 3.3,
+                              initialRating:product.rating! ,
                               ratingWidget: RatingWidget(
                                 full: Image.asset('assets/images/heart.png'),
                                 half:

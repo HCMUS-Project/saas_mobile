@@ -48,6 +48,14 @@ class StateOfOrders extends StatefulWidget {
 class _StateOfOrdersState extends State<StateOfOrders> {
   int _selectedStateIndex = 0;
   List<Widget> stateList = [];
+  late ProfileProvider profileProvider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    
+    super.initState();
+  }
+   
   @override
   Widget build(BuildContext context) {
     //declare again when rebuild
