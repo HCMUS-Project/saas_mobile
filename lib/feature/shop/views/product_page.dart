@@ -77,7 +77,7 @@ class _ProductPageState extends State<ProductPage> {
             if (result != null) {
               products = List<Map<String, dynamic>>.from(result['products']);
             }
-            
+
             return Container(
               decoration: BoxDecoration(color: Colors.white),
               child: SingleChildScrollView(
@@ -110,8 +110,9 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     result == null
                         ? Container(
-                          child: Column(children: List.generate(5, (index) => buildSkeleton(context))
-                          ))
+                            child: Column(
+                                children: List.generate(
+                                    5, (index) => buildSkeleton(context))))
                         : ShowProduct(
                             selectedGrid: selectedGrid,
                             showProductStream: showProductStream,
@@ -233,85 +234,116 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                       shape:
                                                           RoundedRectangleBorder(),
                                                     ),
-                                                    onPressed: () async {
-                                                      await context
-                                                          .read<CartProvider>()
-                                                          .addToCart(
-                                                              product: product,
-                                                              quantity: 1,
-                                                              token: context
-                                                                  .read<
-                                                                      AuthenticateProvider>()
-                                                                  .token!);
-                                                      final result = context
-                                                          .read<CartProvider>()
-                                                          .httpResponseFlutter
-                                                          .result;
+                                                    onPressed:
+                                                        product.quantity! > 0
+                                                            ? () async {
+                                                                if (context
+                                                                        .read<
+                                                                            AuthenticateProvider>()
+                                                                        .token !=
+                                                                    null) {
+                                                                  await context.read<CartProvider>().addToCart(
+                                                                      product:
+                                                                          product,
+                                                                      quantity:
+                                                                          1,
+                                                                      token: context
+                                                                          .read<
+                                                                              AuthenticateProvider>()
+                                                                          .token!);
+                                                                  final result = context
+                                                                      .read<
+                                                                          CartProvider>()
+                                                                      .httpResponseFlutter
+                                                                      .result;
 
-                                                      if (result != null) {
-                                                        final controller =
-                                                            showOverlay(
-                                                                context:
-                                                                    context,
-                                                                child:
-                                                                    Container(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
-                                                                  child:
-                                                                      Container(
-                                                                    height:
-                                                                        size.height *
-                                                                            0.2,
-                                                                    width:
-                                                                        size.width *
-                                                                            0.5,
-                                                                    child: Material(
-                                                                        borderRadius: BorderRadius.circular(15),
-                                                                        elevation: 1,
-                                                                        color: Theme.of(context).colorScheme.primary.withAlpha(150),
-                                                                        child: Column(
-                                                                          children: [
-                                                                            Expanded(
-                                                                              flex: 8,
+                                                                  if (result !=
+                                                                      null) {
+                                                                    final controller =
+                                                                        showOverlay(
+                                                                            context:
+                                                                                context,
+                                                                            child:
+                                                                                Container(
+                                                                              alignment: Alignment.center,
                                                                               child: Container(
-                                                                                child: Image(
-                                                                                  image: AssetImage("assets/images/logo_0.png"),
-                                                                                ),
+                                                                                height: size.height * 0.2,
+                                                                                width: size.width * 0.5,
+                                                                                child: Material(
+                                                                                    borderRadius: BorderRadius.circular(15),
+                                                                                    elevation: 1,
+                                                                                    color: Theme.of(context).colorScheme.primary.withAlpha(150),
+                                                                                    child: Column(
+                                                                                      children: [
+                                                                                        Expanded(
+                                                                                          flex: 8,
+                                                                                          child: Container(
+                                                                                            child: Image(
+                                                                                              image: AssetImage("assets/images/logo_0.png"),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        Expanded(
+                                                                                          flex: 2,
+                                                                                          child: Container(
+                                                                                            child: Text(
+                                                                                              "Add success",
+                                                                                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    )),
                                                                               ),
-                                                                            ),
-                                                                            Expanded(
-                                                                              flex: 2,
-                                                                              child: Container(
-                                                                                child: Text(
-                                                                                  "Add success",
-                                                                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                                                                                ),
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        )),
-                                                                  ),
-                                                                ));
-                                                        controller["show"]();
-                                                        await Future.delayed(
-                                                            Duration(
-                                                                seconds: 1));
-                                                        controller['hide']();
-                                                      }
-                                                    },
-                                                    child: Text(
-                                                      "Add to cart",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium
-                                                          ?.copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white),
-                                                    )),
+                                                                            ));
+                                                                    controller[
+                                                                        "show"]();
+                                                                    await Future.delayed(Duration(
+                                                                        seconds:
+                                                                            1));
+                                                                    controller[
+                                                                        'hide']();
+                                                                  }
+                                                                } else {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(
+                                                                          MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) {
+                                                                      return LoginPage();
+                                                                    },
+                                                                  ));
+                                                                }
+                                                              }
+                                                            : null,
+                                                    child: product.quantity! > 0
+                                                        ? Text(
+                                                            "Add to cart",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white),
+                                                          )
+                                                        : Text(
+                                                            "Sold out",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white),
+                                                          )),
                                               );
                                             })),
                                       ],

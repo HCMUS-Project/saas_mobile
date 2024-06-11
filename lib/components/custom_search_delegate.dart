@@ -89,9 +89,10 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
     final convertToProductModel =
         products.map((e) => ProductModel.fromJson(e)).toList();
     final searchResults = convertToProductModel
-        .where((element) => element.name!.trim().contains(query.trim()))
+        .where((element) => element.name!.toLowerCase().trim().contains(query.toLowerCase().trim()))
         .toList();
-        
+
+    print("result: $searchResults");
     if (route != null) {
       Navigator.of(context).popUntil(ModalRoute.withName(route!));
       Navigator.of(context).pop();

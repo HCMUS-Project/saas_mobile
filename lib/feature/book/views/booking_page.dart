@@ -232,16 +232,23 @@ class _BookingPageState extends State<BookingPage> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Icon(Icons.home),
-                                            Text(chosenService?.name ??
-                                                "See all services"),
-                                            Icon(Icons
-                                                .arrow_forward_ios_outlined)
-                                          ],
+                                        child: Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Icon(Icons.home),
+                                              Expanded(
+                                                child: Text(
+                                                  chosenService?.name ??
+                                                      "See all services",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              Icon(Icons
+                                                  .arrow_forward_ios_outlined)
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -335,22 +342,38 @@ class _BookingPageState extends State<BookingPage> {
                                           widget.selectedStep++;
                                           catchErro2 = null;
                                           listTime = null;
+                                          listEmployee = null;
+                                          context
+                                              .read<BookingProvider>()
+                                              .indexEmployee = null;
                                         });
                                       }
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Icon(Icons.home),
-                                          Text(chosenDate == null
-                                              ? "Choose time of day"
-                                              : DateFormat('EEEE, d MMM, yyyy')
-                                                  .format(chosenDate!)),
-                                          Icon(Icons.arrow_forward_ios_outlined)
-                                        ],
+                                      child: Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Icon(Icons.home),
+                                            Container(
+                                              child: Expanded(
+                                                child: Text(
+                                                  chosenDate == null
+                                                      ? "Choose time of day"
+                                                      : DateFormat(
+                                                              'EEEE, d MMM, yyyy')
+                                                          .format(chosenDate!),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                            Icon(Icons
+                                                .arrow_forward_ios_outlined)
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -407,22 +430,6 @@ class _BookingPageState extends State<BookingPage> {
                                               "You have not selected  date yet";
                                         });
                                       } else {
-                                        // await context
-                                        //     .read<BookingProvider>()
-                                        //     .getAllEmployee(
-                                        //         token: context
-                                        //             .read<AuthenticateProvider>()
-                                        //             .token!,
-                                        //         workDays: [
-                                        //           DateFormat('EEEE')
-                                        //               .format(chosenDate!)
-                                        //               .toUpperCase()
-                                        //         ],
-                                        //         workShift: WorkShift.values
-                                        //             .map((e) => e.name)
-                                        //             .toList(),
-                                        //         services: [(chosenService?.id)!]);
-
                                         await context
                                             .read<BookingProvider>()
                                             .searchForBooking(
@@ -499,13 +506,21 @@ class _BookingPageState extends State<BookingPage> {
                                                         (context, index) {
                                                       final employ =
                                                           employee[index];
+                                                 
                                                       return GestureDetector(
                                                         onTap: () {
+                                                          print(context
+                                                                  .read<
+                                                                      BookingProvider>()
+                                                                  .selectedIndexEmployee ==
+                                                              index.toString());
                                                           setState(() {
                                                             context
-                                                                .read<
-                                                                    BookingProvider>()
-                                                                .indexEmployee = employ['id'].toString();
+                                                                    .read<
+                                                                        BookingProvider>()
+                                                                    .indexEmployee =
+                                                                employ['id']
+                                                                    .toString();
                                                           });
                                                         },
                                                         child: Container(
@@ -521,7 +536,8 @@ class _BookingPageState extends State<BookingPage> {
                                                                         .all(3),
                                                                 decoration: BoxDecoration(
                                                                     color: context.watch<BookingProvider>().selectedIndexEmployee ==
-                                                                            index
+                                                                            employ['id']
+                                                                                .toString()
                                                                         ? Theme.of(context)
                                                                             .colorScheme
                                                                             .secondary
@@ -556,15 +572,22 @@ class _BookingPageState extends State<BookingPage> {
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Icon(Icons.person_add),
-                                          Text(
-                                              "Choose employees that you like"),
-                                          Icon(Icons.arrow_forward_ios_outlined)
-                                        ],
+                                      child: Container(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Icon(Icons.person_add),
+                                            Expanded(
+                                              child: Text(
+                                                "Choose employees that you like",
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Icon(Icons
+                                                .arrow_forward_ios_outlined)
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -600,7 +623,9 @@ class _BookingPageState extends State<BookingPage> {
                                                           AuthenticateProvider>()
                                                       .token!,
                                                   date: chosenDate.toString(),
-                                                  employee: context.read<BookingProvider>().selectedIndexEmployee,
+                                                  employee: context
+                                                      .read<BookingProvider>()
+                                                      .selectedIndexEmployee,
                                                   service: (chosenService?.id)!,
                                                   note: "qua da pepsi oi",
                                                   startTime: context

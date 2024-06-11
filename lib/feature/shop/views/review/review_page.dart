@@ -9,7 +9,8 @@ import 'package:mobilefinalhcmus/feature/shop/views/review/model/review_model.da
 import 'package:provider/provider.dart';
 
 class ReviewPage extends StatefulWidget {
-  ReviewPage({super.key, required this.productId, this.numberOfRating,this.rating});
+  ReviewPage(
+      {super.key, required this.productId, this.numberOfRating, this.rating});
   String productId;
   int? numberOfRating;
   double? rating;
@@ -115,9 +116,7 @@ class _ReviewPageState extends State<ReviewPage> {
 
           // fixedSize: Size(170, 15)
         ),
-        onPressed: () {
-          
-        },
+        onPressed: () {},
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -187,7 +186,7 @@ class _ListReviewState extends State<ListReview> {
         }
         final result = context.read<ShopProvider>().httpResponseFlutter.result!;
         final reviews = List<Map<String, dynamic>>.from(result['reviews']);
-       
+
         return Expanded(
             flex: 8,
             child: ListView.builder(
@@ -220,6 +219,8 @@ class _ListReviewState extends State<ListReview> {
                                     child: Text(review.user!),
                                   ),
                                   Container(
+                                    padding: EdgeInsets.only(left: 8),
+                                    alignment: Alignment.centerLeft,
                                     child: Text(review.review!),
                                   )
                                 ],
