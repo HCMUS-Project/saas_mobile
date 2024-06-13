@@ -80,7 +80,7 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
   void showResults(BuildContext context) async {
     // TODO: implement showResults
     super.showResults(context);
-    print("query: $query");
+
     final result = await context.read<ShopProvider>().searchProduct(
         domain: context.read<AuthenticateProvider>().domain!, name: query);
 
@@ -92,7 +92,6 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
         .where((element) => element.name!.toLowerCase().trim().contains(query.toLowerCase().trim()))
         .toList();
 
-    print("result: $searchResults");
     if (route != null) {
       Navigator.of(context).popUntil(ModalRoute.withName(route!));
       Navigator.of(context).pop();

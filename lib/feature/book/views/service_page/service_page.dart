@@ -12,7 +12,7 @@ class ServicePage extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Choose service"),
+        title: Text("Choose service",style: Theme.of(context).textTheme.titleLarge),
       ),
       body: Container(
         decoration: BoxDecoration(

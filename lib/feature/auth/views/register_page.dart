@@ -62,10 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Color(0xFF161D3A),
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.transparent,
+       
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => Container(

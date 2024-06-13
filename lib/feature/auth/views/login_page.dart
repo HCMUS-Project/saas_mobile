@@ -28,9 +28,7 @@ class LoginPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
+        
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -46,7 +44,6 @@ class LoginPage extends StatelessWidget {
             ),
           )
         ],
-        backgroundColor: Colors.transparent,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => Container(

@@ -20,12 +20,13 @@ import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
+import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences prefs;
 final appLinks = AppLinks();
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
@@ -38,34 +39,71 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SettingsProvider(),),
-        ChangeNotifierProvider(create: (context) => ShopProvider(),),
-        ChangeNotifierProvider(create: (context) => AuthenticateProvider(),),
-        ChangeNotifierProvider(create: (context) => ProfileProvider(),),
-        ChangeNotifierProvider(create: (context) => CartProvider(),),
-        ChangeNotifierProvider(create: (context) => BookingProvider(),),
-        ChangeNotifierProvider(create: (context) => CheckoutProvider(),),
-        ChangeNotifierProvider(create: (context) => HomeProvider(),)
+        ChangeNotifierProvider(
+          create: (context) => SettingsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ShopProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthenticateProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BookingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CheckoutProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+        )
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: customTheme,
-        initialRoute: '/',
-        routes: {
-          '/': (context) => IntroPage(),
-          '/tenant': (context) => TenantPage(),
-          '/auth/login':(context) => LoginPage(),
-          '/auth/signup':(context) => RegisterPage(),
-          '/home':(context) => MainPage(),
-          '/forgetpassword':(context) => ForgetPasswordPage(),
-          '/shop/search_page': (context) => SearchPage(),
-          '/forgetpassword/verify':(context) => VerifyPasswordPage(),
-          '/forgetpassword/createpassword':(context) => CreatePasswordPage(),
-          '/profile/orders':(context) => OrderPage(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, value, child) {
+          return FutureBuilder(
+            future: context
+                .read<ThemeProvider>()
+                .getTheme(domain: context.read<AuthenticateProvider>().domain!),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              }
+              final rs = value.httpResponseFlutter.result?['themeConfig'];
+              print(rs);
+              final theme = ThemeConfig.fromJson(rs);
+
+              return MaterialApp(
+                title: 'Flutter Demo',
+                debugShowCheckedModeBanner: false,
+                theme: theme.theme,
+                initialRoute: '/',
+                routes: {
+                  '/': (context) => IntroPage(),
+                  '/tenant': (context) => TenantPage(),
+                  '/auth/login': (context) => LoginPage(),
+                  '/auth/signup': (context) => RegisterPage(),
+                  '/home': (context) => MainPage(),
+                  '/forgetpassword': (context) => ForgetPasswordPage(),
+                  '/shop/search_page': (context) => SearchPage(),
+                  '/forgetpassword/verify': (context) => VerifyPasswordPage(),
+                  '/forgetpassword/createpassword': (context) =>
+                      CreatePasswordPage(),
+                  '/profile/orders': (context) => OrderPage(),
+                },
+              );
+            },
+          );
         },
       ),
     );

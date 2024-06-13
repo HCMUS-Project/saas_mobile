@@ -37,9 +37,8 @@ class _OrderDetailState extends State<OrderDetail> {
     final voucherId = widget.order.voucherId;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: Text("Order Details"),
+        title: Text("Order Details",style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
       ),
       body: LayoutBuilder(

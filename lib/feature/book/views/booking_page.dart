@@ -89,15 +89,21 @@ class _BookingPageState extends State<BookingPage> {
                         Expanded(
                             flex: 2,
                             child: Container(
+                              width: size.width / 2.5,
+                              margin: EdgeInsets.only(bottom: 5),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: ElevatedButton(
+                                      style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+
+                                      ),
                                         onPressed: () {
                                           controller?['hide']();
                                         },
                                         child: Text(
-                                          "Cancle",
+                                          "No",
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall
@@ -107,6 +113,9 @@ class _BookingPageState extends State<BookingPage> {
                                                       .primary,
                                                   fontWeight: FontWeight.bold),
                                         )),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
                                   ),
                                   Expanded(
                                     child: ElevatedButton(
@@ -121,6 +130,7 @@ class _BookingPageState extends State<BookingPage> {
                                               .textTheme
                                               .titleSmall
                                               ?.copyWith(
+                                                  
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .primary,
@@ -203,9 +213,7 @@ class _BookingPageState extends State<BookingPage> {
                                         .textTheme
                                         .bodyLarge
                                         ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
+                                            
                                             fontWeight: FontWeight.bold),
                                   ),
                                   Container(
@@ -282,9 +290,6 @@ class _BookingPageState extends State<BookingPage> {
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
                                           fontWeight: FontWeight.bold),
                                 ),
                                 Container(
@@ -304,33 +309,7 @@ class _BookingPageState extends State<BookingPage> {
                                         chosenDate = await showDatePicker(
                                             builder: (context, child) {
                                               return Theme(
-                                                  data: Theme.of(context)
-                                                      .copyWith(
-                                                          textButtonTheme:
-                                                              TextButtonThemeData(
-                                                            style: TextButton.styleFrom(
-                                                                foregroundColor: Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .secondary),
-                                                          ),
-                                                          colorScheme: ColorScheme.fromSeed(
-                                                              onSurface: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                              onPrimary: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                              seedColor: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                              primary:
-                                                                  Colors.white,
-                                                              secondary: Color(
-                                                                  0xFF161D3A))),
+                                                  data: Theme.of(context),
                                                   child: child!);
                                             },
                                             context: context,
@@ -408,9 +387,7 @@ class _BookingPageState extends State<BookingPage> {
                                       .textTheme
                                       .bodyLarge
                                       ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
+                                 
                                           fontWeight: FontWeight.bold),
                                 ),
 

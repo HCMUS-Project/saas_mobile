@@ -121,8 +121,6 @@ class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return AppBar(
-      backgroundColor: Colors.white,
-      scrolledUnderElevation: 0,
       title: Text(
         "My profile",
         style: Theme.of(context).textTheme.titleLarge,

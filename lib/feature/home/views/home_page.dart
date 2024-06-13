@@ -366,7 +366,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                           bottomLeft: Radius.circular(15),
                                           bottomRight: Radius.circular(15),
                                         ),
-                                        color: Color(0xFF161D3A)),
+                                        color: Theme.of(context).colorScheme.secondary),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -423,8 +423,6 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
     final username = context.read<AuthenticateProvider>().username;
 
     return AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: Colors.white,
         centerTitle: true,
         leading: username != null
             ? Container(
@@ -432,7 +430,7 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
                 alignment: Alignment.center,
                 child: Image.asset("assets/images/avatar.png"))
             : null,
-        title: username != null ? Text(username) : null);
+        title: username != null ? Text(username, style: Theme.of(context).textTheme.titleLarge,) : null);
   }
 
   @override

@@ -369,14 +369,11 @@ class ProductPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return AppBar(
-      backgroundColor: Colors.white,
-      scrolledUnderElevation: 0,
       title: Text(
         "Saas Product",
         style: Theme.of(context)
             .textTheme
             .titleLarge
-            ?.copyWith(color: Theme.of(context).colorScheme.secondary),
       ),
       centerTitle: true,
       actions: [
@@ -398,7 +395,6 @@ class ProductPageAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: Icon(
               Icons.shopping_cart_outlined,
-              color: Theme.of(context).colorScheme.secondary,
             )),
       ],
     );

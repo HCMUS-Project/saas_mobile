@@ -34,7 +34,7 @@ class _ProfileInforState extends State<ProfileInfor> {
       
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Text("Profile"),
+        title: Text("Profile",style: Theme.of(context).textTheme.titleLarge,),
         centerTitle: true,
       ),
       body: Container(

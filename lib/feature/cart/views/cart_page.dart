@@ -54,8 +54,6 @@ class _CartPageState extends State<CartPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () {
@@ -63,9 +61,8 @@ class _CartPageState extends State<CartPage> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: Theme.of(context).colorScheme.secondary,
             )),
-        title: Text("Cart"),
+        title: Text("Cart", style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: Container(
         padding: EdgeInsets.all(8),

@@ -169,7 +169,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 .map((e) => PaymentMethod.fromJson(e))
                 .toList());
         return Scaffold(
-          backgroundColor: Colors.white,
+     
           appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
@@ -177,12 +177,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 },
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Theme.of(context).colorScheme.secondary,
+                
                 )),
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
+        
             scrolledUnderElevation: 0,
-            title: Text("Checkout"),
+            title: Text("Checkout", style: Theme.of(context).textTheme.titleLarge,),
           ),
           body: Consumer<ProfileProvider>(
             builder: (context, value, child) {
