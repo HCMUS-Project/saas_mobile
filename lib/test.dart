@@ -10,43 +10,28 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
 import 'package:mobilefinalhcmus/components/success_page.dart';
+import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/config/exception_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/review/review_page.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TestPage extends StatefulWidget {
-  const TestPage({super.key});
-
+  TestPage({
+    super.key,
+    required this.product
+  });
+  ProductModel product;
   @override
   State<TestPage> createState() => _TestPageState();
 }
 
-Widget buildSkeleton(BuildContext context) => Column(
-      children: <Widget>[
-        SkeletonContainer.rounded(
-          width: 100,
-          height: 100,
-        ),
-        const SizedBox(height: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SkeletonContainer.rounded(
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: 25,
-            ),
-            const SizedBox(height: 8),
-            SkeletonContainer.rounded(
-              width: 60,
-              height: 13,
-            ),
-          ],
-        ),
-      ],
-    );
+
 
 class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   late AnimationController _controller;
@@ -72,7 +57,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     print("rebuil;d");
-  
+    final product = widget.product;
     print(isToggle);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -93,47 +78,232 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            pinned: true,
-            title: Text("Hello"),
-          ),
+          // SliverAppBar(
+          //   pinned: true,
+          //   title: Text("Hello"),
+          // ),
           // SliverToBoxAdapter(
           //   child: FetchdataWidget()
           // ),
-          SliverGrid(
-            gridDelegate: SliverQuiltedGridDelegate(
-              crossAxisCount: 2,
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-              repeatPattern: QuiltedGridRepeatPattern.inverted,
-              pattern: [
-                QuiltedGridTile(1, 1),
-                QuiltedGridTile(1, 1),
-              ],
+          // SliverGrid(
+          //   gridDelegate: SliverQuiltedGridDelegate(
+          //     crossAxisCount: 2,
+          //     mainAxisSpacing: 4,
+          //     crossAxisSpacing: 4,
+          //     repeatPattern: QuiltedGridRepeatPattern.inverted,
+          //     pattern: [
+          //       QuiltedGridTile(1, 1),
+          //       QuiltedGridTile(1, 1),
+          //     ],
+          //   ),
+          //   delegate: SliverChildBuilderDelegate(
+          //     childCount: 12,
+          //     (context, index) => Slidable(
+          //         enabled: true,
+          //         controller: slidableController,
+          //         endActionPane:
+          //             ActionPane(motion: const ScrollMotion(), children: [
+          //           SlidableAction(
+          //             backgroundColor: Theme.of(context).colorScheme.secondary,
+          //             foregroundColor: Theme.of(context).colorScheme.primary,
+          //             icon: Icons.delete,
+          //             onPressed: (context) {},
+          //           ),
+          //         ]),
+          //         child: Container(
+          //           child: Center(
+          //             child: Text(("hello em")),
+          //           ),
+          //         )),
+          //   ),
+          // )
+
+          SliverToBoxAdapter(
+            child: Container(
+              height: 400,
+              child: ShowListImageOfProduct(product: product),
             ),
-            delegate: SliverChildBuilderDelegate(
-              childCount: 12,
-              (context, index) => Slidable(
-                  enabled: true,
-                  controller: slidableController,
-                  endActionPane:
-                      ActionPane(motion: const ScrollMotion(), children: [
-                    SlidableAction(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      foregroundColor: Theme.of(context).colorScheme.primary,
-                      icon: Icons.delete,
-                      onPressed: (context) {},
-                    ),
-                  ]),
-                  child: Container(
-                    child: Center(
-                      child: Text(("hello em")),
-                    ),
-                  )),
+          ),
+
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 32,
+                        width: 32,
+                        child: Image(image: AssetImage("assets/images/star.png"))),
+                      Text("${product.rating} (${product.numberRating})")
+                    ],
+                  ),
+                  Container(
+                    child: IconButton(onPressed: (){}, icon: Icon(Icons.share),
+                  ))
+                ],
+              ),
             ),
-          )
+          ),
+
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: Text(CurrencyConfig.convertTo(price: product.price!).toString(),style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold
+              ),),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product.name!, style: Theme.of(context).textTheme.titleMedium,),
+                  Text("In stock: ${product.quantity! > 0 ?  'in stock' : "sold out"}",style: Theme.of(context).textTheme.bodyMedium,)
+                ],
+              ),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Description", style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold
+                  ),),
+                  ReadMoreText(
+                    delimiterStyle: TextStyle(overflow: TextOverflow.fade),
+                    product.description!,
+                    trimMode: TrimMode.Line,
+                    trimLines: 2,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: 'Show less',
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Divider(
+              thickness: 2,
+              color: Colors.grey.shade300,
+
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Reviews (${product.numberRating})", style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold
+                  ),),
+                  SizedBox(
+                    
+                    child: IconButton(onPressed: (){
+                      Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return ReviewPage(
+                                  numberOfRating: product.numberRating,
+                                  rating: product.rating,
+                                  productId: product.id!,
+                                );
+                              },
+                            ));
+                    }, icon: Icon(Icons.arrow_forward_ios,size: 12)))
+                ],
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class ShowListImageOfProduct extends StatefulWidget {
+  const ShowListImageOfProduct({
+    super.key,
+    required this.product,
+  });
+
+  final ProductModel product;
+
+  @override
+  State<ShowListImageOfProduct> createState() => _ShowListImageOfProductState();
+}
+
+class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
+  int selectedImage = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+        
+          ),
+          child: Image(image: NetworkImage(widget.product.image![selectedImage])),
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Container(
+            height: 100,
+            width: double.infinity,
+            decoration: BoxDecoration(
+     
+          ),
+          padding: EdgeInsets.all(8),
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                  final image = widget.product.image![index];
+                  return GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedImage = index;
+                      });
+                    },
+                    child: Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: selectedImage == index ? Colors.black : Colors.transparent,
+                          width: 2
+                        ),
+                        borderRadius: BorderRadius.circular(15)
+                      ),
+                      child: Material(
+                        
+                        elevation: 1,
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(15),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image(image: NetworkImage(image),fit: BoxFit.fill,width: 80,)),
+                      ),
+                    ),
+                  );
+              }, 
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  width: 10,
+                );
+              }, 
+              itemCount: widget.product.image!.length),
+          ),
+        )
+      ],  
     );
   }
 }

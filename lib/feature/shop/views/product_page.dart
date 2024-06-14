@@ -18,7 +18,9 @@ import 'package:mobilefinalhcmus/feature/cart/views/cart_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/product_detail.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/show_all_product.dart';
+import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
@@ -272,7 +274,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                                                 child: Material(
                                                                                     borderRadius: BorderRadius.circular(15),
                                                                                     elevation: 1,
-                                                                                    color: Theme.of(context).colorScheme.primary.withAlpha(150),
+                                                                                    color: Theme.of(context).colorScheme.secondary.withAlpha(150),
                                                                                     child: Column(
                                                                                       children: [
                                                                                         Expanded(
@@ -547,7 +549,7 @@ class _ShowProductState extends State<ShowProduct> {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
-              return ProductDetail(
+              return ProductDetail2(
                 product: product,
               );
             },
@@ -585,7 +587,8 @@ class _ShowProductState extends State<ShowProduct> {
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "sub title",
+                          product.description!,
+                          maxLines: 1,
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
@@ -598,10 +601,10 @@ class _ShowProductState extends State<ShowProduct> {
                           itemCount: 5,
                           initialRating: product.rating!,
                           ratingWidget: RatingWidget(
-                            full: Image.asset('assets/images/heart.png'),
-                            half: Image.asset('assets/images/heart_haft.png'),
+                            full: Image.asset('assets/images/star_full.png'),
+                            half: Image.asset('assets/images/star_half.png'),
                             empty:
-                                Image.asset('assets/images/heart_border.png'),
+                                Image.asset('assets/images/star_border.png'),
                           ),
                           onRatingUpdate: (value) {},
                         ),

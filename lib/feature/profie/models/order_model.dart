@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 
 class OrderModel{
@@ -25,9 +26,9 @@ class OrderModel{
   });
 
   factory OrderModel.toJson(Map<String, dynamic>json) {
-    print(json['address']);
+    final datetime = DateFormat("EE MMM dd y H:m:s 'GMT'").parseUTC(json['orderTime']);
     return OrderModel(
-      date: json['date'] ?? DateTime.now(),
+      date: datetime.toLocal() ?? DateTime.now(),
       quantity: List<Map<String,dynamic>>.from(json['products']).length,
       stateOrder: json['stage'],
       total: json['totalPrice'] ?? 0,

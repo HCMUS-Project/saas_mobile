@@ -19,14 +19,15 @@ class OrderPage extends StatelessWidget {
 
       appBar: AppBar(
         scrolledUnderElevation: 0,
-      
-      ),
-      body: Column(
-        children: [
-          Text(
+        title: Text(
             "My orders",
             style: Theme.of(context).textTheme.titleLarge,
           ),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          
           Container(height: 50, child: StateOfOrders()),
           Expanded(
               child: Container(
@@ -125,15 +126,21 @@ class ShowOrders extends StatelessWidget {
             .read<ProfileProvider>()
             .httpResponseFlutter
             .result?['data']);
+            
         final orderList = List<Map<String, dynamic>>.from(data['orders']);
-        
+        orderList.sort((a, b) {
+          final orderA = OrderModel.toJson(a);
+          final orderB = OrderModel.toJson(b);
+          return orderB.date!.compareTo(orderA.date!);
+        },);
+
         return Container(
             decoration: BoxDecoration(color: Colors.grey.shade100),
             child: ListView.builder(
               itemCount: orderList.length,
               itemBuilder: (context, index) {
                 OrderModel order = OrderModel.toJson(orderList[index]);
-                print(order.products);
+             
                 return OrderWidget(
                   orderModel: order,
                 );
@@ -151,83 +158,177 @@ class OrderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Material(
-        borderRadius: BorderRadius.circular(15),
-        elevation: 1,
-        child: Container(
-          padding: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(15)),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      child: Text("Order Id: ${orderModel.trackingNumber}"),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetail(order: orderModel),));
+        },
+        child: Material(
+          borderRadius: BorderRadius.circular(15),
+          elevation: 1,
+          child: Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(15)),
+            child: Column(
+              children: [
+                Row(
+               
+                  children: [
+                    Expanded(
+                      child:Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Image(image: AssetImage("assets/images/social-media.png", ), height: 32,width: 32,)),
+                          Expanded(
+                            flex: 8,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              Text(orderModel.stateOrder!, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.blue
+                              ),),
+                              Text(DateFormat("dd MM yyyy").format(orderModel.date!),style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold
+                              ),)
+                            ],),
+                          )
+            
+                        ],
+                      ) 
                     ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                          "${orderModel.date?.day}/${orderModel.date?.month}/${orderModel.date?.year}"),
+                    
+                    Expanded(
+                     
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(Icons.arrow_forward_ios,size: 12,)))
+                  ],
+                ),
+                SizedBox(
+                      height: 10,
                     ),
-                  )
-                ],
-              ),
-              // Container(
-              //   alignment: Alignment.centerLeft,
-              //   child: Text("Tracking number: ${orderModel.trackingNumber}"),
-              // ),
-              Row(
-                children: [
-                  Expanded(
+                Row(
+                  children: [
+                    Expanded(
                       child: Row(
-                    children: [
-                      Text("Quantity: "),
-                      Text("${orderModel.quantity}")
-                    ],
-                  )),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("Total Amount: "),
-                        Text(
-                            "${CurrencyConfig.convertTo(price: orderModel.total!) .toString() }")
-                      ],
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Icon(Icons.info_outline_rounded,size: 32, )),
+                          Expanded(
+                            flex: 8,
+                            child:  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Order", style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Colors.grey.shade400,
+                                fontWeight: FontWeight.w600
+                              ),),
+                               Text(orderModel.trackingNumber!.split("-")[4].toUpperCase(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                
+                                fontWeight: FontWeight.w600
+                              ),)
+                            ],
+                          )),
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //show detail of orders
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0.5,
-                          backgroundColor: Colors.white,
-                          side: BorderSide(color: Colors.black, width: 2)),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetail(order: orderModel),));
-                      },
-                      child: Text(
-                        "Details",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      )),
-                  //state of order
-                  Text(orderModel.stateOrder!)
-                ],
-              )
-            ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Image(image: AssetImage('assets/images/price-tag.png'), width: 32,height: 32,)),
+                          Expanded(
+                            flex: 8,
+                            child:  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Price", style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Colors.grey.shade400,
+                                fontWeight: FontWeight.w600
+                              ),),
+                               Text("${CurrencyConfig.convertTo(price: orderModel.total!) .toString()}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                
+                                fontWeight: FontWeight.w600
+                              ),)
+                            ],
+                          )),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Expanded(
+                //       flex: 7,
+                //       child: Container(
+                //         child: Text("Order Id: ${orderModel.trackingNumber}"),
+                //       ),
+                //     ),
+                //     Expanded(
+                //       flex: 3,
+                //       child: Container(
+                //         alignment: Alignment.topRight,
+                //         child: Text(
+                //             "${orderModel.date?.day}/${orderModel.date?.month}/${orderModel.date?.year}"),
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // // Container(
+                // //   alignment: Alignment.centerLeft,
+                // //   child: Text("Tracking number: ${orderModel.trackingNumber}"),
+                // // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //         child: Row(
+                //       children: [
+                //         Text("Quantity: "),
+                //         Text("${orderModel.quantity}")
+                //       ],
+                //     )),
+                //     Expanded(
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.end,
+                //         children: [
+                //           Text("Total Amount: "),
+                //           Text(
+                //               "${CurrencyConfig.convertTo(price: orderModel.total!) .toString() }")
+                //         ],
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     //show detail of orders
+                //     ElevatedButton(
+                //         style: ElevatedButton.styleFrom(
+                //             elevation: 0.5,
+                //             backgroundColor: Colors.white,
+                //             side: BorderSide(color: Colors.black, width: 2)),
+                //         onPressed: () {
+                //           Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetail(order: orderModel),));
+                //         },
+                //         child: Text(
+                //           "Details",
+                //           style: Theme.of(context)
+                //               .textTheme
+                //               .bodyMedium
+                //               ?.copyWith(fontWeight: FontWeight.bold),
+                //         )),
+                //     //state of order
+                //     Text(orderModel.stateOrder!)
+                //   ],
+                // )
+              ],
+            ),
           ),
         ),
       ),

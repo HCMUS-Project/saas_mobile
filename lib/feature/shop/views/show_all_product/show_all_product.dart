@@ -8,6 +8,7 @@ import 'package:mobilefinalhcmus/feature/cart/views/cart_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/product_detail.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/filter_widget.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/product.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
     print(categoryList);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+     
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -55,7 +56,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
             },
             icon: Icon(
               Icons.arrow_back,
-              color: Theme.of(context).iconTheme.color,
+             
             )),
         actions: [
           IconButton(
@@ -155,7 +156,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
-                                return ProductDetail(product: product);
+                                return ProductDetail2(product: product);
                               },
                             ));
                           },

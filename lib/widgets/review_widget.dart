@@ -38,10 +38,10 @@ void PostReview ({required BuildContext context, required TextEditingController 
                           ignoreGestures: false,
                           initialRating: 0,
                           ratingWidget: RatingWidget(
-                            full: Image.asset('assets/images/heart.png',color: Theme.of(context).colorScheme.secondary,),
-                            half: Image.asset('assets/images/heart_haft.png',color: Theme.of(context).colorScheme.secondary),
+                            full: Image.asset('assets/images/star_full.png',color: Theme.of(context).colorScheme.secondary,),
+                            half: Image.asset('assets/images/star_haft.png',color: Theme.of(context).colorScheme.secondary),
                             empty:
-                                Image.asset('assets/images/heart_border.png',color: Theme.of(context).colorScheme.secondary),
+                                Image.asset('assets/images/star_border.png',color: Theme.of(context).colorScheme.secondary),
                           ),
                           onRatingUpdate: (value) {
                             print(value);

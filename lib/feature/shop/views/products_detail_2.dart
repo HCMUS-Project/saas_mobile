@@ -1,265 +1,198 @@
-import 'dart:convert';
-
+import 'dart:async';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:intl/intl.dart';
+
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
+
 import 'package:mobilefinalhcmus/config/currency_config.dart';
+
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/models/cart_model.dart';
 import 'package:mobilefinalhcmus/feature/cart/provider/cart_provider.dart';
 import 'package:mobilefinalhcmus/feature/checkout/views/checkout_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
-import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+
 import 'package:mobilefinalhcmus/feature/shop/views/review/review_page.dart';
+import 'package:mobilefinalhcmus/test1.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
+
 import 'package:readmore/readmore.dart';
 
-class ProductDetail extends StatelessWidget {
-  ProductDetail({super.key, required this.product});
-
+class ProductDetail2 extends StatefulWidget {
+  ProductDetail2({super.key, required this.product});
   ProductModel product;
-  String dropdownvalue = 'Item 1';
+  @override
+  State<ProductDetail2> createState() => _ProductDetail2State();
+}
 
-  // List of items in our dropdown menu
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
+class _ProductDetail2State extends State<ProductDetail2>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    print("rating ${product.rating}");
-    print("number of rating ${product.numberRating}");
+    final product = widget.product;
+
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-          ),
-        ),
+        backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: LayoutBuilder(
-            builder: (context, constraints) => Column(
-              children: [
-                //product image
-                AspectRatio(
-                  aspectRatio: 1 / 1,
+   
+      body: Column(
+        children: [
+          Expanded(
+            flex: 9,
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
                   child: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(product.image![0]),
-                            fit: BoxFit.fill)),
+                    height: 400,
+                    child: ShowListImageOfProduct(product: product),
                   ),
                 ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            height: 50,
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.black, width: 1.5),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                onChanged: (value) {},
-                                hint: Text("Size"),
-                                items: items
-                                    .map((String item) =>
-                                        DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-                          ),
+                        Row(
+                          children: [
+                            SizedBox(
+                                height: 32,
+                                width: 32,
+                                child: Image(
+                                    image: AssetImage("assets/images/star.png"))),
+                            Text("${product.rating} (${product.numberRating})")
+                          ],
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            height: 50,
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.black, width: 1.5),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                onChanged: (value) {},
-                                hint: Text("Color"),
-                                items: items
-                                    .map((String item) =>
-                                        DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder()),
-                                onPressed: () {},
-                                child: Image.asset("assets/images/heart.png")))
+                        Container(
+                            child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.share),
+                        ))
                       ],
                     ),
                   ),
                 ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      CurrencyConfig.convertTo(price: product.price!).toString(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                            child: Column(
-                          children: [
-                            //title
-                            Text(
-                              product.name!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                            ),
-                            Text(
-                              "sub title",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: Colors.grey),
-                            ),
-                            RatingBar(
-                              itemPadding: EdgeInsets.all(2),
-                              itemSize: 18.0,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              initialRating: product.rating!,
-                              ratingWidget: RatingWidget(
-                                full:
-                                    Image.asset('assets/images/star_full.png'),
-                                half:
-                                    Image.asset('assets/images/star_half.png'),
-                                empty: Image.asset(
-                                    'assets/images/star_border.png'),
-                              ),
-                              onRatingUpdate: (value) {},
-                            ),
-                          ],
-                        )),
-                        Expanded(
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Container(
-                                  child: Text(
-                                    CurrencyConfig.convertTo(
-                                            price: product.price!)
-                                        .toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                        Text(
+                          product.name!,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          "In stock: ${product.quantity! > 0 ? 'in stock' : "sold out"}",
+                          style: Theme.of(context).textTheme.bodyMedium,
                         )
                       ],
                     ),
                   ),
                 ),
-                //Detail Product
-                Container(
-                  padding: EdgeInsets.all(8),
-                  child: ReadMoreText(
-                    delimiterStyle: TextStyle(overflow: TextOverflow.fade),
-                    product.description!,
-                    trimMode: TrimMode.Line,
-                    trimLines: 2,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: 'Show less',
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Description",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        ReadMoreText(
+                          delimiterStyle: TextStyle(overflow: TextOverflow.fade),
+                          product.description!,
+                          trimMode: TrimMode.Line,
+                          trimLines: 2,
+                          trimCollapsedText: 'Show more',
+                          trimExpandedText: 'Show less',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-
-                //review
-                Divider(),
-                ReviewWidget(
-                  numberOfRating: product.numberRating,
-                  rating: product.rating,
-                  productId: product.id,
-                )
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Divider(
+                      thickness: 2,
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Reviews (${product.numberRating})",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                            child: IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return ReviewPage(
+                                        numberOfRating: product.numberRating,
+                                        rating: product.rating,
+                                        productId: product.id!,
+                                      );
+                                    },
+                                  ));
+                                },
+                                icon: Icon(Icons.arrow_forward_ios, size: 12)))
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-      ),
-      bottomNavigationBar: (product.quantity!) > 0
+          Expanded(
+            flex: 2,
+            child: (product.quantity!) > 0
           ? Container(
-              decoration: BoxDecoration(color: Colors.amber),
+            alignment: Alignment.center,
+            height: 80,
+              decoration:
+                  BoxDecoration(color: Theme.of(context).colorScheme.primary),
               padding: EdgeInsets.zero,
               child: Row(
                 children: [
                   Expanded(
                       flex: 1,
                       child: Container(
+                        padding: EdgeInsets.all(8),
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 fixedSize: Size(56, 56),
-                                shape: BeveledRectangleBorder()),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15))),
                             onPressed: () async {
                               int counter = 1;
                               await showModalBottomSheet<bool>(
@@ -492,29 +425,6 @@ class ProductDetail extends StatelessWidget {
                                                     await Future.delayed(
                                                         Duration(seconds: 1));
                                                     controller['hide']();
-                                                    // final overlayController =
-                                                    //     showOverlay(
-                                                    //         context: context,
-                                                    //         child: Padding(
-                                                    //           padding:
-                                                    //               const EdgeInsets
-                                                    //                   .all(8.0),
-                                                    //           child: Column(
-                                                    //             children: [
-                                                    //               Image.asset(
-                                                    //                   'assets/images/check.png'),
-                                                    //               SizedBox(
-                                                    //                 height: 10,
-                                                    //               ),
-                                                    //               Text(
-                                                    //                   "Added to cart")
-                                                    //             ],
-                                                    //           ),
-                                                    //         ));
-                                                    // overlayController["show"]();
-                                                    // await Future.delayed(
-                                                    //     Duration(seconds: 1));
-                                                    // overlayController["hide"]();
                                                   }
                                                   Navigator.of(context).pop();
                                                 },
@@ -558,50 +468,55 @@ class ProductDetail extends StatelessWidget {
                       )),
                   Expanded(
                       flex: 1,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: Size(56, 56),
-                              shape: RoundedRectangleBorder()),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                List<CartModel> products = [];
-                                products.add(
-                                    CartModel(product: product, quantity: 1));
-                                return CheckOutPage(
-                                  total: product.price!,
-                                  products: products,
-                                );
-                              },
-                            ));
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text("Buy",
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(56, 56),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15))),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  List<CartModel> products = [];
+                                  products.add(
+                                      CartModel(product: product, quantity: 1));
+                                  return CheckOutPage(
+                                    total: product.price!,
+                                    products: products,
+                                  );
+                                },
+                              ));
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("Buy",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary)),
+                                Text(
+                                  CurrencyConfig.convertTo(
+                                          price: product.price!)
+                                      .toString(),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
+                                      .bodyLarge
                                       ?.copyWith(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .primary)),
-                              Text(
-                                CurrencyConfig.convertTo(price: product.price!)
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                              )
-                            ],
-                          )))
+                                              .primary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
+                                )
+                              ],
+                            )),
+                      ))
                 ],
               ))
           : Container(
@@ -612,95 +527,105 @@ class ProductDetail extends StatelessWidget {
                   onPressed: product.quantity! > 0 ? () {} : null,
                   child: Text("SOLD OUT")),
             ),
+            )
+          
+        ],
+      ),
     );
   }
 }
 
-class ReviewWidget extends StatelessWidget {
-  ReviewWidget({super.key, this.productId, this.numberOfRating, this.rating});
-  String? productId;
-  double? rating;
-  int? numberOfRating;
+class ShowListImageOfProduct extends StatefulWidget {
+  const ShowListImageOfProduct({
+    super.key,
+    required this.product,
+  });
+
+  final ProductModel product;
+
+  @override
+  State<ShowListImageOfProduct> createState() => _ShowListImageOfProductState();
+}
+
+class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
+  int selectedImage = 0;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 60,
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Colors.white),
-              child: Row(
-                children: [
-                  Expanded(
-                      flex: 7,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Product review"),
-                          RatingBar(
-                            itemPadding: EdgeInsets.all(2),
-                            itemSize: 18.0,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            ignoreGestures: true,
-                            initialRating: 0,
-                            ratingWidget: RatingWidget(
-                              full: Image.asset('assets/images/star_full.png'),
-                            half: Image.asset('assets/images/star_half.png'),
-                            empty:
-                                Image.asset('assets/images/star_border.png'),
-                            ),
-                            onRatingUpdate: (value) {},
-                          ),
-                        ],
-                      )),
-                  Expanded(
-                      flex: 3,
-                      child: Container(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return ReviewPage(
-                                  numberOfRating: numberOfRating,
-                                  rating: rating,
-                                  productId: productId!,
-                                );
-                              },
-                            ));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text("All"),
-                              Icon(
-                                Icons.arrow_forward,
-                                size: 24,
-                              )
-                            ],
-                          ),
-                        ),
-                      ))
-                ],
-              ),
-            ),
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
           ),
-          // Container(
-          //   height: 100,
-          //   child: ListView.builder(
-          //     itemCount: 0,
-          //     itemBuilder: (context, index) {
-          //       return Container(
-
-          //       );
-          //   },),
-          // ),
-        ],
-      ),
+          child: GestureDetector(
+              onTap: () {
+                CustomImageProvider customImageProvider = CustomImageProvider(
+                    imageUrls: widget.product.image!,
+                    initialIndex: selectedImage);
+                showImageViewerPager(context, customImageProvider,
+                    doubleTapZoomable: true, onPageChanged: (page) {
+                  // print("Page changed to $page");
+                  
+                }, onViewerDismissed: (page) {
+                  // print("Dismissed while on page $page");
+                  setState(() {
+                    selectedImage = page;
+                  });
+                });
+              },
+              child: Image(
+                  image: NetworkImage(widget.product.image![selectedImage]))),
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Container(
+            height: 100,
+            width: double.infinity,
+            decoration: BoxDecoration(),
+            padding: EdgeInsets.all(8),
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final image = widget.product.image![index];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedImage = index;
+                      });
+                    },
+                    child: Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: selectedImage == index
+                                  ? Colors.black
+                                  : Colors.transparent,
+                              width: 2),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Material(
+                        elevation: 1,
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(15),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image(
+                              image: NetworkImage(image),
+                              fit: BoxFit.fill,
+                              width: 80,
+                            )),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 10,
+                  );
+                },
+                itemCount: widget.product.image!.length),
+          ),
+        )
+      ],
     );
   }
 }

@@ -381,7 +381,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                                   .textTheme
                                                   .bodySmall
                                                   ?.copyWith(
-                                                      color: Colors.white,
+                                                     
                                                       fontWeight:
                                                           FontWeight.bold),
                                             ),
@@ -392,9 +392,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                           child: Align(
                                             child: Icon(
                                               Icons.arrow_forward,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              
                                               size: 16,
                                             ),
                                           ),
@@ -423,14 +421,16 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
     final username = context.read<AuthenticateProvider>().username;
 
     return AppBar(
-        centerTitle: true,
-        leading: username != null
-            ? Container(
-                padding: EdgeInsets.all(3),
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/avatar.png"))
-            : null,
-        title: username != null ? Text(username, style: Theme.of(context).textTheme.titleLarge,) : null);
+        centerTitle: false,
+        title: username != null ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("have a nice day", style: Theme.of(context).textTheme.titleSmall,),
+            Text(username, style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600
+            ),),
+          ],
+        ) : null);
   }
 
   @override

@@ -58,11 +58,10 @@ class ProductWidget extends StatelessWidget {
                               itemCount: 5,
                               initialRating:product.rating! ,
                               ratingWidget: RatingWidget(
-                                full: Image.asset('assets/images/heart.png'),
-                                half:
-                                    Image.asset('assets/images/heart_haft.png'),
-                                empty: Image.asset(
-                                    'assets/images/heart_border.png'),
+                               full: Image.asset('assets/images/star_full.png'),
+                            half: Image.asset('assets/images/star_half.png'),
+                            empty:
+                                Image.asset('assets/images/star_border.png'),
                               ),
                               onRatingUpdate: (value) {},
                             ),
