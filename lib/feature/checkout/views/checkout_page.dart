@@ -203,7 +203,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   "Shipping address",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleLarge
+                                      .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 TextButton(
@@ -516,7 +516,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   "Payment method",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleLarge
+                                      .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 TextButton(
@@ -635,8 +635,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                     value.selectedPayMethod;
                                 return Container(
                                   height: size.width / 5,
-                                  decoration:
-                                      BoxDecoration(color: Colors.white),
+                                 
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -652,14 +651,17 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text(
-                                        paymentMethods[selectedPaymentMethod]
-                                            .type!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          paymentMethods[selectedPaymentMethod]
+                                              .type!,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -682,7 +684,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   "Delivery Method",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleLarge
+                                      .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -743,10 +745,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Discription Order",
+                                  "Description Order",
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyMedium
+                                      .titleMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],

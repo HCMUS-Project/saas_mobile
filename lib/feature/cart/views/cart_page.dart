@@ -202,9 +202,7 @@ class _CartPageState extends State<CartPage> {
                                     .textTheme
                                     .bodyLarge
                                     ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                        ),
                               ),
                             ),
                           );

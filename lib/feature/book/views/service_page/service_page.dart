@@ -71,9 +71,7 @@ class ServicePage extends StatelessWidget {
                                       child: Container(
                                     padding: EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
+                                        
                                         borderRadius: BorderRadius.only(
                                             topRight: Radius.circular(15),
                                             bottomRight: Radius.circular(15))),
@@ -87,9 +85,7 @@ class ServicePage extends StatelessWidget {
                                                   .textTheme
                                                   .bodyMedium
                                                   ?.copyWith(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary,
+                                                      
                                                       fontWeight:
                                                           FontWeight.bold),
                                             ),
@@ -102,9 +98,7 @@ class ServicePage extends StatelessWidget {
                                           children: [
                                             Icon(
                                               Icons.timer_outlined,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              
                                             ),
                                             SizedBox(
                                               width: 5,
@@ -116,9 +110,7 @@ class ServicePage extends StatelessWidget {
                                                   .textTheme
                                                   .bodyMedium
                                                   ?.copyWith(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary,
+                                                      
                                                       fontWeight:
                                                           FontWeight.bold),
                                             )
@@ -133,9 +125,7 @@ class ServicePage extends StatelessWidget {
                                               .textTheme
                                               .bodyMedium
                                               ?.copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
+                                                
                                               ),
                                         ),
                                         Expanded(
@@ -146,12 +136,7 @@ class ServicePage extends StatelessWidget {
                                                     .elevatedButtonTheme
                                                     .style
                                                     ?.copyWith(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Theme.of(
-                                                                        context)
-                                                                    .colorScheme
-                                                                    .primary)),
+                                                        ),
                                                 onPressed: () {
                                                   Navigator.of(context).pop<ServiceModel>(service);
                                                 },
@@ -161,10 +146,7 @@ class ServicePage extends StatelessWidget {
                                                       .textTheme
                                                       .bodyMedium
                                                       ?.copyWith(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .secondary),
+                                                          ),
                                                 )),
                                           ),
                                         )
