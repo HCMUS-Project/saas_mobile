@@ -10,6 +10,7 @@ import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
+import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/views/detail_service.dart';
 import 'package:mobilefinalhcmus/feature/home/views/main_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
@@ -26,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
 
   @override
@@ -36,7 +36,10 @@ class _HomePageState extends State<HomePage> {
           context.read<BookingProvider>().getAllService(
               domain: context.read<AuthenticateProvider>().domain!),
           context.read<ShopProvider>().getAllProduct(
-              domain: context.read<AuthenticateProvider>().domain!)
+              domain: context.read<AuthenticateProvider>().domain!),
+          context
+              .read<HomeProvider>()
+              .getBanner(domain: context.read<AuthenticateProvider>().domain!)
         ]),
         builder: (context, snapshot) {
           // if (snapshot.connectionState == ConnectionState.waiting) {
@@ -171,11 +174,13 @@ class CarosselWidget extends StatefulWidget {
 
 class _CarosselWidgetState extends State<CarosselWidget> {
   late final PageController pageController;
+  late HomeProvider homeProvider;
+  List<Map<String, dynamic>> banners = [];
   Timer? carasouelTmer;
   int pageNo = 0;
   Timer getTimer() {
     return Timer.periodic(const Duration(seconds: 3), (timer) {
-      if (pageNo == 4) {
+      if (pageNo == homeProvider.banners.length ) {
         pageNo = 0;
       }
       if (pageController.hasClients) {
@@ -189,6 +194,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
   @override
   void initState() {
     pageController = PageController(initialPage: 0, viewportFraction: 0.85);
+    homeProvider = context.read<HomeProvider>();
     carasouelTmer = getTimer();
     super.initState();
   }
@@ -203,6 +209,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final banners = homeProvider.banners;
     return Column(
       children: [
         SizedBox(
@@ -213,8 +220,9 @@ class _CarosselWidgetState extends State<CarosselWidget> {
               setState(() {});
             },
             controller: pageController,
-            itemCount: 5,
+            itemCount: banners.length,
             itemBuilder: (context, index) {
+              final banner = banners[index];
               return AnimatedBuilder(
                 animation: pageController,
                 builder: (context, child) {
@@ -234,8 +242,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
                     margin: EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: NetworkImage(
-                                "https://skintdad.co.uk/wp-content/uploads/2022/03/ff-clothing-sale.png"),
+                            image: NetworkImage(banner['image']),
                             fit: BoxFit.fill),
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(30)),
@@ -248,7 +255,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-              5,
+              banners.length,
               (index) => Container(
                     margin: EdgeInsets.all(2.0),
                     child: SizedBox(
@@ -366,7 +373,9 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                           bottomLeft: Radius.circular(15),
                                           bottomRight: Radius.circular(15),
                                         ),
-                                        color: Theme.of(context).colorScheme.secondary),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -381,7 +390,6 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                                   .textTheme
                                                   .bodySmall
                                                   ?.copyWith(
-                                                     
                                                       fontWeight:
                                                           FontWeight.bold),
                                             ),
@@ -392,7 +400,6 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                           child: Align(
                                             child: Icon(
                                               Icons.arrow_forward,
-                                              
                                               size: 16,
                                             ),
                                           ),
@@ -422,15 +429,24 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
         centerTitle: false,
-        title: username != null ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("have a nice day", style: Theme.of(context).textTheme.titleSmall,),
-            Text(username, style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600
-            ),),
-          ],
-        ) : null);
+        title: username != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "have a nice day",
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  Text(
+                    username,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              )
+            : null);
   }
 
   @override
