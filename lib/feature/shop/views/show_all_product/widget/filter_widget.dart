@@ -61,7 +61,6 @@ class _FilterWidgetState extends State<FilterWidget> {
             flex: 1,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

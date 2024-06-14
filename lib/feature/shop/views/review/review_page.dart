@@ -45,7 +45,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(color: Colors.white),
+      
                       child: Text(
                         "Rating&Reviews",
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(

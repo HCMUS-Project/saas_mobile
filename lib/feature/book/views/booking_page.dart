@@ -80,9 +80,7 @@ class _BookingPageState extends State<BookingPage> {
                                   .bodyMedium
                                   ?.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
+                                      ),
                             ),
                           ),
                         ),

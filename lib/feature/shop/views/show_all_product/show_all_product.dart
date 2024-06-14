@@ -123,7 +123,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 8, right: 8),
+        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: Column(
           children: [
             //filter component
@@ -136,7 +136,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
                 child: Consumer<ShopProvider>(
                   builder: (context, value, child) {
                     return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.5,
                         mainAxisSpacing: 5,
@@ -146,7 +146,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
                       itemBuilder: (context, index) {
                         final product = value.filterProductList?[index];
                         if (product == null) {
-                          return Container(
+                          return  Container(
                             child: Center(
                               child: Text("There is no product"),
                             ),

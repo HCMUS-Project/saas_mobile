@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
@@ -35,7 +36,7 @@ class _ProductDetail2State extends State<ProductDetail2>
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
    
       body: Column(
@@ -62,6 +63,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                 height: 32,
                                 width: 32,
                                 child: Image(
+                                    color: Color(0xFFFFD03E),
                                     image: AssetImage("assets/images/star.png"))),
                             Text("${product.rating} (${product.numberRating})")
                           ],
@@ -174,7 +176,7 @@ class _ProductDetail2State extends State<ProductDetail2>
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 1,
             child: (product.quantity!) > 0
           ? Container(
             alignment: Alignment.center,
@@ -559,15 +561,19 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
           ),
           child: GestureDetector(
               onTap: () {
+                SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
                 CustomImageProvider customImageProvider = CustomImageProvider(
                     imageUrls: widget.product.image!,
                     initialIndex: selectedImage);
                 showImageViewerPager(context, customImageProvider,
+                  immersive:false ,
+                  swipeDismissible: true,
                     doubleTapZoomable: true, onPageChanged: (page) {
                   // print("Page changed to $page");
                   
                 }, onViewerDismissed: (page) {
                   // print("Dismissed while on page $page");
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
                   setState(() {
                     selectedImage = page;
                   });

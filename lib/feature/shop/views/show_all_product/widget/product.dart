@@ -16,10 +16,15 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double sizeOfContainer = (size.width * 0.3) * 2.5;
+    double sizeOfContainer = (size.width * 0.3) * 1.5;
 
     return Container(
       height: sizeOfContainer,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15)
+      ),
       child: Column(
         children: [
           Expanded(
@@ -29,7 +34,7 @@ class ProductWidget extends StatelessWidget {
                 //must use Position.fill to use Expanded in that Stack
                 Positioned.fill(
                     child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
+              
                   child: Column(
                     children: [
                       Expanded(
@@ -46,8 +51,7 @@ class ProductWidget extends StatelessWidget {
                           child: Container(
                             
                             alignment: Alignment.centerLeft,
-                            decoration:
-                                BoxDecoration(color: Colors.white),
+                            
                             child: RatingBar(
                               glowColor: Theme.of(context).colorScheme.secondary,
                               ignoreGestures: true,
@@ -74,7 +78,7 @@ class ProductWidget extends StatelessWidget {
                     right: 0,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
+
                             padding: EdgeInsets.zero,
                             shape: CircleBorder(),
                             minimumSize: Size(36, 36)),
@@ -87,7 +91,7 @@ class ProductWidget extends StatelessWidget {
               flex: 3,
               child: Container(
                 alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(color: Colors.white),
+     
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
