@@ -21,6 +21,7 @@ import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
+import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -89,7 +90,7 @@ class MyApp extends StatelessWidget {
                 theme: theme.theme,
                 initialRoute: '/',
                 routes: {
-                  '/': (context) => IntroPage(),
+                  '/': (context) => TestPage(),
                   '/tenant': (context) => TenantPage(),
                   '/auth/login': (context) => LoginPage(),
                   '/auth/signup': (context) => RegisterPage(),

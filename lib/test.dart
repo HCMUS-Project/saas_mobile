@@ -1,32 +1,44 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:app_links/app_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
-import 'package:mobilefinalhcmus/components/success_page.dart';
-import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/config/exception_config.dart';
-import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
-import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
-import 'package:mobilefinalhcmus/feature/shop/views/review/review_page.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:readmore/readmore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+class SockerConfig{
+  IO.Socket? socket;
+  SockerConfig._internal(){
+    socket = IO.io("", IO.OptionBuilder().setTransports(['websocket']).build());
+
+  }
+  static SockerConfig? _sockerConfig  = SockerConfig._internal();
+
+  static SockerConfig getInstance(){
+    return _sockerConfig ?? SockerConfig._internal();
+  }
+
+  void init(){
+    socket?.on('connect', (_) {
+      print('Connected to server');
+    });
+
+    socket?.on('events', (data) {
+      print(data);
+    });
+  }
+}
 
 class TestPage extends StatefulWidget {
   TestPage({
     super.key,
-    required this.product
+    this.product
   });
-  ProductModel product;
+  ProductModel? product;
   @override
   State<TestPage> createState() => _TestPageState();
 }
@@ -52,6 +64,8 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     slidableController = SlidableController(this);
+    // final socket = SockerConfig.getInstance();
+    // socket.init();
   }
 
   @override
@@ -65,7 +79,8 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
           if (isToggle) {
             slidableController?.openEndActionPane(
                 curve: Curves.linear, duration: Durations.medium1);
-          } else {
+          } else 
+          {
             slidableController?.close(duration: Durations.medium1);
           }
 
@@ -74,159 +89,141 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
           } else {
             throw Exception('Could not launch $_url');
           }
+          
         },
       ),
       body: CustomScrollView(
         slivers: [
-          // SliverAppBar(
-          //   pinned: true,
-          //   title: Text("Hello"),
-          // ),
-          // SliverToBoxAdapter(
-          //   child: FetchdataWidget()
-          // ),
-          // SliverGrid(
-          //   gridDelegate: SliverQuiltedGridDelegate(
-          //     crossAxisCount: 2,
-          //     mainAxisSpacing: 4,
-          //     crossAxisSpacing: 4,
-          //     repeatPattern: QuiltedGridRepeatPattern.inverted,
-          //     pattern: [
-          //       QuiltedGridTile(1, 1),
-          //       QuiltedGridTile(1, 1),
-          //     ],
-          //   ),
-          //   delegate: SliverChildBuilderDelegate(
-          //     childCount: 12,
-          //     (context, index) => Slidable(
-          //         enabled: true,
-          //         controller: slidableController,
-          //         endActionPane:
-          //             ActionPane(motion: const ScrollMotion(), children: [
-          //           SlidableAction(
-          //             backgroundColor: Theme.of(context).colorScheme.secondary,
-          //             foregroundColor: Theme.of(context).colorScheme.primary,
-          //             icon: Icons.delete,
-          //             onPressed: (context) {},
-          //           ),
-          //         ]),
-          //         child: Container(
-          //           child: Center(
-          //             child: Text(("hello em")),
-          //           ),
-          //         )),
-          //   ),
-          // )
-
-          SliverToBoxAdapter(
-            child: Container(
-              height: 400,
-              child: ShowListImageOfProduct(product: product),
+          SliverAppBar(
+            pinned: true,
+            title: Container(
+              height: 56,
+              alignment: Alignment.bottomLeft,
+              decoration: BoxDecoration(
+              ),
+              child: Text(
+                "Let's find your booking!",style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
+                ),
+              ),
             ),
-          ),
-
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: 32,
-                        width: 32,
-                        child: Image(image: AssetImage("assets/images/star.png"))),
-                      Text("${product.rating} (${product.numberRating})")
-                    ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(80), 
+              child: Container(
+                decoration: BoxDecoration(
+              
+                ),
+                padding: EdgeInsets.all(20),
+                child: TextField(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontSize: 18
                   ),
-                  Container(
-                    child: IconButton(onPressed: (){}, icon: Icon(Icons.share),
-                  ))
-                ],
-              ),
-            ),
-          ),
-
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Text(CurrencyConfig.convertTo(price: product.price!).toString(),style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold
-              ),),
-            ),
-          ),
-
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product.name!, style: Theme.of(context).textTheme.titleMedium,),
-                  Text("In stock: ${product.quantity! > 0 ?  'in stock' : "sold out"}",style: Theme.of(context).textTheme.bodyMedium,)
-                ],
-              ),
-            ),
-          ),
-
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Description", style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold
-                  ),),
-                  ReadMoreText(
-                    delimiterStyle: TextStyle(overflow: TextOverflow.fade),
-                    product.description!,
-                    trimMode: TrimMode.Line,
-                    trimLines: 2,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: 'Show less',
+                  decoration: InputDecoration(
+                    prefixIconConstraints:BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32
+                    ) ,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.search,size: 24,),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    isDense: true,
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   ),
-                ],
-              ),
+                ),
+              )
             ),
           ),
-          SliverToBoxAdapter(
-            child: Divider(
-              thickness: 2,
-              color: Colors.grey.shade300,
 
-            ),
-          ),
           SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Reviews (${product.numberRating})", style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold
-                  ),),
-                  SizedBox(
-                    
-                    child: IconButton(onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return ReviewPage(
-                                  numberOfRating: product.numberRating,
-                                  rating: product.rating,
-                                  productId: product.id!,
-                                );
-                              },
-                            ));
-                    }, icon: Icon(Icons.arrow_forward_ios,size: 12)))
-                ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: bookingList(),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
+  }
+
+  List<Widget> bookingList (){
+    List<Widget> data =[];
+    for(int i =0 ; i < 5; i++){
+      data.add(
+        Container(
+          margin: EdgeInsets.only(bottom: 10),
+  
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15)
+          ),
+          height:300 ,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 4,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                    image: DecorationImage(image: NetworkImage("https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw",),fit: BoxFit.fill)
+                  ),
+
+                )
+              ),
+              Expanded(
+                flex: 6,
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                     borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey.shade200
+                          ),
+                          
+                        ) 
+                      ),
+                      SizedBox(width: 5,),
+                      Expanded(
+                        flex: 7,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey.shade200
+                          ),
+                        ))
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      );
+    }
+    return data;
   }
 }
 

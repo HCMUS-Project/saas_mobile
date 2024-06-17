@@ -1,6 +1,10 @@
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 
+
+
+
+
 class Test1 extends StatefulWidget {
    String? title = '123123';
 
@@ -28,129 +32,23 @@ class _MyHomePageState extends State<Test1> {
   late final _easyEmbeddedImageProvider = MultiImageProvider(_imageProviders);
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text((widget.title) ?? "1323"),
       ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-              child: const Text("Show Single Image"),
-              onPressed: () {
-                showImageViewer(
-                    context,
-                    Image.network("https://picsum.photos/id/1001/4912/3264")
-                        .image,
-                    swipeDismissible: true,
-                    doubleTapZoomable: true);
-              }),
-          ElevatedButton(
-              child: const Text("Show Multiple Images (Simple)"),
-              onPressed: () {
-                MultiImageProvider multiImageProvider =
-                    MultiImageProvider(_imageProviders);
-                showImageViewerPager(context, multiImageProvider,
-                    swipeDismissible: true, doubleTapZoomable: true);
-              }),
-          ElevatedButton(
-              child: const Text("Show Multiple Images (Simple) with Infinite Scroll"),
-              onPressed: () {
-                MultiImageProvider multiImageProvider =
-                    MultiImageProvider(_imageProviders);
-                showImageViewerPager(context, multiImageProvider,
-                    swipeDismissible: true, doubleTapZoomable: true,
-                    infinitelyScrollable: true);
-              }),
-          ElevatedButton(
-              child: const Text("Show Multiple Images (Custom)"),
-              onPressed: () {
-                CustomImageProvider customImageProvider = CustomImageProvider(
-                    imageUrls: [
-                      "https://picsum.photos/id/1001/4912/3264",
-                      "https://picsum.photos/id/1003/1181/1772",
-                      "https://cdn-images.vtv.vn/2021/8/10/jack-8-162850540180217894975-16285809025191185121207-1628604928100270201268.jpg",
-                      "https://picsum.photos/id/1005/4912/3264"
-                    ].toList(),
-                    initialIndex: 2);
-                showImageViewerPager(context, customImageProvider,doubleTapZoomable: true,
-                    onPageChanged: (page) {
-                  // print("Page changed to $page");
-                }, onViewerDismissed: (page) {
-                  // print("Dismissed while on page $page");
-                });
-              }),
-          ElevatedButton(
-              child: const Text("Async Demo (FutureBuilder)"),
-              onPressed: () {
-                
-              }),
-          ElevatedButton(
-              child: const Text("Custom Progress Indicator"),
-              onPressed: () {
-                CustomImageWidgetProvider customImageProvider = CustomImageWidgetProvider(
-                    imageUrls: [
-                      "https://picsum.photos/id/1001/4912/3264",
-                      "https://picsum.photos/id/1003/1181/1772",
-                      "https://picsum.photos/id/1004/4912/3264",
-                      "https://picsum.photos/id/1005/4912/3264"
-                    ].toList(),
-                );
-                showImageViewerPager(context, customImageProvider);
-              }),
-          ElevatedButton(
-              child: const Text("Simulate Error"),
-              onPressed: () {
-                showImageViewer(
-                    context,
-                    // Notice that this will cause an "unhandled exception" although an error handler is defined.
-                    // This is a known Flutter issue, see https://github.com/flutter/flutter/issues/81931
-                    Image.network("https://thisisdefinitelynotavalidurl.com")
-                        .image,
-                    swipeDismissible: true,
-                    doubleTapZoomable: true);
-              }),
-          SizedBox( // Tiny image just to test the EasyImageView constructor
-            width: MediaQuery.of(context).size.width,
-            height: 56,
-            child: EasyImageView(
-                imageProvider: Image.network("https://picsum.photos/id/1001/4912/3264").image)
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2.4,
-            child: EasyImageViewPager(
-                easyImageProvider: _easyEmbeddedImageProvider,
-                pageController: _pageController),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  child: const Text("<< Prev"),
-                  onPressed: () {
-                    final currentPage = _pageController.page?.toInt() ?? 0;
-                    _pageController.animateToPage(
-                        currentPage > 0 ? currentPage - 1 : 0,
-                        duration: _kDuration,
-                        curve: _kCurve);
-                  }),
-              ElevatedButton(
-                  child: const Text("Next >>"),
-                  onPressed: () {
-                    final currentPage = _pageController.page?.toInt() ?? 0;
-                    final lastPage = _easyEmbeddedImageProvider.imageCount - 1;
-                    _pageController.animateToPage(
-                        currentPage < lastPage ? currentPage + 1 : lastPage,
-                        duration: _kDuration,
-                        curve: _kCurve);
-                  }),
-            ],
-          ),
-        ],
-      )),
+      body: Container(
+        child: Center(
+
+        ),
+      )
     );
   }
 }
