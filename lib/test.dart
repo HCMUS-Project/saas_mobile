@@ -74,6 +74,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     final product = widget.product;
     print(isToggle);
     return Scaffold(
+      backgroundColor: Colors.grey.shade200,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (isToggle) {
@@ -144,7 +145,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
 
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: bookingList(),
               ),
@@ -187,7 +188,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Colors.white,
                      borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
@@ -198,20 +199,92 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                       Expanded(
                         flex: 3,
                         child: Container(
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.grey.shade200
                           ),
-                          
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Saturday, Oct 10th", style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold
+                              ),),
+                              Text("8:15 AM")
+                            ],
+                          ),
                         ) 
                       ),
                       SizedBox(width: 5,),
                       Expanded(
                         flex: 7,
                         child: Container(
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey.shade200
+                          
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.article_outlined),
+                                    Row(
+                                      children: [
+                                        Text("id: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        Text("db951a1f6430"),
+                                      ],
+                                    )
+                                  ],
+                                )),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.info_outline),
+                                    Row(
+                                      children: [
+                                        Text("service: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        Text("Cat toc 123"),
+                                      ],
+                                    )
+                                  ],
+                                )),
+                                 Expanded(
+                                child: Row(
+                                  children: [
+                                    Image(image: AssetImage("assets/images/social-media.png"),height: 24,width: 24,),
+                                    Row(
+                                      children: [
+                                        Text("status: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        Text("paid"),
+                                      ],
+                                    )
+                                  ],
+                                )),
+                                
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.people_outline),
+                                    Row(
+                                      children: [
+                                        Text("employee: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),),
+                                        Text("Nguyen Vu Khoi"),
+                                      ],
+                                    )
+                                  ],
+                              )),
+                                
+                            ], 
                           ),
                         ))
                     ],
@@ -281,7 +354,6 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
                         borderRadius: BorderRadius.circular(15)
                       ),
                       child: Material(
-                        
                         elevation: 1,
                         color: Colors.amber,
                         borderRadius: BorderRadius.circular(15),

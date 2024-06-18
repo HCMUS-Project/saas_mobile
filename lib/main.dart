@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
                 theme: theme.theme,
                 initialRoute: '/',
                 routes: {
-                  '/': (context) => TestPage(),
+                  '/': (context) => IntroPage(),
                   '/tenant': (context) => TenantPage(),
                   '/auth/login': (context) => LoginPage(),
                   '/auth/signup': (context) => RegisterPage(),

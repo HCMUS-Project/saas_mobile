@@ -4,6 +4,7 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/register_page.dart';
 import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/booking/profile_booking_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profile_inf/profile_inf.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
@@ -20,7 +21,7 @@ class ProfiePage extends StatelessWidget {
     final token = context.read<AuthenticateProvider>().token;
     
     return Scaffold(
-        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         appBar: HeaderOfProfile(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -72,8 +73,19 @@ class ProfiePage extends StatelessWidget {
                 thickness: 0.2,
               ),
               FeatureOfProfile(
+                type: ButtonType.VALIDATE_TOKEN,
                 context: context,
-                callback: (token) {},
+                callback: (token) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      if (token == null) {
+                        return LoginPage();
+                      } else {
+                        return ProfileBooking();
+                      }
+                    },
+                  ));
+                },
                 titleOfFeature: "My bookings",
               ),
               Divider(
@@ -121,6 +133,7 @@ class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return AppBar(
+      
       title: Text(
         "My profile",
         style: Theme.of(context).textTheme.titleLarge,

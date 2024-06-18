@@ -119,7 +119,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     print("check token");
     await context.read<AuthenticateProvider>().refreshTokenFunc(
         refreshToken: context.read<AuthenticateProvider>().refreshToken!);
-
+    
     if (context.read<AuthenticateProvider>().httpResponseFlutter.errorMessage !=
         null) {
       await prefs.remove("token");
