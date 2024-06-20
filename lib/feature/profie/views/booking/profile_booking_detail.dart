@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
 
-Map<String,Color> StatusBooking = {
-  "PENDING": Color(0xffca8f04),
-  "SUCCESS": Colors.green.shade200,
-  "CANCLE": Colors.red
-};
+
 class BookingDetailPage extends StatelessWidget {
   BookingDetailPage({super.key, required this.bookingDetail});
   Map<String, dynamic> bookingDetail;

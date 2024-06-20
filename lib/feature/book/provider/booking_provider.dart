@@ -35,10 +35,8 @@ class BookingProvider extends ChangeNotifier {
       {required String domain,
       int? priceLower,
       int? priceHigher,
-      List<Map<String,dynamic>>? listService,
       String? name}) async {
     try {
-
       httpResponseFlutter = HttpResponseFlutter.unknown();
       Map<String, dynamic> queryParameters = {
         "priceLower": priceLower,
@@ -46,9 +44,9 @@ class BookingProvider extends ChangeNotifier {
         "name": name,
         "domain": domain
       };
-      
+
       queryParameters.removeWhere((key, value) => value == null);
-     
+
       final uri =
           Uri.tryParse("${dotenv.env['HTTP_URI']}booking/services/search")
               ?.replace(
@@ -73,10 +71,7 @@ class BookingProvider extends ChangeNotifier {
 
       httpResponseFlutter.update(
           result: result['data'], statusCode: rs.statusCode);
-      if (listService != null){
-        listService = List<Map<String,dynamic>>.from(httpResponseFlutter.result?['services']);
-        print(listService);
-      }
+
       return httpResponseFlutter;
     } on FlutterException catch (e) {
       print(e);
@@ -232,13 +227,13 @@ class BookingProvider extends ChangeNotifier {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
       Map<String, dynamic> queryParameters = {
-        "service": services,
+        "services": services,
         "status": status,
         "date": date,
         "page": page.toString(),
         "limit": limit.toString()
       };
-
+      
       queryParameters.removeWhere((key, value) => value == null);
 
       final uri =

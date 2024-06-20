@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/booking/profile_booking_detail.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
 import 'package:provider/provider.dart';
 
 class ProfileBooking extends StatefulWidget {
@@ -20,7 +21,11 @@ class ProfileBooking extends StatefulWidget {
 class _ProfileBookingState extends State<ProfileBooking> {
   final controller = ScrollController();
   late BookingProvider bookingProvider;
-  List<Map<String, dynamic>> services = [];
+  List<Map<String, dynamic>>? services = [];
+  List<String> selectedServiceFilter = [];
+  List<String> selectedStatusFilter = [];
+  final PagingController<int, dynamic> pagingController =
+      PagingController(firstPageKey: 1, invisibleItemsThreshold: 3);
   @override
   void initState() {
     // TODO: implement initState
@@ -30,172 +35,357 @@ class _ProfileBookingState extends State<ProfileBooking> {
     bookingProvider.page = 1;
   }
 
+  Future<void> fetchServices() async {
+    final rs = await bookingProvider.getAllService(
+      domain: context.read<AuthenticateProvider>().domain!,
+    );
+    services = List<Map<String, dynamic>>.from(rs.result?['services']);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.wait([
-        context.read<BookingProvider>().getAllService(domain: context.read<AuthenticateProvider>().domain!,listService: services)
-      ]),
-      builder:(context, snapshot) {
-        
-     
-        return Scaffold(
-        resizeToAvoidBottomInset: false,
-        endDrawer: Drawer(
-          child: Container(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                  
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  "Services",
-                                  style: Theme.of(context).textTheme.titleMedium,
-                                )),
+        future: Future.wait([fetchServices()]),
+        builder: (context, snapshot) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            endDrawer: EndDrawer(
+                pagingController: pagingController,
+                selectedServiceFilter: selectedServiceFilter,
+                selectedStatusFilter: selectedStatusFilter,
+                services: services),
+            body: snapshot.connectionState == ConnectionState.waiting
+                ? CircularProgressIndicator(
+                    color: Colors.black,
+                  )
+                : Builder(builder: (context) {
+                    return CustomScrollView(
+                      controller: controller,
+                      slivers: [
+                        SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          pinned: true,
+                          actions: [
+                            IconButton(
+                                onPressed: () async {
+                                  Scaffold.of(context).openEndDrawer();
+                                },
+                                icon: Icon(Icons.filter_alt_outlined))
+                          ],
+                          title: Container(
+                            height: 90,
+                            alignment: Alignment.bottomLeft,
+                            decoration: BoxDecoration(),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                    alignment: Alignment.centerLeft,
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    icon: Icon(Icons.arrow_back)),
+                                Text(
+                                  "Let's find your booking!",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                ),
+                              ],
+                            ),
                           ),
-                          Expanded(
-                            flex: 9,
-                              child: Align(
-                            alignment: Alignment.topLeft,
+                          bottom: PreferredSize(
+                              preferredSize: Size.fromHeight(80),
+                              child: Container(
+                                decoration: BoxDecoration(),
+                                padding: EdgeInsets.all(20),
+                                child: TextField(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(fontSize: 18),
+                                  decoration: InputDecoration(
+                                    prefixIconConstraints: BoxConstraints(
+                                        minWidth: 32, minHeight: 32),
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.search,
+                                        size: 24,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding:
+                                        EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  ),
+                                ),
+                              )),
+                        ),
+                        showBookingHistory(
+                          pagingController: pagingController,
+                          selectedServiceFilter: selectedServiceFilter,
+                          selectedStatusFilter: selectedStatusFilter,
+                        )
+                      ],
+                    );
+                  }),
+          );
+        });
+  }
+}
+
+class EndDrawer extends StatefulWidget {
+  EndDrawer(
+      {super.key,
+      required this.services,
+      required this.selectedServiceFilter,
+      required this.selectedStatusFilter,
+      required this.pagingController});
+  List<String> selectedServiceFilter;
+  List<String> selectedStatusFilter;
+  final List<Map<String, dynamic>>? services;
+  PagingController<int, dynamic> pagingController;
+  @override
+  State<EndDrawer> createState() => _EndDrawerState();
+}
+
+class _EndDrawerState extends State<EndDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Drawer(
+        child: Container(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text(
+                    "Filter",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            // alignment: Alignment.bottomLeft,
+                            child: Text(
+                          "Services",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        )),
+                        Expanded(
+                          child: Container(
+                            child: Align(
+                              // alignment: Alignment.topLeft,
+                              child: AlignedGridView.count(
+                                padding: EdgeInsets.all(0),
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 4,
+                                mainAxisSpacing: 4,
+                                itemCount: widget.services?.length,
+                                itemBuilder: (context, index) {
+                                  final service = widget.services?[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        if (widget.selectedServiceFilter
+                                            .contains(service?['id'])) {
+                                          widget.selectedServiceFilter
+                                              .removeWhere((element) =>
+                                                  element == service?['id']);
+                                        } else {
+                                          widget.selectedServiceFilter
+                                              .add(service?['id']);
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: widget.selectedServiceFilter
+                                                  .contains(service?['id'])
+                                              ? Colors.grey
+                                              : Colors.transparent,
+                                          border:
+                                              Border.all(color: Colors.black)),
+                                      child: Center(
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                child: Text(service?['name'])),
+                                            if (widget.selectedServiceFilter
+                                                .contains(service?['id']))
+                                              const Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: CircleAvatar(
+                                                    radius: 12,
+                                                    child: Icon(Icons.check),
+                                                  ),
+                                                ),
+                                              )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                //filter by status
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            // alignment: Alignment.bottomLeft,
+                            child: Text(
+                          "Status",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        )),
+                        Expanded(
+                          child: Align(
+                            // alignment: Alignment.topLeft,
                             child: AlignedGridView.count(
                               padding: EdgeInsets.all(0),
                               crossAxisCount: 2,
                               crossAxisSpacing: 4,
                               mainAxisSpacing: 4,
-                              itemCount: services.length,
+                              itemCount: StatusBooking.length,
                               itemBuilder: (context, index) {
-                                final service = services[index];
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.black
-                                    )
-                                  ),
-                                  child: Center(
-                                    child: Text(service['name']),
+                                final bookingStatus =
+                                    StatusBooking.keys.elementAt(index);
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (widget.selectedStatusFilter
+                                          .contains(bookingStatus)) {
+                                        widget.selectedStatusFilter.removeWhere(
+                                            (element) =>
+                                                element == bookingStatus);
+                                      } else {
+                                        widget.selectedStatusFilter
+                                            .add(bookingStatus);
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: widget.selectedStatusFilter
+                                                .contains(bookingStatus)
+                                            ? Colors.grey
+                                            : Colors.transparent,
+                                        border:
+                                            Border.all(color: Colors.black)),
+                                    child: Row(
+                                      children: [
+                                        Expanded(child: Text(bookingStatus)),
+                                        if (widget.selectedStatusFilter
+                                            .contains(bookingStatus))
+                                          const Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: CircleAvatar(
+                                                radius: 12,
+                                                child: Icon(Icons.check),
+                                              ),
+                                            ),
+                                          )
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
                             ),
-                          ))
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              )),
-        ),
-        body:snapshot.connectionState == ConnectionState.waiting ?  CircularProgressIndicator(
-          color: Colors.black,
-        ):Builder(builder: (context) {
-          print(services);
-          return CustomScrollView(
-            controller: controller,
-            slivers: [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                pinned: true,
-                actions: [
-                  IconButton(
-                      onPressed: () async {
-                        // final rs = (await context
-                        //         .read<BookingProvider>()
-                        //         .getAllService(
-                        //             domain: context
-                        //                 .read<AuthenticateProvider>()
-                        //                 .domain!))
-                        //     .result;
-      
-                        // setState(() {
-                        //   services =
-                        //       List<Map<String, dynamic>>.from(rs?['services']);
-                        // });
-                        Scaffold.of(context).openEndDrawer();
-                      },
-                      icon: Icon(Icons.filter_alt_outlined))
-                ],
-                title: Container(
-                  height: 90,
-                  alignment: Alignment.bottomLeft,
-                  decoration: BoxDecoration(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                          alignment: Alignment.centerLeft,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(Icons.arrow_back)),
-                      Text(
-                        "Let's find your booking!",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ],
                   ),
                 ),
-                bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(80),
-                    child: Container(
-                      decoration: BoxDecoration(),
-                      padding: EdgeInsets.all(20),
-                      child: TextField(
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontSize: 18),
-                        decoration: InputDecoration(
-                          prefixIconConstraints:
-                              BoxConstraints(minWidth: 32, minHeight: 32),
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.search,
-                              size: 24,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none),
-                          fillColor: Colors.white,
-                          filled: true,
-                          isDense: true,
-                          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.selectedServiceFilter.clear();
+                              widget.selectedStatusFilter.clear();
+                            });
+                          },
+                          child: Text(
+                            "Reset",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(),
+                          )),
+                      SizedBox(
+                        width: 10,
                       ),
-                    )),
-              ),
-              showBookingHistory()
-            ],
-          );
-        }),
-      );
-      }
-      
+                      ElevatedButton(
+                          onPressed: () {
+                            widget.pagingController.refresh();
+                          },
+                          child: Text(
+                            "Apply",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(),
+                          )),
+                    ],
+                  ),
+                )
+              ],
+            )),
+      ),
     );
   }
 }
 
 class showBookingHistory extends StatefulWidget {
-  const showBookingHistory({
-    super.key,
-  });
+  showBookingHistory(
+      {super.key,
+      this.selectedServiceFilter,
+      this.selectedStatusFilter,
+      required this.pagingController});
+  List<String>? selectedServiceFilter;
+  List<String>? selectedStatusFilter;
+  PagingController<int, dynamic> pagingController;
 
   @override
   State<showBookingHistory> createState() => _showBookingHistoryState();
@@ -203,34 +393,39 @@ class showBookingHistory extends StatefulWidget {
 
 class _showBookingHistoryState extends State<showBookingHistory> {
   late BookingProvider bookingProvider;
-  PagingController<int, dynamic> pagingController =
-      PagingController(firstPageKey: 1, invisibleItemsThreshold: 3);
+
   int _pageSize = 5;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     bookingProvider = context.read<BookingProvider>();
-    pagingController.addPageRequestListener((pageKey) async {
-      print(pageKey);
-      await bookingProvider.getAllBooking(
-          token: context.read<AuthenticateProvider>().token!,
-          limit: 5,
-          page: pageKey);
-      final bookings = bookingProvider.bookingList;
-      final isLastPage = bookings.length < _pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(bookings);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(bookings, nextPageKey);
+    widget.pagingController.addPageRequestListener((pageKey) async {
+      try {
+        print("SELTECTED SERVICE ${widget.selectedServiceFilter}");
+        await bookingProvider.getAllBooking(
+            token: context.read<AuthenticateProvider>().token!,
+            services: widget.selectedServiceFilter,
+            status: widget.selectedStatusFilter,
+            limit: 5,
+            page: pageKey);
+        final bookings = bookingProvider.bookingList;
+        final isLastPage = bookings.length < _pageSize;
+        if (isLastPage) {
+          widget.pagingController.appendLastPage(bookings);
+        } else {
+          final nextPageKey = pageKey + 1;
+          widget.pagingController.appendPage(bookings, nextPageKey);
+        }
+      } catch (e) {
+        widget.pagingController.error = e;
       }
     });
   }
 
   @override
   void dispose() {
-    pagingController.dispose();
+    widget.pagingController.dispose();
     super.dispose();
   }
 
@@ -240,8 +435,32 @@ class _showBookingHistoryState extends State<showBookingHistory> {
     return SliverPadding(
       padding: EdgeInsets.all(16),
       sliver: PagedSliverList(
-          pagingController: pagingController,
+          pagingController: widget.pagingController,
           builderDelegate: PagedChildBuilderDelegate(
+            noItemsFoundIndicatorBuilder: (context) {
+              return Container(
+                child: Center(
+                  child: Text(
+                    "No items",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              );
+            },
+            firstPageErrorIndicatorBuilder: (context) {
+              
+              return Center(
+                child: Text("Somethings went wrong!"),
+              );
+            },
+            newPageErrorIndicatorBuilder: (context) {
+              return Center(
+                child: Text("Somethings went wrong!"),
+              );
+            },
             newPageProgressIndicatorBuilder: (context) {
               return Center(
                 child: CircularProgressIndicator(
@@ -251,7 +470,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
             },
             animateTransitions: true,
             // [transitionDuration] has a default value of 250 milliseconds.
-            transitionDuration: const Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 250),
             itemBuilder: (context, item, index) {
               final booking = item as Map<String, dynamic>;
               final date = DateFormat("EEEE,MMM d")
