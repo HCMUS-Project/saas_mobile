@@ -62,25 +62,26 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             ));
           }
         });
-        
-        await FutureBuilder(
-            future: checkToken(context),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary),
-                  child: Center(),
-                );
-              }
 
-              if (snapshot.connectionState == ConnectionState.done) {
-                print('done');
-                // WidgetsBinding.instance.addPostFrameCallback((_) {
-                // });
-              }
-              return Container();
-            });
+        await checkToken(context);
+        // await FutureBuilder(
+        //     future: checkToken(context),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return Container(
+        //           decoration: BoxDecoration(
+        //               color: Theme.of(context).colorScheme.primary),
+        //           child: Center(),
+        //         );
+        //       }
+
+        //       if (snapshot.connectionState == ConnectionState.done) {
+        //         print('done');
+        //         // WidgetsBinding.instance.addPostFrameCallback((_) {
+        //         // });
+        //       }
+        //       return Container();
+        //     });
       });
     }
 
@@ -119,7 +120,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     print("check token");
     await context.read<AuthenticateProvider>().refreshTokenFunc(
         refreshToken: context.read<AuthenticateProvider>().refreshToken!);
-    
+
     if (context.read<AuthenticateProvider>().httpResponseFlutter.errorMessage !=
         null) {
       await prefs.remove("token");

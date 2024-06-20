@@ -67,8 +67,11 @@ class CheckoutProvider extends ChangeNotifier {
       data["phone"] = phone;
       data["address"] = address;
       data["paymentMethod"] = paymentMethod;
-      data["voucherId"] = voucherId ?? "040421e4-fb5b-48b3-8947-9c41c1574261";
-      data["paymentCallbackUrl"] = "http://nvukhoi.id.vn/api/payment/url/return?domain=nvukhoi.id.vn";
+      data["voucherId"] = voucherId;
+      data["paymentCallbackUrl"] =
+          "http://nvukhoi.id.vn/api/payment/url/return?domain=nvukhoi.id.vn";
+
+      data.removeWhere((key, value) => data[key] == null);
       Uri? uri =
           Uri.tryParse("${dotenv.env['HTTP_URI']}ecommerce/order/create");
       final rs = await http.post(uri!,

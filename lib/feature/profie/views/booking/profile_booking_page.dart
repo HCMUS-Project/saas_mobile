@@ -55,8 +55,10 @@ class _ProfileBookingState extends State<ProfileBooking> {
                 selectedStatusFilter: selectedStatusFilter,
                 services: services),
             body: snapshot.connectionState == ConnectionState.waiting
-                ? CircularProgressIndicator(
-                    color: Colors.black,
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
                   )
                 : Builder(builder: (context) {
                     return CustomScrollView(
@@ -344,6 +346,8 @@ class _EndDrawerState extends State<EndDrawer> {
                             setState(() {
                               widget.selectedServiceFilter.clear();
                               widget.selectedStatusFilter.clear();
+                              widget.pagingController.refresh();
+                            Navigator.of(context).pop();
                             });
                           },
                           child: Text(
@@ -359,6 +363,7 @@ class _EndDrawerState extends State<EndDrawer> {
                       ElevatedButton(
                           onPressed: () {
                             widget.pagingController.refresh();
+                            Navigator.of(context).pop();
                           },
                           child: Text(
                             "Apply",
@@ -451,7 +456,6 @@ class _showBookingHistoryState extends State<showBookingHistory> {
               );
             },
             firstPageErrorIndicatorBuilder: (context) {
-              
               return Center(
                 child: Text("Somethings went wrong!"),
               );
@@ -462,9 +466,11 @@ class _showBookingHistoryState extends State<showBookingHistory> {
               );
             },
             newPageProgressIndicatorBuilder: (context) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Colors.black,
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
                 ),
               );
             },

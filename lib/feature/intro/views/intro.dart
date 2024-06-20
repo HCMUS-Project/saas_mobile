@@ -42,9 +42,6 @@ class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
-   
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: LayoutBuilder(
