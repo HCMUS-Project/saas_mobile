@@ -91,10 +91,11 @@ class _SearchPageState extends State<SearchPage> {
               });
             },
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
+            
+            ),
             decoration: InputDecoration(
               hintText: widget.query,
+            
               focusedBorder: const OutlineInputBorder(
                   // borderRadius: BorderRadius.all(Radius.circular(20)),
                   borderSide: BorderSide(color: Colors.black)),

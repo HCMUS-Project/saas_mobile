@@ -43,6 +43,11 @@ class _ProfileBookingState extends State<ProfileBooking> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    pagingController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: Future.wait([fetchServices()]),
@@ -219,6 +224,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                       });
                                     },
                                     child: Container(
+                                      padding: EdgeInsets.all(2),
                                       decoration: BoxDecoration(
                                           color: widget.selectedServiceFilter
                                                   .contains(service?['id'])
@@ -262,6 +268,7 @@ class _EndDrawerState extends State<EndDrawer> {
                 //filter by status
                 Expanded(
                   child: Container(
+                  
                     decoration: BoxDecoration(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,6 +308,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                     });
                                   },
                                   child: Container(
+                                      padding: EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                         color: widget.selectedStatusFilter
                                                 .contains(bookingStatus)
@@ -428,11 +436,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
     });
   }
 
-  @override
-  void dispose() {
-    widget.pagingController.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -496,11 +500,13 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                 child: Container(
                   margin: EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                    
                       borderRadius: BorderRadius.circular(15)),
                   height: 300,
                   child: Material(
                     borderRadius: BorderRadius.only(
+                       topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
                     ),
@@ -511,6 +517,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                             flex: 4,
                             child: Container(
                               decoration: BoxDecoration(
+                                  color: Colors.amber,
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15),
