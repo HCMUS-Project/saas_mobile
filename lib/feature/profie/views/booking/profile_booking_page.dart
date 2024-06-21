@@ -524,7 +524,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                   ),
                                   image: DecorationImage(
                                       image: NetworkImage(
-                                        "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw",
+                                        booking['service']['images'][0],
                                       ),
                                       fit: BoxFit.fill)),
                             )),
@@ -657,24 +657,28 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                               child: Row(
                                             children: [
                                               Icon(Icons.people_outline),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "employee: ",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  Text(booking['employee']
-                                                          ['firstName'] +
-                                                      " " +
-                                                      booking['employee']
-                                                          ['lastName']),
-                                                ],
+                                              Expanded(
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "employee: ",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(booking['employee']
+                                                              ['firstName'] +
+                                                          " " +
+                                                          booking['employee']
+                                                              ['lastName']),
+                                                    ),
+                                                  ],
+                                                ),
                                               )
                                             ],
                                           )),

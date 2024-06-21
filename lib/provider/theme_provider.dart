@@ -8,7 +8,7 @@ import 'package:mobilefinalhcmus/config/http_response.dart';
 
 class ThemeProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
-  
+
   Future<void> getTheme({required String domain}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
@@ -16,17 +16,20 @@ class ThemeProvider extends ChangeNotifier {
 
       final uri = Uri.parse("${dotenv.env['HTTP_URI']}tenant/configTheme/find")
           .replace(queryParameters: queryParameters);
+
+      print(uri);
       final rs = await http.get(headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
       }, uri);
+
       final body = json.decode(rs.body);
       if (rs.statusCode >= 400) {
         throw FlutterException(body['message'], rs.statusCode);
       }
 
       final result = Map<String, dynamic>.from(body);
-
+      print(result);
       httpResponseFlutter.update(
           result: result['data'], statusCode: rs.statusCode);
     } on FlutterException catch (e) {

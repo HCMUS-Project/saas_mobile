@@ -527,11 +527,13 @@ class _BookingPageState extends State<BookingPage> {
                                                                           'assets/images/avatar.png')),
                                                                 ),
                                                               ),
-                                                              Text(employ[
-                                                                      'firstName'] +
-                                                                  " " +
-                                                                  employ[
-                                                                      'lastName'])
+                                                              Expanded(
+                                                                child: Text(employ[
+                                                                        'firstName'] +
+                                                                    " " +
+                                                                    employ[
+                                                                        'lastName'], maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                                              )
                                                             ],
                                                           ),
                                                         ),

@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print("troi oi la troi");
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -73,17 +74,16 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
           return FutureBuilder(
-            future: context
-                .read<ThemeProvider>()
+            future: value
                 .getTheme(domain: context.read<AuthenticateProvider>().domain!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container();
               }
               final rs = value.httpResponseFlutter.result?['themeConfig'];
-              print(rs);
+              
               final theme = ThemeConfig.fromJson(rs);
-
+              
               return MaterialApp(
                 title: 'Flutter Demo',
                 debugShowCheckedModeBanner: false,
