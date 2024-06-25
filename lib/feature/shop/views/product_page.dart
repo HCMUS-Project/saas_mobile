@@ -57,7 +57,7 @@ class _ProductPageState extends State<ProductPage> {
       body: FutureBuilder(
           future: context.read<ShopProvider>().getAllProduct(
                 domain: context.read<AuthenticateProvider>().domain!,
-              ),
+          ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(

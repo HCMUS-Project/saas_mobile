@@ -42,7 +42,8 @@ class HomeProvider extends ChangeNotifier {
           result: result['data'], statusCode: rs.statusCode);
       banners = List<Map<String, dynamic>>.from(
           httpResponseFlutter.result?['banners']);
-      
+      print("get banner success");
+      notifyListeners();
     } on FlutterException catch (e) {
       print(e);
       httpResponseFlutter.update(

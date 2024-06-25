@@ -94,12 +94,12 @@ class _SearchPageState extends State<SearchPage> {
             ),
             decoration: InputDecoration(
               hintText: widget.query,
-            
+
               focusedBorder: const OutlineInputBorder(
-                  // borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   borderSide: BorderSide(color: Colors.black)),
               border: const OutlineInputBorder(
-                  // borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   borderSide: BorderSide(color: Colors.black)),
             ),
           ),

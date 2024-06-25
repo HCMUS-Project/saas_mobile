@@ -6,23 +6,45 @@ import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
 import 'package:provider/provider.dart';
 
-class ServiceVoucher extends StatelessWidget {
-  ServiceVoucher({
-    Key? key,
-    required this.chosenVoucher
-  }) : super(key: key);
+class ServiceVoucher extends StatefulWidget {
+  ServiceVoucher({Key? key, required this.chosenVoucher}) : super(key: key);
   VoucherModel chosenVoucher;
+
+  @override
+  State<ServiceVoucher> createState() => _ServiceVoucherState();
+}
+
+class _ServiceVoucherState extends State<ServiceVoucher> {
+  List<Map<String, dynamic>>? vouchers;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: widget.chosenVoucher.id != null
+          ? Container(
+              height: 56,
+              padding: EdgeInsets.all(8),
+              child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(shape: RoundedRectangleBorder()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Agree",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  )),
+            )
+          : null,
       appBar: AppBar(
         title: Text("Voucher", style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: context
-            .read<BookingProvider>()
-            .getAllVoucher(token: context.read<AuthenticateProvider>().token!),
+        future: vouchers == null
+            ? context.read<BookingProvider>().getAllVoucher(
+                token: context.read<AuthenticateProvider>().token!)
+            : null,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
@@ -34,16 +56,19 @@ class ServiceVoucher extends StatelessWidget {
             );
           }
           final rs = snapshot.data?.result;
-          final vouchers = List<Map<String, dynamic>>.from(rs?['vouchers']);
+          vouchers = List<Map<String, dynamic>>.from(rs?['vouchers']);
           print(vouchers);
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomScrollView(
               slivers: [
                 ShowVoucher(
-                  chosenVoucher: chosenVoucher,
+                  chosenVoucher: widget.chosenVoucher,
+                  callback: () {
+                    setState(() {});
+                  },
                   vouchers:
-                      vouchers.map((e) => VoucherModel.fromJson(e)).toList(),
+                      vouchers!.map((e) => VoucherModel.fromJson(e)).toList(),
                 )
               ],
             ),
@@ -55,9 +80,14 @@ class ServiceVoucher extends StatelessWidget {
 }
 
 class ShowVoucher extends StatefulWidget {
-  ShowVoucher({super.key, required this.vouchers,required this.chosenVoucher});
+  ShowVoucher(
+      {super.key,
+      required this.vouchers,
+      required this.chosenVoucher,
+      required this.callback});
   List<VoucherModel> vouchers;
   VoucherModel chosenVoucher;
+  void Function() callback;
   @override
   State<ShowVoucher> createState() => _ShowVoucherState();
 }
@@ -69,11 +99,11 @@ class _ShowVoucherState extends State<ShowVoucher> {
         delegate: SliverChildBuilderDelegate(childCount: widget.vouchers.length,
             (context, index) {
       final voucher = widget.vouchers[index];
-      bool isChoose = false; 
-      if(widget.chosenVoucher.id  != null){
+      bool isChoose = false;
+      if (widget.chosenVoucher.id != null) {
         isChoose = voucher.id == widget.chosenVoucher.id;
       }
-  
+
       // final expiredTime = DateFormat('dd-MM-yyyy').format(
       //     DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z")
       //         .parse(voucher.expireAt!)
@@ -99,21 +129,30 @@ class _ShowVoucherState extends State<ShowVoucher> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: Text(voucher.voucherCode!, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold
-                        ),)),
+                        Expanded(
+                            child: Text(
+                          voucher.voucherCode!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        )),
                         Expanded(
                             child: Row(
                           children: [
                             Text("Max discount: "),
-                            Text(CurrencyConfig.convertTo(price:  voucher.maxDiscount!).toString())
+                            Text(CurrencyConfig.convertTo(
+                                    price: voucher.maxDiscount!)
+                                .toString())
                           ],
                         )),
                         Expanded(
                             child: Row(
                           children: [
                             Text("Min order: "),
-                            Text(CurrencyConfig.convertTo(price:  voucher.minAppValue!).toString())
+                            Text(CurrencyConfig.convertTo(
+                                    price: voucher.minAppValue!)
+                                .toString())
                           ],
                         )),
                         Expanded(
@@ -124,16 +163,20 @@ class _ShowVoucherState extends State<ShowVoucher> {
                     )),
                 Expanded(
                     flex: 3,
-                    child:
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:isChoose ? Colors.grey.shade200 : null
-                          ),
-                          onPressed: () {
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                isChoose ? Colors.grey.shade200 : null),
+                        onPressed: () {
                           setState(() {
                             widget.chosenVoucher.update(voucher);
                           });
-                        }, child:isChoose ? Text("Applied"): Text("Apply"))),
+                          widget.callback();
+                        },
+                        child: Text(
+                          isChoose ? "Applied" : "Apply",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ))),
               ],
             ),
           ),

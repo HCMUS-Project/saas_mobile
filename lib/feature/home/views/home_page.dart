@@ -177,7 +177,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
   int pageNo = 0;
   Timer getTimer() {
     return Timer.periodic(const Duration(seconds: 3), (timer) {
-      if (pageNo == homeProvider.banners.length ) {
+      if (pageNo == homeProvider.banners.length) {
         pageNo = 0;
       }
       if (pageController.hasClients) {
@@ -206,7 +206,10 @@ class _CarosselWidgetState extends State<CarosselWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final banners = homeProvider.banners;
+    print("build carrosel");
+    final banners =
+        context.select((HomeProvider homeProvider) => homeProvider.banners);
+
     return Column(
       children: [
         SizedBox(
@@ -220,6 +223,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
             itemCount: banners.length,
             itemBuilder: (context, index) {
               final banner = banners[index];
+
               return AnimatedBuilder(
                 animation: pageController,
                 builder: (context, child) {
@@ -308,8 +312,8 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.serviceName,
-                      style:
-                          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -380,7 +384,8 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                         Expanded(
                                           flex: 9,
                                           child: Container(
-                                            padding: const EdgeInsets.only(left: 8),
+                                            padding:
+                                                const EdgeInsets.only(left: 8),
                                             child: Text(
                                               service.name!,
                                               style: Theme.of(context)

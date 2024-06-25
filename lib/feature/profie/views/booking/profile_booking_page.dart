@@ -46,6 +46,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
     super.dispose();
     pagingController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -129,8 +130,8 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                     fillColor: Colors.white,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding:
-                                        const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                    contentPadding: const EdgeInsets.fromLTRB(
+                                        10, 10, 10, 0),
                                   ),
                                 ),
                               )),
@@ -235,19 +236,22 @@ class _EndDrawerState extends State<EndDrawer> {
                                         child: Row(
                                           children: [
                                             Expanded(
-                                                child: Text(service?['name'])),
+                                                child: Text(
+                                              service?['name'],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.fade,
+                                            )),
                                             if (widget.selectedServiceFilter
                                                 .contains(service?['id']))
-                                              const Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Padding(
-                                                  padding:
-                                                      EdgeInsets.all(8.0),
-                                                  child: CircleAvatar(
-                                                    radius: 12,
-                                                    child: Icon(Icons.check),
-                                                  ),
+                                              const Expanded(
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Icon(
+                                                      size: 12, Icons.check),
                                                 ),
                                               )
                                           ],
@@ -267,7 +271,6 @@ class _EndDrawerState extends State<EndDrawer> {
                 //filter by status
                 Expanded(
                   child: Container(
-                  
                     decoration: const BoxDecoration(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,7 +310,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                     });
                                   },
                                   child: Container(
-                                      padding: const EdgeInsets.all(2),
+                                    padding: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                         color: widget.selectedStatusFilter
                                                 .contains(bookingStatus)
@@ -320,15 +323,11 @@ class _EndDrawerState extends State<EndDrawer> {
                                         Expanded(child: Text(bookingStatus)),
                                         if (widget.selectedStatusFilter
                                             .contains(bookingStatus))
-                                          const Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.all(8.0),
-                                              child: CircleAvatar(
-                                                radius: 12,
-                                                child: Icon(Icons.check),
-                                              ),
+                                          const Expanded(
+                                            child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child:
+                                                  Icon(size: 12, Icons.check),
                                             ),
                                           )
                                       ],
@@ -354,7 +353,7 @@ class _EndDrawerState extends State<EndDrawer> {
                               widget.selectedServiceFilter.clear();
                               widget.selectedStatusFilter.clear();
                               widget.pagingController.refresh();
-                            Navigator.of(context).pop();
+                              Navigator.of(context).pop();
                             });
                           },
                           child: Text(
@@ -422,20 +421,20 @@ class _showBookingHistoryState extends State<showBookingHistory> {
             limit: 5,
             page: pageKey);
         final bookings = bookingProvider.bookingList;
+        
         final isLastPage = bookings.length < _pageSize;
         if (isLastPage) {
           widget.pagingController.appendLastPage(bookings);
         } else {
           final nextPageKey = pageKey + 1;
           widget.pagingController.appendPage(bookings, nextPageKey);
+          
         }
       } catch (e) {
         widget.pagingController.error = e;
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -486,6 +485,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                   .format(DateTime.parse(booking['startTime']));
               final startTime = DateFormat("HH:mm")
                   .format(DateTime.parse(booking['startTime']));
+
               return GestureDetector(
                 onTap: () => {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -498,14 +498,13 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                 },
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    
-                      borderRadius: BorderRadius.circular(15)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(15)),
                   height: 300,
                   child: Material(
                     borderRadius: const BorderRadius.only(
-                       topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
                     ),
@@ -579,7 +578,8 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                           Expanded(
                                               child: Row(
                                             children: [
-                                              const Icon(Icons.article_outlined),
+                                              const Icon(
+                                                  Icons.article_outlined),
                                               Row(
                                                 children: [
                                                   Text(
@@ -670,7 +670,8 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                                       .bold),
                                                     ),
                                                     Expanded(
-                                                      child: Text(booking['employee']
+                                                      child: Text(booking[
+                                                                  'employee']
                                                               ['firstName'] +
                                                           " " +
                                                           booking['employee']

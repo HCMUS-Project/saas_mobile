@@ -381,6 +381,7 @@ class _BookingPageState extends State<BookingPage> {
                                     ),
                                   ),
                                 ),
+                                if (catchErro2 != null)
                                 Text(
                                   catchErro2 ?? "",
                                   style: Theme.of(context)

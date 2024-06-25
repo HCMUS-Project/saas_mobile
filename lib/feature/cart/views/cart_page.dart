@@ -383,126 +383,146 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            shape: const CircleBorder(),
-                                            minimumSize: const Size(36, 36),
-                                            backgroundColor: Colors.white),
-                                        onPressed: () async {
-                                          await context
-                                              .read<CartProvider>()
-                                              .updateCart(
-                                                  token: context
-                                                      .read<
-                                                          AuthenticateProvider>()
-                                                      .token!,
-                                                  cartId: widget.cartId,
-                                                  quantity: quantityChange - 1,
-                                                  productId: widget
-                                                      .cartItem.product.id!);
-                                          final result = context
-                                              .read<CartProvider>()
-                                              .httpResponseFlutter
-                                              .result;
-                                          if (result == null) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    duration: const Duration(
-                                                        milliseconds: 100),
-                                                    content: Text(context
-                                                        .read<CartProvider>()
-                                                        .httpResponseFlutter
-                                                        .errorMessage!)));
-                                          } else {
-                                            setState2(
-                                              () {
-                                                quantityChange =
-                                                    quantityChange - 1;
-                                                widget.cartItem.quantity =
-                                                    quantityChange;
-                                                if (widget
-                                                    .cartProvider!.cartList
-                                                    .where((element) =>
-                                                        element.product.id ==
-                                                        widget.cartItem.product
-                                                            .id)
-                                                    .isNotEmpty) {
-                                                  widget.cartProvider
-                                                      ?.setTotal = widget
-                                                          .cartProvider!.total -
-                                                      widget.cartItem.product
-                                                          .price!;
-                                                }
-                                              },
-                                            );
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.remove,
-                                          color: Colors.black,
-                                        )),
-                                    Text(
-                                      quantityChange.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            shape: const CircleBorder(),
-                                            minimumSize: const Size(36, 36),
-                                            backgroundColor: Colors.white),
-                                        onPressed: () async {
-                                          await context
-                                              .read<CartProvider>()
-                                              .updateCart(
-                                                  token: context
-                                                      .read<
-                                                          AuthenticateProvider>()
-                                                      .token!,
-                                                  cartId: widget.cartId,
-                                                  quantity: quantityChange + 1,
-                                                  productId: widget
-                                                      .cartItem.product.id!);
-                                          final result = context
-                                              .read<CartProvider>()
-                                              .httpResponseFlutter
-                                              .result;
-                                          if (result == null) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    duration: const Duration(
-                                                        milliseconds: 100),
-                                                    content: Text(context
-                                                        .read<CartProvider>()
-                                                        .httpResponseFlutter
-                                                        .errorMessage!)));
-                                          } else {
-                                            setState2(() {
-                                              quantityChange =
-                                                  quantityChange + 1;
-                                              widget.cartItem.quantity =
-                                                  quantityChange;
-                                              if (widget.cartProvider!.cartList
-                                                  .where((element) =>
-                                                      element.product.id ==
-                                                      widget
-                                                          .cartItem.product.id)
-                                                  .isNotEmpty) {
-                                                widget.cartProvider?.setTotal =
-                                                    widget.cartProvider!.total +
-                                                        widget.cartItem.product
-                                                            .price!;
+                                    Expanded(
+                                      flex: 3,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 1,
+                                              padding: EdgeInsets.zero,
+                                                        
+                                                shape: const CircleBorder(),
+                                                // minimumSize: const Size(36, 36),
+                                                ),
+                                            onPressed: () async {
+                                              await context
+                                                  .read<CartProvider>()
+                                                  .updateCart(
+                                                      token: context
+                                                          .read<
+                                                              AuthenticateProvider>()
+                                                          .token!,
+                                                      cartId: widget.cartId,
+                                                      quantity: quantityChange - 1,
+                                                      productId: widget
+                                                          .cartItem.product.id!);
+                                              final result = context
+                                                  .read<CartProvider>()
+                                                  .httpResponseFlutter
+                                                  .result;
+                                              if (result == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        duration: const Duration(
+                                                            milliseconds: 100),
+                                                        content: Text(context
+                                                            .read<CartProvider>()
+                                                            .httpResponseFlutter
+                                                            .errorMessage!)));
+                                              } else {
+                                                setState2(
+                                                  () {
+                                                    quantityChange =
+                                                        quantityChange - 1;
+                                                    widget.cartItem.quantity =
+                                                        quantityChange;
+                                                    if (widget
+                                                        .cartProvider!.cartList
+                                                        .where((element) =>
+                                                            element.product.id ==
+                                                            widget.cartItem.product
+                                                                .id)
+                                                        .isNotEmpty) {
+                                                      widget.cartProvider
+                                                          ?.setTotal = widget
+                                                              .cartProvider!.total -
+                                                          widget.cartItem.product
+                                                              .price!;
+                                                    }
+                                                  },
+                                                );
                                               }
-                                            });
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.add,
-                                          color: Colors.black,
-                                        )),
+                                            },
+                                            child: const Icon(
+                                              
+                                              Icons.remove,
+                                                                             
+                                            )),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Text(
+                                        textAlign: TextAlign.center,
+                                        quantityChange.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: ElevatedButton(
+                                            
+                                            style: ElevatedButton.styleFrom(
+                                                elevation: 1,
+                                                padding: EdgeInsets.zero,
+                                                shape: const CircleBorder(),
+                                                // minimumSize: const Size(36, 36),
+                                                ),
+                                            onPressed: () async {
+                                              await context
+                                                  .read<CartProvider>()
+                                                  .updateCart(
+                                                      token: context
+                                                          .read<
+                                                              AuthenticateProvider>()
+                                                          .token!,
+                                                      cartId: widget.cartId,
+                                                      quantity: quantityChange + 1,
+                                                      productId: widget
+                                                          .cartItem.product.id!);
+                                              final result = context
+                                                  .read<CartProvider>()
+                                                  .httpResponseFlutter
+                                                  .result;
+                                              if (result == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        duration: const Duration(
+                                                            milliseconds: 100),
+                                                        content: Text(context
+                                                            .read<CartProvider>()
+                                                            .httpResponseFlutter
+                                                            .errorMessage!)));
+                                              } else {
+                                                setState2(() {
+                                                  quantityChange =
+                                                      quantityChange + 1;
+                                                  widget.cartItem.quantity =
+                                                      quantityChange;
+                                                  if (widget.cartProvider!.cartList
+                                                      .where((element) =>
+                                                          element.product.id ==
+                                                          widget
+                                                              .cartItem.product.id)
+                                                      .isNotEmpty) {
+                                                    widget.cartProvider?.setTotal =
+                                                        widget.cartProvider!.total +
+                                                            widget.cartItem.product
+                                                                .price!;
+                                                  }
+                                                });
+                                              }
+                                            },
+                                            child: Icon(Icons.add,)),
+                                      ),
+                                    ),
                                   ],
                                 )
                               ],
