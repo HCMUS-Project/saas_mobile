@@ -61,25 +61,32 @@ class _StateOfOrdersState extends State<StateOfOrders> {
     stateList = [];
     for (int index = 0; index < OrderState.values.length; index++) {
       OrderState state = OrderState.values[index];
-      stateList.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: _selectedStateIndex == index
-                ? Theme.of(context).colorScheme.secondary
-                : Colors.white,
-          ),
-          onPressed: () async {
-            await context.read<ProfileProvider>().GetOrder(state: state.name);
-            setState(() {
-              _selectedStateIndex = index;
-            });
-          },
-          child: Text(
-            state.name,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color:
-                    _selectedStateIndex == index ? Colors.white : Colors.black),
-          )));
+      stateList.add(Row(
+        children: [
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: _selectedStateIndex == index
+                    ? Theme.of(context).colorScheme.secondary
+                    : Colors.white,
+              ),
+              onPressed: () async {
+                await context.read<ProfileProvider>().GetOrder(state: state.name);
+                setState(() {
+                  _selectedStateIndex = index;
+                });
+              },
+              child: Text(
+                state.name,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color:
+                        _selectedStateIndex == index ? Colors.white : Colors.black),
+              )),
+          SizedBox(
+            width: 10,
+          )
+        ],
+      ));
     }
     return Container(
         padding: const EdgeInsets.all(8),

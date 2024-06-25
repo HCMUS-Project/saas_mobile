@@ -140,6 +140,8 @@ class BookingProvider extends ChangeNotifier {
       String? endTime}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
+      httpResponseFlutter.update(isLoading: true);
+      notifyListeners();
       Map<String, dynamic> queryParameters = {
         "employee": employee,
         "startTime": startTime,
@@ -165,10 +167,14 @@ class BookingProvider extends ChangeNotifier {
 
       final result = Map<String, dynamic>.from(body);
       httpResponseFlutter.update(
-          result: result['data'], statusCode: rs.statusCode);
+          result: result['data'], statusCode: rs.statusCode, isLoading: false);
+      notifyListeners();
     } on FlutterException catch (e) {
       httpResponseFlutter.update(
-          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+          isLoading: false,
+          result: e.toJson()['message'],
+          statusCode: e.toJson()['statusCode']);
+      notifyListeners();
     }
   }
 
@@ -183,6 +189,7 @@ class BookingProvider extends ChangeNotifier {
       required String service,
       required String note,
       String? employee,
+      String? voucher,
       required String startTime}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
@@ -193,9 +200,11 @@ class BookingProvider extends ChangeNotifier {
       data['service'] = service;
       data['startTime'] = startTime;
       data['employee'] = employee;
+      data['voucher'] = voucher;
       print(date);
       print(service);
       print(startTime);
+      print(voucher);
       final rs = await http.post(headers: {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'Content-type': 'application/json',
@@ -203,7 +212,7 @@ class BookingProvider extends ChangeNotifier {
       }, uri, body: json.encode(data));
 
       final body = json.decode(rs.body);
-
+      print(body);
       if (rs.statusCode >= 400) {
         throw FlutterException(body['message'], rs.statusCode);
       }
@@ -212,6 +221,7 @@ class BookingProvider extends ChangeNotifier {
       httpResponseFlutter.update(
           result: result['data'], statusCode: rs.statusCode);
     } on FlutterException catch (e) {
+      print(e);
       httpResponseFlutter.update(
           result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
     }
@@ -233,7 +243,7 @@ class BookingProvider extends ChangeNotifier {
         "page": page.toString(),
         "limit": limit.toString()
       };
-      
+
       queryParameters.removeWhere((key, value) => value == null);
 
       final uri =
@@ -260,6 +270,34 @@ class BookingProvider extends ChangeNotifier {
       print(e);
       httpResponseFlutter.update(
           result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+    }
+  }
+
+  Future<HttpResponseFlutter> getAllVoucher({
+    required String token,
+
+  }) async {
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      final uri =
+          Uri.tryParse("${dotenv.env['HTTP_URI']}booking/voucher/find/all");
+      final rs = await http.get(headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }, uri!);
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+      final result = Map<String, dynamic>.from(body);
+      httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
+      return httpResponseFlutter;
+    }on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
     }
   }
 }

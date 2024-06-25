@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
               final rs = value.httpResponseFlutter.result?['themeConfig'];
               
               final theme = ThemeConfig.fromJson(rs);
-              
+             
               return MaterialApp(
                 title: 'Flutter Demo',
                 debugShowCheckedModeBanner: false,
