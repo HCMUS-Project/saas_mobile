@@ -1,9 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +11,8 @@ import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.d
 import 'package:provider/provider.dart';
 
 class ProfileBooking extends StatefulWidget {
+  const ProfileBooking({super.key});
+
   @override
   State<ProfileBooking> createState() => _ProfileBookingState();
 }
@@ -60,7 +59,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
                 selectedStatusFilter: selectedStatusFilter,
                 services: services),
             body: snapshot.connectionState == ConnectionState.waiting
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(
                       color: Colors.black,
                     ),
@@ -77,12 +76,12 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                 onPressed: () async {
                                   Scaffold.of(context).openEndDrawer();
                                 },
-                                icon: Icon(Icons.filter_alt_outlined))
+                                icon: const Icon(Icons.filter_alt_outlined))
                           ],
                           title: Container(
                             height: 90,
                             alignment: Alignment.bottomLeft,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -91,7 +90,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    icon: Icon(Icons.arrow_back)),
+                                    icon: const Icon(Icons.arrow_back)),
                                 Text(
                                   "Let's find your booking!",
                                   style: Theme.of(context)
@@ -105,20 +104,20 @@ class _ProfileBookingState extends State<ProfileBooking> {
                             ),
                           ),
                           bottom: PreferredSize(
-                              preferredSize: Size.fromHeight(80),
+                              preferredSize: const Size.fromHeight(80),
                               child: Container(
-                                decoration: BoxDecoration(),
-                                padding: EdgeInsets.all(20),
+                                decoration: const BoxDecoration(),
+                                padding: const EdgeInsets.all(20),
                                 child: TextField(
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
                                       ?.copyWith(fontSize: 18),
                                   decoration: InputDecoration(
-                                    prefixIconConstraints: BoxConstraints(
+                                    prefixIconConstraints: const BoxConstraints(
                                         minWidth: 32, minHeight: 32),
-                                    prefixIcon: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                    prefixIcon: const Padding(
+                                      padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.search,
                                         size: 24,
@@ -131,7 +130,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                     filled: true,
                                     isDense: true,
                                     contentPadding:
-                                        EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                        const EdgeInsets.fromLTRB(10, 10, 10, 0),
                                   ),
                                 ),
                               )),
@@ -170,7 +169,7 @@ class _EndDrawerState extends State<EndDrawer> {
     return SafeArea(
       child: Drawer(
         child: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -186,7 +185,7 @@ class _EndDrawerState extends State<EndDrawer> {
                 ),
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -202,7 +201,7 @@ class _EndDrawerState extends State<EndDrawer> {
                             child: Align(
                               // alignment: Alignment.topLeft,
                               child: AlignedGridView.count(
-                                padding: EdgeInsets.all(0),
+                                padding: const EdgeInsets.all(0),
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 4,
                                 mainAxisSpacing: 4,
@@ -224,7 +223,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                       });
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.all(2),
+                                      padding: const EdgeInsets.all(2),
                                       decoration: BoxDecoration(
                                           color: widget.selectedServiceFilter
                                                   .contains(service?['id'])
@@ -244,7 +243,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                                     Alignment.centerRight,
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      EdgeInsets.all(8.0),
                                                   child: CircleAvatar(
                                                     radius: 12,
                                                     child: Icon(Icons.check),
@@ -269,7 +268,7 @@ class _EndDrawerState extends State<EndDrawer> {
                 Expanded(
                   child: Container(
                   
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -284,7 +283,7 @@ class _EndDrawerState extends State<EndDrawer> {
                           child: Align(
                             // alignment: Alignment.topLeft,
                             child: AlignedGridView.count(
-                              padding: EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(0),
                               crossAxisCount: 2,
                               crossAxisSpacing: 4,
                               mainAxisSpacing: 4,
@@ -308,7 +307,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                     });
                                   },
                                   child: Container(
-                                      padding: EdgeInsets.all(2),
+                                      padding: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                         color: widget.selectedStatusFilter
                                                 .contains(bookingStatus)
@@ -325,7 +324,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                             alignment: Alignment.centerRight,
                                             child: Padding(
                                               padding:
-                                                  const EdgeInsets.all(8.0),
+                                                  EdgeInsets.all(8.0),
                                               child: CircleAvatar(
                                                 radius: 12,
                                                 child: Icon(Icons.check),
@@ -365,7 +364,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                 .bodyMedium
                                 ?.copyWith(),
                           )),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       ElevatedButton(
@@ -407,7 +406,7 @@ class showBookingHistory extends StatefulWidget {
 class _showBookingHistoryState extends State<showBookingHistory> {
   late BookingProvider bookingProvider;
 
-  int _pageSize = 5;
+  final int _pageSize = 5;
   @override
   void initState() {
     // TODO: implement initState
@@ -442,7 +441,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
   Widget build(BuildContext context) {
     print(context.read<AuthenticateProvider>().token!);
     return SliverPadding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       sliver: PagedSliverList(
           pagingController: widget.pagingController,
           builderDelegate: PagedChildBuilderDelegate(
@@ -460,18 +459,18 @@ class _showBookingHistoryState extends State<showBookingHistory> {
               );
             },
             firstPageErrorIndicatorBuilder: (context) {
-              return Center(
+              return const Center(
                 child: Text("Somethings went wrong!"),
               );
             },
             newPageErrorIndicatorBuilder: (context) {
-              return Center(
+              return const Center(
                 child: Text("Somethings went wrong!"),
               );
             },
             newPageProgressIndicatorBuilder: (context) {
               return Container(
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
                   ),
@@ -498,13 +497,13 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                   ))
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     
                       borderRadius: BorderRadius.circular(15)),
                   height: 300,
                   child: Material(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                        topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15),
                       bottomLeft: Radius.circular(15),
@@ -518,7 +517,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.amber,
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15),
                                   ),
@@ -531,8 +530,8 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                         Expanded(
                           flex: 6,
                           child: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(15),
                                 bottomRight: Radius.circular(15),
@@ -543,7 +542,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                 Expanded(
                                     flex: 3,
                                     child: Container(
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(15),
@@ -565,13 +564,13 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                         ],
                                       ),
                                     )),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Expanded(
                                     flex: 7,
                                     child: Container(
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
@@ -580,7 +579,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                           Expanded(
                                               child: Row(
                                             children: [
-                                              Icon(Icons.article_outlined),
+                                              const Icon(Icons.article_outlined),
                                               Row(
                                                 children: [
                                                   Text(
@@ -603,7 +602,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                           Expanded(
                                               child: Row(
                                             children: [
-                                              Icon(Icons.info_outline),
+                                              const Icon(Icons.info_outline),
                                               Container(
                                                 child: Text(
                                                   "service: ",
@@ -615,7 +614,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                               FontWeight.bold),
                                                 ),
                                               ),
-                                              Container(
+                                              SizedBox(
                                                 width: 100,
                                                 child: Text(
                                                   booking['service']['name'],
@@ -630,7 +629,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                           Expanded(
                                               child: Row(
                                             children: [
-                                              Image(
+                                              const Image(
                                                 image: AssetImage(
                                                     "assets/images/social-media.png"),
                                                 height: 24,
@@ -656,7 +655,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                           Expanded(
                                               child: Row(
                                             children: [
-                                              Icon(Icons.people_outline),
+                                              const Icon(Icons.people_outline),
                                               Expanded(
                                                 child: Row(
                                                   children: [

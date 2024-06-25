@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
@@ -36,7 +33,7 @@ class _ReviewPageState extends State<ReviewPage> {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Column(
             children: [
               Expanded(
@@ -120,11 +117,11 @@ class _ReviewPageState extends State<ReviewPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            const Icon(
               Icons.edit,
               color: Colors.white,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Text(
@@ -181,7 +178,7 @@ class _ListReviewState extends State<ListReview> {
           return Container(
             decoration:
                 BoxDecoration(color: Theme.of(context).colorScheme.primary),
-            child: Center(),
+            child: const Center(),
           );
         }
         final result = context.read<ShopProvider>().httpResponseFlutter.result!;
@@ -193,7 +190,7 @@ class _ListReviewState extends State<ListReview> {
               itemCount: reviews.length + 1,
               itemBuilder: (context, index) {
                 if (index >= reviews.length) {
-                  return Padding(
+                  return const Padding(
                     padding: EdgeInsets.zero,
                     child: Center(child: CircularProgressIndicator()),
                   );
@@ -201,14 +198,14 @@ class _ListReviewState extends State<ListReview> {
                   final review = ReviewModel.fromJson(reviews[index]);
                   return LayoutBuilder(
                     builder: (context, constraints) => Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
                       child: Stack(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 8,
                             ),
-                            margin: EdgeInsets.only(top: 5),
+                            margin: const EdgeInsets.only(top: 5),
                             width: constraints.maxWidth,
                             child: Material(
                               elevation: 2,
@@ -219,7 +216,7 @@ class _ListReviewState extends State<ListReview> {
                                     child: Text(review.user!),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(left: 8),
+                                    padding: const EdgeInsets.only(left: 8),
                                     alignment: Alignment.centerLeft,
                                     child: Text(review.review!),
                                   )
@@ -227,9 +224,9 @@ class _ListReviewState extends State<ListReview> {
                               ),
                             ),
                           ),
-                          Align(
+                          const Align(
                             alignment: Alignment.centerLeft,
-                            child: Container(
+                            child: SizedBox(
                               height: 35,
                               child: CircleAvatar(
                                 child: Image(
@@ -243,6 +240,7 @@ class _ListReviewState extends State<ListReview> {
                     ),
                   );
                 }
+                return null;
               },
             ));
       },
@@ -271,7 +269,7 @@ class RatingHeader extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Expanded(
@@ -279,7 +277,7 @@ class RatingHeader extends StatelessWidget {
             textDirection: TextDirection.rtl,
             children: [
               RatingBar(
-                itemPadding: EdgeInsets.all(2),
+                itemPadding: const EdgeInsets.all(2),
                 itemSize: 18.0,
                 direction: Axis.horizontal,
                 allowHalfRating: true,

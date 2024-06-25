@@ -1,12 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
@@ -17,13 +12,13 @@ import 'package:mobilefinalhcmus/feature/cart/provider/cart_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/views/cart_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
-import 'package:mobilefinalhcmus/feature/shop/views/product_detail.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/show_all_product.dart';
-import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
+  const ProductPage({super.key});
+
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
@@ -56,9 +51,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double widthContainer = 250;
+    const double widthContainer = 250;
     return Scaffold(
-      appBar: ProductPageAppBar(),
+      appBar: const ProductPageAppBar(),
       body: FutureBuilder(
           future: context.read<ShopProvider>().getAllProduct(
                 domain: context.read<AuthenticateProvider>().domain!,
@@ -102,7 +97,7 @@ class _ProductPageState extends State<ProductPage> {
                       child: Container(
                         height: widthContainer,
                         decoration: BoxDecoration(
-                            image: DecorationImage(
+                            image: const DecorationImage(
                                 image: NetworkImage(
                                     "https://cdn.shopify.com/s/files/1/2384/0833/files/1_Quiff_1024x1024.jpg?v=1668876008"),
                                 fit: BoxFit.fill),
@@ -160,7 +155,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
         }
 
         return Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           height: widthContainer * 3 / 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +173,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                 flex: 10,
                 child: ListView.separated(
                   separatorBuilder: (context, index) {
-                    return SizedBox(
+                    return const SizedBox(
                       width: 10,
                     );
                   },
@@ -200,7 +195,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                           child: Column(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   width: widthContainer,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +234,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         shape:
-                                                            RoundedRectangleBorder(),
+                                                            const RoundedRectangleBorder(),
                                                       ),
                                                       onPressed:
                                                           product.quantity! > 0
@@ -273,7 +268,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                                               child:
                                                                                   Container(
                                                                                 alignment: Alignment.center,
-                                                                                child: Container(
+                                                                                child: SizedBox(
                                                                                   height: size.height * 0.2,
                                                                                   width: size.width * 0.5,
                                                                                   child: Material(
@@ -285,7 +280,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                                                           Expanded(
                                                                                             flex: 8,
                                                                                             child: Container(
-                                                                                              child: Image(
+                                                                                              child: const Image(
                                                                                                 image: AssetImage("assets/images/logo_0.png"),
                                                                                               ),
                                                                                             ),
@@ -305,7 +300,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                                               ));
                                                                       controller[
                                                                           "show"]();
-                                                                      await Future.delayed(Duration(
+                                                                      await Future.delayed(const Duration(
                                                                           seconds:
                                                                               1));
                                                                       controller[
@@ -373,6 +368,8 @@ class ShowCategoryOfProduct extends StatelessWidget {
 }
 
 class ProductPageAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const ProductPageAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -396,12 +393,12 @@ class ProductPageAppBar extends StatelessWidget implements PreferredSizeWidget {
               } else {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return CartPage();
+                    return const CartPage();
                   },
                 ));
               }
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.shopping_cart_outlined,
             )),
       ],
@@ -410,12 +407,12 @@ class ProductPageAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 }
 
 class ShowProduct extends StatefulWidget {
   ShowProduct(
-      {required this.productList,
+      {super.key, required this.productList,
       required this.showProductStream,
       required this.selectedGrid});
 
@@ -461,7 +458,7 @@ class _ShowProductState extends State<ShowProduct> {
     double sizeof10item = (size.width) * 0.37;
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 40,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -475,7 +472,7 @@ class _ShowProductState extends State<ShowProduct> {
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondary;
               return Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0.5,
@@ -496,7 +493,7 @@ class _ShowProductState extends State<ShowProduct> {
           ),
         ),
         Container(
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -504,14 +501,14 @@ class _ShowProductState extends State<ShowProduct> {
                 Column(
                   children: convertToArrayProduct(productData),
                 ),
-                Container(
+                SizedBox(
                   width: size.width / 3,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(),
+                          shape: const RoundedRectangleBorder(),
                           backgroundColor: Colors.white,
                           elevation: 0,
-                          side: BorderSide(color: Colors.black)),
+                          side: const BorderSide(color: Colors.black)),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
@@ -531,7 +528,7 @@ class _ShowProductState extends State<ShowProduct> {
                                 .bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward,
                             color: Colors.black,
                           ),
@@ -563,13 +560,13 @@ class _ShowProductState extends State<ShowProduct> {
         },
         child: Container(
           height: 140,
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration
           (
             color: Colors.white,
             borderRadius: BorderRadius.circular(15)
           ),
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           child: Row(
             children: [
               Expanded(
@@ -606,7 +603,7 @@ class _ShowProductState extends State<ShowProduct> {
                         ),
                         RatingBar(
                           ignoreGestures: true,
-                          itemPadding: EdgeInsets.all(2),
+                          itemPadding: const EdgeInsets.all(2),
                           itemSize: 18.0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,

@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:provider/provider.dart';
 
 class ServicePage extends StatelessWidget {
+  const ServicePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -48,7 +48,7 @@ class ServicePage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.amber),
-                            margin: EdgeInsets.all(8),
+                            margin: const EdgeInsets.all(8),
                             child: Material(
                               elevation: 1,
                               borderRadius: BorderRadius.circular(15),
@@ -61,7 +61,7 @@ class ServicePage extends StatelessWidget {
                                               image: NetworkImage(
                                                   (service.images?[0])!),
                                               fit: BoxFit.fill),
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(15),
                                             bottomLeft: Radius.circular(15),
                                           )),
@@ -69,8 +69,8 @@ class ServicePage extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(
                                         
                                         borderRadius: BorderRadius.only(
                                             topRight: Radius.circular(15),
@@ -91,16 +91,16 @@ class ServicePage extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.timer_outlined,
                                               
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 5,
                                             ),
                                             Text(
@@ -116,7 +116,7 @@ class ServicePage extends StatelessWidget {
                                             )
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
                                         Text(

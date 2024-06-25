@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/config/http_response.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -44,10 +41,10 @@ class _OrderDetailState extends State<OrderDetail> {
       body: LayoutBuilder(
         builder: (context, constraints) => Container(
           child: SingleChildScrollView(
-            padding: EdgeInsets.only(left: 8, right: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8),
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   height: constraints.maxHeight * 0.09,
                   child: Column(
                     children: [
@@ -63,7 +60,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                 flex: 2,
                                 child: Container(
                                   height: constraints.maxHeight * 0.05,
-                                  decoration: BoxDecoration(),
+                                  decoration: const BoxDecoration(),
                                   child: Text(
                                       "${dateOfOrder?.day}/${dateOfOrder?.month}/${dateOfOrder?.year}"),
                                 ))
@@ -143,7 +140,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           Expanded(
                               child: Container(
                                   alignment: Alignment.topLeft,
-                                  child: Text("Shipping address: "))),
+                                  child: const Text("Shipping address: "))),
                           Expanded(
                               child: Container(
                                   alignment: Alignment.topLeft,
@@ -153,7 +150,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
+                      const Row(
                         children: [
                           Expanded(child: Text("Payment method: ")),
                           Expanded(child: Text("On cash"))
@@ -162,7 +159,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
+                      const Row(
                         children: [
                           Expanded(child: Text("Delivery method: ")),
                           Expanded(child: Text("Xe om"))
@@ -174,14 +171,14 @@ class _OrderDetailState extends State<OrderDetail> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(child: Text("Discount: ")),
+                          const Expanded(child: Text("Discount: ")),
                           Expanded(child: Text(voucherId.toString()))
                         ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
+                      const Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: Text("Total Amount: ")),
@@ -200,14 +197,14 @@ class _OrderDetailState extends State<OrderDetail> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                            onPressed: () {}, child: Text("Cancel")),
+                            onPressed: () {}, child: const Text("Cancel")),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
                       Expanded(
                           child: ElevatedButton(
-                              onPressed: () {}, child: Text("Reorder")))
+                              onPressed: () {}, child: const Text("Reorder")))
                     ],
                   ),
                 ),
@@ -236,7 +233,7 @@ class _OrderDetailState extends State<OrderDetail> {
       //after
       final convertToProduct = ProductModel.fromJson(response.result?['data']);
       data.add(Container(
-        margin: EdgeInsets.only(top: 5),
+        margin: const EdgeInsets.only(top: 5),
         child: Material(
           borderRadius: BorderRadius.circular(15),
           elevation: 1,

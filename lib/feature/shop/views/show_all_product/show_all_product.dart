@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobilefinalhcmus/components/custom_search_delegate.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/views/cart_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
-import 'package:mobilefinalhcmus/feature/shop/views/product_detail.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/filter_widget.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/product.dart';
@@ -54,7 +51,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
              
             )),
@@ -73,7 +70,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
                             builder:(context, snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting){
                                 return Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.transparent
                                   ),
                                 );
@@ -114,7 +111,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return CartPage();
+                    return const CartPage();
                   },
                 ));
               },
@@ -123,7 +120,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: Column(
           children: [
             //filter component
@@ -147,7 +144,7 @@ class _ShowAllProductState extends State<ShowAllProduct> {
                         final product = value.filterProductList?[index];
                         if (product == null) {
                           return  Container(
-                            child: Center(
+                            child: const Center(
                               child: Text("There is no product"),
                             ),
                           );

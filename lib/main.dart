@@ -21,12 +21,12 @@ import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
-import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences prefs;
 final appLinks = AppLinks();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print("troi oi la troi");
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -90,17 +90,17 @@ class MyApp extends StatelessWidget {
                 theme: theme.theme,
                 initialRoute: '/',
                 routes: {
-                  '/': (context) => IntroPage(),
-                  '/tenant': (context) => TenantPage(),
+                  '/': (context) => const IntroPage(),
+                  '/tenant': (context) => const TenantPage(),
                   '/auth/login': (context) => LoginPage(),
-                  '/auth/signup': (context) => RegisterPage(),
-                  '/home': (context) => MainPage(),
+                  '/auth/signup': (context) => const RegisterPage(),
+                  '/home': (context) => const MainPage(),
                   '/forgetpassword': (context) => ForgetPasswordPage(),
                   '/shop/search_page': (context) => SearchPage(),
                   '/forgetpassword/verify': (context) => VerifyPasswordPage(),
                   '/forgetpassword/createpassword': (context) =>
                       CreatePasswordPage(),
-                  '/profile/orders': (context) => OrderPage(),
+                  '/profile/orders': (context) => const OrderPage(),
                 },
               );
             },

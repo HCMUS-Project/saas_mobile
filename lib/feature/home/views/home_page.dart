@@ -1,23 +1,20 @@
 import 'dart:async';
 
-import 'package:app_links/app_links.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
-import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/views/detail_service.dart';
-import 'package:mobilefinalhcmus/feature/home/views/main_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -68,10 +65,10 @@ class _HomePageState extends State<HomePage> {
 
           print(products);
           return Scaffold(
-            appBar: AppBarHomePage(),
+            appBar: const AppBarHomePage(),
             body: CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(child: CarosselWidget()),
+                const SliverToBoxAdapter(child: CarosselWidget()),
                 result_1 == null
                     ? SliverGrid(
                         gridDelegate: SliverQuiltedGridDelegate(
@@ -80,8 +77,8 @@ class _HomePageState extends State<HomePage> {
                           crossAxisSpacing: 4,
                           repeatPattern: QuiltedGridRepeatPattern.inverted,
                           pattern: [
-                            QuiltedGridTile(1, 1),
-                            QuiltedGridTile(1, 1),
+                            const QuiltedGridTile(1, 1),
+                            const QuiltedGridTile(1, 1),
                           ],
                         ),
                         delegate: SliverChildBuilderDelegate(
@@ -98,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                 SliverMainAxisGroup(
                   slivers: <Widget>[
-                    SliverPadding(
+                    const SliverPadding(
                       padding: EdgeInsets.all(8),
                       sliver: SliverToBoxAdapter(
                         child: Text("Top seller",
@@ -114,9 +111,9 @@ class _HomePageState extends State<HomePage> {
                               crossAxisSpacing: 4,
                               repeatPattern: QuiltedGridRepeatPattern.inverted,
                               pattern: [
-                                QuiltedGridTile(2, 2),
-                                QuiltedGridTile(1, 1),
-                                QuiltedGridTile(1, 1),
+                                const QuiltedGridTile(2, 2),
+                                const QuiltedGridTile(1, 1),
+                                const QuiltedGridTile(1, 1),
                               ],
                             ),
                             delegate: SliverChildBuilderDelegate(
@@ -134,9 +131,9 @@ class _HomePageState extends State<HomePage> {
                                 repeatPattern:
                                     QuiltedGridRepeatPattern.inverted,
                                 pattern: [
-                                  QuiltedGridTile(2, 2),
-                                  QuiltedGridTile(1, 1),
-                                  QuiltedGridTile(1, 1),
+                                  const QuiltedGridTile(2, 2),
+                                  const QuiltedGridTile(1, 1),
+                                  const QuiltedGridTile(1, 1),
                                 ],
                               ),
                               delegate: SliverChildBuilderDelegate(
@@ -185,7 +182,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
       }
       if (pageController.hasClients) {
         pageController.animateToPage(pageNo,
-            duration: Duration(seconds: 1), curve: Curves.easeInOutCirc);
+            duration: const Duration(seconds: 1), curve: Curves.easeInOutCirc);
         pageNo++;
       }
     });
@@ -239,7 +236,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
                     carasouelTmer = getTimer();
                   },
                   child: Container(
-                    margin: EdgeInsets.all(24.0),
+                    margin: const EdgeInsets.all(24.0),
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: NetworkImage(banner['image']),
@@ -257,7 +254,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
           children: List.generate(
               banners.length,
               (index) => Container(
-                    margin: EdgeInsets.all(2.0),
+                    margin: const EdgeInsets.all(2.0),
                     child: SizedBox(
                       child: Icon(
                         Icons.circle,
@@ -303,7 +300,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) => Container(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         child: Column(
           children: [
             Container(
@@ -312,7 +309,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                 children: [
                   Text(widget.serviceName,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -324,12 +321,12 @@ class _ServiceCategoryState extends State<ServiceCategory> {
               width: double.infinity,
               child: GridView.builder(
                 padding: EdgeInsets.zero,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 4 / 3,
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 5),
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: widget.services.length,
                 itemBuilder: (context, index) {
                   final service = ServiceModel.fromJson(widget.services[index]);
@@ -350,10 +347,10 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                           children: [
                             Expanded(
                                 flex: 8,
-                                child: Container(
+                                child: SizedBox(
                                   width: double.infinity,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(15),
                                       topRight: Radius.circular(15),
                                     ),
@@ -369,7 +366,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                     alignment: Alignment.center,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(15),
                                           bottomRight: Radius.circular(15),
                                         ),
@@ -383,7 +380,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                         Expanded(
                                           flex: 9,
                                           child: Container(
-                                            padding: EdgeInsets.only(left: 8),
+                                            padding: const EdgeInsets.only(left: 8),
                                             child: Text(
                                               service.name!,
                                               style: Theme.of(context)
@@ -395,7 +392,7 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                             ),
                                           ),
                                         ),
-                                        Expanded(
+                                        const Expanded(
                                           flex: 1,
                                           child: Align(
                                             child: Icon(
@@ -422,6 +419,8 @@ class _ServiceCategoryState extends State<ServiceCategory> {
 }
 
 class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
+  const AppBarHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -450,7 +449,7 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 }
 
 class ProductCategory extends StatelessWidget {
@@ -460,7 +459,7 @@ class ProductCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [],
     );
   }

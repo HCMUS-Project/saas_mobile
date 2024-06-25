@@ -26,7 +26,7 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
         toolbarHeight: 56.0, // Minimize the AppBar height
         color: theme.colorScheme.primary,
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         constraints: BoxConstraints(maxHeight: 36),
         contentPadding:
             EdgeInsets.all(8.0), // Minimize padding within the search field
@@ -46,7 +46,7 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
 
   @override
   TextStyle get searchFieldStyle {
-    return TextStyle(
+    return const TextStyle(
       color: Colors.black,
       fontSize: 14.0, // Minimize the font size
     );

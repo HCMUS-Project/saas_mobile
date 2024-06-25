@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -20,7 +19,7 @@ class ProductWidget extends StatelessWidget {
 
     return Container(
       height: sizeOfContainer,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15)
@@ -55,7 +54,7 @@ class ProductWidget extends StatelessWidget {
                             child: RatingBar(
                               glowColor: Theme.of(context).colorScheme.secondary,
                               ignoreGestures: true,
-                              itemPadding: EdgeInsets.all(2),
+                              itemPadding: const EdgeInsets.all(2),
                               itemSize: 18.0,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -80,10 +79,10 @@ class ProductWidget extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
 
                             padding: EdgeInsets.zero,
-                            shape: CircleBorder(),
-                            minimumSize: Size(36, 36)),
+                            shape: const CircleBorder(),
+                            minimumSize: const Size(36, 36)),
                         onPressed: () {},
-                        child: ImageIcon(AssetImage("assets/images/heart_border.png"), color: Colors.amber,))),
+                        child: const ImageIcon(AssetImage("assets/images/heart_border.png"), color: Colors.amber,))),
               ],
             ),
           ),

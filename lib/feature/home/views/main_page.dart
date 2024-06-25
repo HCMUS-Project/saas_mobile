@@ -2,22 +2,19 @@ import 'dart:async';
 
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/booking_page.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/views/home_page.dart';
-import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profie_page.dart';
-import 'package:mobilefinalhcmus/feature/service/views/service_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/product_page.dart';
 import 'package:mobilefinalhcmus/main.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({
+  const MainPage({
     super.key,
   });
   @override
@@ -29,15 +26,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   late HomeProvider homeProvider;
   late AuthenticateProvider authenticateProvider;
   List<Widget> tabItems = [
-    HomePage(),
-    ProductPage(),
+    const HomePage(),
+    const ProductPage(),
     BookingPage(),
     // ServicePage(),
-    ProfiePage()
+    const ProfiePage()
   ];
 
   Timer getRefreshToken() {
-    return Timer.periodic(Duration(hours: 1), (timer) async {
+    return Timer.periodic(const Duration(hours: 1), (timer) async {
       print("expired token");
       await authenticateProvider.refreshTokenFunc(
           refreshToken: authenticateProvider.refreshToken!);
@@ -57,7 +54,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           if (params['message'].toString().toLowerCase() == "success") {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) {
-                return SuccessPage();
+                return const SuccessPage();
               },
             ));
           }
@@ -172,24 +169,24 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
         items: [
           FlashyTabBarItem(
-            icon: Icon(Icons.home_outlined),
-            title: Text('Home'),
+            icon: const Icon(Icons.home_outlined),
+            title: const Text('Home'),
           ),
           FlashyTabBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            title: Text('Shop'),
+            icon: const Icon(Icons.shopping_cart_outlined),
+            title: const Text('Shop'),
           ),
           FlashyTabBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            title: Text('Book'),
+            icon: const Icon(Icons.shopping_bag_outlined),
+            title: const Text('Book'),
           ),
           // FlashyTabBarItem(
           //   icon: Icon(Icons.book_outlined),
           //   title: Text('Service'),
           // ),
           FlashyTabBarItem(
-            icon: Icon(Icons.person_4_outlined),
-            title: Text('Profile'),
+            icon: const Icon(Icons.person_4_outlined),
+            title: const Text('Profile'),
           ),
         ],
       ),

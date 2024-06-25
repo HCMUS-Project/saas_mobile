@@ -1,13 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
-import 'package:mobilefinalhcmus/enum/work_shift.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
-import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:mobilefinalhcmus/feature/book/views/service_page/service_page.dart';
@@ -20,6 +16,8 @@ import 'package:quickalert/quickalert.dart';
 
 class BookingPage extends StatefulWidget {
   int selectedStep = 0;
+
+  BookingPage({super.key});
 
   @override
   State<BookingPage> createState() => _BookingPageState();
@@ -55,7 +53,7 @@ class _BookingPageState extends State<BookingPage> {
             context: context,
             child: Container(
               alignment: Alignment.center,
-              child: Container(
+              child: SizedBox(
                   height: size.height * 0.2,
                   width: size.width * 0.5,
                   child: Material(
@@ -63,7 +61,7 @@ class _BookingPageState extends State<BookingPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     child: Column(
                       children: [
-                        Expanded(
+                        const Expanded(
                           flex: 6,
                           child: Image(
                             image: AssetImage("assets/images/logo_0.png"),
@@ -88,7 +86,7 @@ class _BookingPageState extends State<BookingPage> {
                             flex: 2,
                             child: Container(
                               width: size.width / 2.5,
-                              margin: EdgeInsets.only(bottom: 5),
+                              margin: const EdgeInsets.only(bottom: 5),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -112,7 +110,7 @@ class _BookingPageState extends State<BookingPage> {
                                                   fontWeight: FontWeight.bold),
                                         )),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Expanded(
@@ -182,12 +180,12 @@ class _BookingPageState extends State<BookingPage> {
       ),
       body: authenticateProvider.token == null
           ? Container(
-              child: Center(
+              child: const Center(
                 child: Text("You must login to booking"),
               ),
             )
           : Container(
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               child: FutureBuilder(
                 future: Future.wait([
                   // determinePosition()
@@ -201,7 +199,7 @@ class _BookingPageState extends State<BookingPage> {
                         index: 0,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration: BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(color: Colors.white),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -223,7 +221,7 @@ class _BookingPageState extends State<BookingPage> {
                                             await Navigator.of(context)
                                                 .push(MaterialPageRoute(
                                           builder: (context) {
-                                            return ServicePage();
+                                            return const ServicePage();
                                           },
                                         ));
 
@@ -243,7 +241,7 @@ class _BookingPageState extends State<BookingPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Icon(Icons.home),
+                                              const Icon(Icons.home),
                                               Expanded(
                                                 child: Text(
                                                   chosenService?.name ??
@@ -251,7 +249,7 @@ class _BookingPageState extends State<BookingPage> {
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
-                                              Icon(Icons
+                                              const Icon(Icons
                                                   .arrow_forward_ios_outlined)
                                             ],
                                           ),
@@ -270,7 +268,7 @@ class _BookingPageState extends State<BookingPage> {
                           );
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       StepProcessWidget(
@@ -278,7 +276,7 @@ class _BookingPageState extends State<BookingPage> {
                         index: 1,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration: BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(color: Colors.white),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -303,7 +301,7 @@ class _BookingPageState extends State<BookingPage> {
                                       } else {
                                         final startDate = DateTime.now();
                                         final endDate =
-                                            startDate.add(Duration(days: 5));
+                                            startDate.add(const Duration(days: 5));
                                         chosenDate = await showDatePicker(
                                             builder: (context, child) {
                                               return Theme(
@@ -334,7 +332,7 @@ class _BookingPageState extends State<BookingPage> {
                                               MainAxisAlignment.spaceBetween,
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Icon(Icons.home),
+                                            const Icon(Icons.home),
                                             Container(
                                               child: Expanded(
                                                 child: Text(
@@ -347,7 +345,7 @@ class _BookingPageState extends State<BookingPage> {
                                                 ),
                                               ),
                                             ),
-                                            Icon(Icons
+                                            const Icon(Icons
                                                 .arrow_forward_ios_outlined)
                                           ],
                                         ),
@@ -367,7 +365,7 @@ class _BookingPageState extends State<BookingPage> {
                           );
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       StepProcessWidget(
@@ -375,7 +373,7 @@ class _BookingPageState extends State<BookingPage> {
                         index: 2,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration: BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(color: Colors.white),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -499,7 +497,7 @@ class _BookingPageState extends State<BookingPage> {
                                                           });
                                                         },
                                                         child: Container(
-                                                          margin: EdgeInsets
+                                                          margin: const EdgeInsets
                                                               .symmetric(
                                                                   horizontal:
                                                                       2),
@@ -507,7 +505,7 @@ class _BookingPageState extends State<BookingPage> {
                                                             children: [
                                                               Container(
                                                                 padding:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .all(3),
                                                                 decoration: BoxDecoration(
                                                                     color: context.watch<BookingProvider>().selectedIndexEmployee ==
@@ -520,7 +518,7 @@ class _BookingPageState extends State<BookingPage> {
                                                                     shape: BoxShape
                                                                         .circle),
                                                                 child:
-                                                                    CircleAvatar(
+                                                                    const CircleAvatar(
                                                                   radius: 27,
                                                                   child: Image(
                                                                       image: AssetImage(
@@ -550,7 +548,7 @@ class _BookingPageState extends State<BookingPage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
-                                        child: Row(
+                                        child: const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -570,16 +568,16 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ),
                                 //show list employee
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 if (listTime != null)
-                                  Container(
+                                  SizedBox(
                                     height: 180,
                                     child: listTime,
                                   ),
                                 if (listEmployee != null)
-                                  Container(
+                                  SizedBox(
                                     height: 110,
                                     child: listEmployee,
                                   ),
@@ -617,14 +615,14 @@ class _BookingPageState extends State<BookingPage> {
                                           if (result.result != null) {
                                             QuickAlert.show(
                                                 autoCloseDuration:
-                                                    Duration(seconds: 1),
+                                                    const Duration(seconds: 1),
                                                 context: context,
                                                 text: "Booking Success",
                                                 // customAsset: 'assets/images/logo_0.png',
                                                 onConfirmBtnTap: () {
                                                   Navigator.of(context).pop();
                                                 },
-                                                widget: Column(),
+                                                widget: const Column(),
                                                 type: QuickAlertType.custom);
                                           }
                                         },
@@ -678,7 +676,7 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
         scrollDirection: Axis.horizontal,
         slivers: [
           SliverGrid.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: 5, mainAxisSpacing: 5, crossAxisCount: 3),
             itemCount: widget.slotBooking.length,
             itemBuilder: (context, index) {
@@ -692,7 +690,7 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
                   List<Map<String, dynamic>>.from(slot['employees']);
 
               return GestureDetector(
-                onTap: employee.length > 0
+                onTap: employee.isNotEmpty
                     ? () {
                         print(selectedTime);
                         print(slot['startTime']);
@@ -707,7 +705,7 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
                     : null,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: employee.length > 0
+                      color: employee.isNotEmpty
                           ? selectedTime == index
                               ? Colors.amber
                               : null
@@ -719,7 +717,7 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
                     child: Text(
                       widget.times[index],
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: employee.length > 0
+                          color: employee.isNotEmpty
                               ? null
                               : Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold),

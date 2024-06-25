@@ -32,7 +32,7 @@ class AuthenticateProvider extends ChangeNotifier {
   Future<void> sendOtp({required String domain, required String email}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data['domain'] = domain;
       data['email'] = email;
 
@@ -65,7 +65,7 @@ class AuthenticateProvider extends ChangeNotifier {
       required String otp}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data['domain'] = domain;
       data['email'] = email;
       data['otp'] = otp;
@@ -103,7 +103,7 @@ class AuthenticateProvider extends ChangeNotifier {
       httpResponseFlutter = HttpResponseFlutter.unknown();
       httpResponseFlutter.update(isLoading: true);
       notifyListeners();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data['device'] = "mobile";
       data['username'] = username;
       data['phone'] = phone;
@@ -144,7 +144,7 @@ class AuthenticateProvider extends ChangeNotifier {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
       notifyListeners();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data['domain'] = domain;
       data['email'] = email;
       data['password'] = password;
@@ -223,7 +223,7 @@ class AuthenticateProvider extends ChangeNotifier {
       int? age}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
 
       data['username'] = username;
       data['phone'] = phone;

@@ -7,13 +7,12 @@ import 'package:mobilefinalhcmus/config/exception_config.dart';
 import 'package:mobilefinalhcmus/config/http_response.dart';
 import 'package:mobilefinalhcmus/feature/profie/models/order_model.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
-import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileProvider extends ChangeNotifier {
   String? _state = OrderState.values[0].name;
   String? get state => _state;
-  List<OrderModel> _orderList = [];
+  final List<OrderModel> _orderList = [];
   List<OrderModel> get orderList => _orderList;
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
   Future<void> GetOrder({state}) async {

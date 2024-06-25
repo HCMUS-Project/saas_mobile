@@ -28,13 +28,13 @@ class _VerifyOtpState extends State<VerifyOtp> {
         appBar: AppBar(
           scrolledUnderElevation: 0,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "Verify Your Email",
           ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Container(
+          child: SizedBox(
             width: size.width,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,18 +44,18 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   height: 250,
                   width: 250,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 255, 250, 206),
                       shape: BoxShape.circle),
                   child: Container(
                     height: 100,
                     width: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                        shape: BoxShape.circle),
-                    child: Image(image: AssetImage("assets/images/email.png")),
+                    child: const Image(image: AssetImage("assets/images/email.png")),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 Text("Please Enter The 6 Digit Code Sent To", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -64,7 +64,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 Text(widget.email,style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold
                 )),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 PinWidget(
@@ -73,9 +73,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     setState(() {
                       checkValidate = true;
                     });
+                    return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 GestureDetector(
@@ -83,21 +84,21 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
                   },
                   child: Text("Resend code", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Color(0xFFFE9B6A),
+                    color: const Color(0xFFFE9B6A),
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                     decorationThickness: 1,
-                    decorationColor: Color(0xFFFE9B6A)
+                    decorationColor: const Color(0xFFFE9B6A)
                   ),),
                 ),
                 Expanded(
                   child: Align(
                     alignment: Alignment.center,
-                    child: Container(
+                    child: SizedBox(
                       width: size.width / 1.5,
                       child: checkValidate ? ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFFFCE01)
+                          backgroundColor: const Color(0xFFFFCE01)
                         ),
                         child:  Text("Continue", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.black,

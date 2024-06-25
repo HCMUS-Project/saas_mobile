@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 
@@ -46,20 +44,20 @@ class _ProductDetail2State extends State<ProductDetail2>
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: Container(
+                  child: SizedBox(
                     height: 400,
                     child: ShowListImageOfProduct(product: product),
                   ),
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                                 height: 32,
                                 width: 32,
                                 child: Image(
@@ -72,7 +70,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                         Container(
                             child: IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.share),
+                          icon: const Icon(Icons.share),
                         ))
                       ],
                     ),
@@ -80,7 +78,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Text(
                       CurrencyConfig.convertTo(price: product.price!)
                           .toString(),
@@ -93,7 +91,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -111,7 +109,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -124,7 +122,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                         ),
                         ReadMoreText(
                           delimiterStyle:
-                              TextStyle(overflow: TextOverflow.fade),
+                              const TextStyle(overflow: TextOverflow.fade),
                           product.description!,
                           trimMode: TrimMode.Line,
                           trimLines: 2,
@@ -146,7 +144,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -170,7 +168,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                     },
                                   ));
                                 },
-                                icon: Icon(Icons.arrow_forward_ios, size: 12)))
+                                icon: const Icon(Icons.arrow_forward_ios, size: 12)))
                       ],
                     ),
                   ),
@@ -192,10 +190,10 @@ class _ProductDetail2State extends State<ProductDetail2>
                         Expanded(
                             flex: 1,
                             child: Container(
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      fixedSize: Size(56, 56),
+                                      fixedSize: const Size(56, 56),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15))),
@@ -209,7 +207,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                         return StatefulBuilder(
                                             builder: (context, setState) {
                                           return Container(
-                                            padding: EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(8),
                                             height: 500,
                                             child: Column(
                                               children: [
@@ -222,7 +220,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                               flex: 3,
                                                               child: Container(
                                                                 decoration:
-                                                                    BoxDecoration(
+                                                                    const BoxDecoration(
                                                                   color: Colors
                                                                       .amber,
                                                                 ),
@@ -274,7 +272,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                           Container(
                                                             child: Row(
                                                               children: [
-                                                                Expanded(
+                                                                const Expanded(
                                                                     child: Text(
                                                                         "Quantity")),
                                                                 Expanded(
@@ -285,7 +283,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                             .elevatedButtonTheme
                                                                             .style
                                                                             ?.copyWith(
-                                                                                shape: MaterialStatePropertyAll(
+                                                                                shape: const WidgetStatePropertyAll(
                                                                                     CircleBorder())),
                                                                         onPressed:
                                                                             () {
@@ -298,7 +296,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                             );
                                                                           }
                                                                         },
-                                                                        child: Icon(
+                                                                        child: const Icon(
                                                                             Icons.remove)),
                                                                     Text(
                                                                         "$counter"),
@@ -307,19 +305,20 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                             .elevatedButtonTheme
                                                                             .style
                                                                             ?.copyWith(
-                                                                                shape: MaterialStatePropertyAll(
+                                                                                shape: const WidgetStatePropertyAll(
                                                                                     CircleBorder())),
                                                                         onPressed:
                                                                             () {
                                                                           if ((counter + 1) <=
-                                                                              product.quantity!)
+                                                                              product.quantity!) {
                                                                             setState(
                                                                               () {
                                                                                 counter++;
                                                                               },
                                                                             );
+                                                                          }
                                                                         },
-                                                                        child: Align(
+                                                                        child: const Align(
                                                                             alignment:
                                                                                 Alignment.center,
                                                                             child: Icon(Icons.add)))
@@ -334,7 +333,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                   ),
                                                 ),
                                                 Expanded(
-                                                    child: Container(
+                                                    child: SizedBox(
                                                   width: double.infinity,
                                                   child: ElevatedButton(
                                                       onPressed: () async {
@@ -378,11 +377,11 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                         Alignment
                                                                             .center,
                                                                     decoration:
-                                                                        BoxDecoration(
+                                                                        const BoxDecoration(
                                                                             color:
                                                                                 Colors.transparent),
                                                                     child:
-                                                                        Container(
+                                                                        SizedBox(
                                                                       height:
                                                                           size.height *
                                                                               0.5,
@@ -398,7 +397,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                               Expanded(
                                                                                 flex: 8,
                                                                                 child: Container(
-                                                                                  child: Image(
+                                                                                  child: const Image(
                                                                                     image: AssetImage("assets/images/logo_0.png"),
                                                                                   ),
                                                                                 ),
@@ -418,7 +417,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                   ));
                                                           controller["show"]();
                                                           await Future.delayed(
-                                                              Duration(
+                                                              const Duration(
                                                                   seconds: 1));
                                                           controller['hide']();
                                                         }
@@ -451,7 +450,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.add_sharp,
                                         ),
                                         Text("Add to cart",
@@ -469,10 +468,10 @@ class _ProductDetail2State extends State<ProductDetail2>
                         Expanded(
                             flex: 1,
                             child: Container(
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      fixedSize: Size(56, 56),
+                                      fixedSize: const Size(56, 56),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15))),
@@ -538,14 +537,14 @@ class _ProductDetail2State extends State<ProductDetail2>
                             ))
                       ],
                     ))
-                : Container(
+                : SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            shape: BeveledRectangleBorder(),
-                            fixedSize: Size(56, 56)),
+                            shape: const BeveledRectangleBorder(),
+                            fixedSize: const Size(56, 56)),
                         onPressed: product.quantity! > 0 ? () {} : null,
-                        child: Text("SOLD OUT")),
+                        child: const Text("SOLD OUT")),
                   ),
           )
         ],
@@ -574,7 +573,7 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
       children: [
         Container(
           width: double.infinity,
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: GestureDetector(
               onTap: () {
                 SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -604,8 +603,8 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
           child: Container(
             height: 100,
             width: double.infinity,
-            decoration: BoxDecoration(),
-            padding: EdgeInsets.all(8),
+            decoration: const BoxDecoration(),
+            padding: const EdgeInsets.all(8),
             child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {

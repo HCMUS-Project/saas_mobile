@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/loading_screen.dart';
-import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/models/cart_model.dart';
@@ -65,13 +64,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
           } else {
             print(_checkoutProvider!.httpResponseFlutter.result);
 
-            final Uri _url = Uri.parse(_checkoutProvider!
+            final Uri url = Uri.parse(_checkoutProvider!
                 .httpResponseFlutter.result?['data']['paymentUrl']);
             
-            if (await canLaunchUrl(_url)) {
-            await launchUrl(_url);
+            if (await canLaunchUrl(url)) {
+            await launchUrl(url);
           } else {
-            throw Exception('Could not launch $_url');
+            throw Exception('Could not launch $url');
           }
             // Navigator.of(context).push(MaterialPageRoute(
             //   builder: (context) {
@@ -96,7 +95,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 100,
                 child: Row(
                   children: [
@@ -107,7 +106,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Image(
-                              image: NetworkImage("${product.image![0]}")),
+                              image: NetworkImage(product.image![0])),
                         )),
                     Expanded(
                         flex: 8,
@@ -175,7 +174,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back,
                 
                 )),
@@ -192,7 +191,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     children: [
                       //Address
                       Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -231,7 +230,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.phone,
                                       size: 18,
                                     ),
@@ -243,7 +242,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.home,
                                       size: 18,
                                     ),
@@ -288,7 +287,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               .listenerFlag;
                                           print(flag);
                                           return Container(
-                                            margin: EdgeInsets.only(left: 2),
+                                            margin: const EdgeInsets.only(left: 2),
                                             alignment: Alignment.center,
                                             height: 40,
                                             child: Text(
@@ -353,7 +352,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                               flex: 10,
                                                               child: Container(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               8),
                                                                   width: double
@@ -363,7 +362,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                     separatorBuilder:
                                                                         (context,
                                                                             index) {
-                                                                      return SizedBox(
+                                                                      return const SizedBox(
                                                                         height:
                                                                             10,
                                                                       );
@@ -395,7 +394,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                             Expanded(
                                                                                 flex: 3,
                                                                                 child: Container(
-                                                                                  child: Image(height: 100, width: 100, image: AssetImage("assets/images/voucher.png")),
+                                                                                  child: const Image(height: 100, width: 100, image: AssetImage("assets/images/voucher.png")),
                                                                                 )),
                                                                             Expanded(
                                                                                 flex: 7,
@@ -415,18 +414,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                                       Container(
                                                                                         child: Text("Min order: ${CurrencyConfig.convertTo(price: voucher.minAppValue!).toString()}"),
                                                                                       ),
-                                                                                      Container(child: Text("Expired ${expiredTime}"))
+                                                                                      Container(child: Text("Expired $expiredTime"))
                                                                                     ],
                                                                                   ),
                                                                                 )),
                                                                             Expanded(
                                                                                 child: Checkbox(
                                                                               checkColor: Theme.of(context).colorScheme.secondary,
-                                                                              shape: CircleBorder(),
-                                                                              side: MaterialStateBorderSide.resolveWith(
+                                                                              shape: const CircleBorder(),
+                                                                              side: WidgetStateBorderSide.resolveWith(
                                                                                 (states) => BorderSide(width: 1.0, color: Theme.of(context).colorScheme.secondary),
                                                                               ),
-                                                                              fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.primary),
+                                                                              fillColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
                                                                               value: listChosenVoucher.where((element) => element.id == voucher.id).isNotEmpty,
                                                                               onChanged: (value) {
                                                                                 print(value);
@@ -473,13 +472,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                       child: SizedBox(
                                                                           width: double.infinity,
                                                                           child: ElevatedButton(
-                                                                              style: Theme.of(context).elevatedButtonTheme.style?.copyWith(shape: MaterialStatePropertyAll(BeveledRectangleBorder())),
+                                                                              style: Theme.of(context).elevatedButtonTheme.style?.copyWith(shape: const WidgetStatePropertyAll(BeveledRectangleBorder())),
                                                                               onPressed: () {
                                                                                 context.read<CheckoutProvider>().listenerFlag = "VOUCHER";
                                                                                 context.read<CheckoutProvider>().update();
                                                                                 Navigator.of(context).pop();
                                                                               },
-                                                                              child: Text("Agree"))),
+                                                                              child: const Text("Agree"))),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -494,7 +493,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               },
                                             );
                                           },
-                                          child: Text("Apply"),
+                                          child: const Text("Apply"),
                                         ),
                                       ),
                                     )
@@ -506,7 +505,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
                       //Payment
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
                             Row(
@@ -528,14 +527,14 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                           print("object");
                                           return Container(
                                             height: 500,
-                                            padding: EdgeInsets.all(15),
+                                            padding: const EdgeInsets.all(15),
                                             width: double.infinity,
                                             child: Column(
                                               children: [
                                                 Container(
                                                   height: 5,
                                                   width: 50,
-                                                  decoration: BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                       color: Colors.grey),
                                                 ),
                                                 Expanded(
@@ -554,7 +553,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                   .all(8.0),
                                                           child: Container(
                                                             padding:
-                                                                EdgeInsets.all(
+                                                                const EdgeInsets.all(
                                                                     8),
                                                             decoration: BoxDecoration(
                                                                 borderRadius:
@@ -588,7 +587,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                         context)
                                                                     .pop();
                                                               },
-                                                              trailing: Icon(Icons
+                                                              trailing: const Icon(Icons
                                                                   .arrow_forward_ios),
                                                               title: Text(
                                                                 paymentMethod
@@ -633,7 +632,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               builder: (context, value, child) {
                                 final selectedPaymentMethod =
                                     value.selectedPayMethod;
-                                return Container(
+                                return SizedBox(
                                   height: size.width / 5,
                                  
                                   child: Row(
@@ -648,7 +647,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                     selectedPaymentMethod]
                                                 .imageUrl!)),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Container(
@@ -674,7 +673,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
                       // delivery method
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
                             Row(
@@ -689,10 +688,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Container(
+                            SizedBox(
                               height: size.width / 5,
                               width: size.width,
                               // decoration: BoxDecoration(
@@ -712,16 +711,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   return Container(
                                     height: 150,
                                     width: size.width / 2,
-                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    margin: const EdgeInsets.symmetric(horizontal: 5),
                                     child: Card(
                                       color: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           side:
-                                              BorderSide(color: Colors.black)),
+                                              const BorderSide(color: Colors.black)),
                                       elevation: 1,
-                                      child: Column(
+                                      child: const Column(
                                         children: [
                                           Text("Normal"),
                                           Text("2 - 3 day")
@@ -738,7 +737,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
                       //description order
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
                             Row(
@@ -753,7 +752,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
@@ -763,7 +762,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Order:"),
+                                    const Text("Order:"),
                                     Text(
                                       "${CurrencyConfig.convertTo(price: (widget.total))}",
                                       style: Theme.of(context)
@@ -778,7 +777,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Delivery:"),
+                                    const Text("Delivery:"),
                                     Text(
                                       "${CurrencyConfig.convertTo(price: 15000)}",
                                       style: Theme.of(context)
@@ -793,7 +792,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Summary:"),
+                                    const Text("Summary:"),
                                     Text(
                                       "${CurrencyConfig.convertTo(price: (widget.total) + 15000)}",
                                       style: Theme.of(context)
@@ -815,20 +814,20 @@ class _CheckOutPageState extends State<CheckOutPage> {
               );
             },
           ),
-          bottomNavigationBar: Container(
+          bottomNavigationBar: SizedBox(
             height: 56,
             child: Row(
               children: [
                 Expanded(
                     flex: 7,
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       alignment: Alignment.centerRight,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text("Total"),
+                          const Text("Total"),
                           Text(
                             "${CurrencyConfig.convertTo(price: (widget.total) + 15000)}",
                             style: Theme.of(context)
@@ -842,11 +841,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.amber),
+                    decoration: const BoxDecoration(color: Colors.amber),
                     child: SizedBox.expand(
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              shape: BeveledRectangleBorder()),
+                              shape: const BeveledRectangleBorder()),
                           onPressed: () async {
                             List<ProductModel> products = [];
                             widget.products?.forEach((element) {

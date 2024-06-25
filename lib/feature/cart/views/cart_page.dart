@@ -1,12 +1,7 @@
-import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:intl/intl.dart';
-import 'package:mobilefinalhcmus/components/loading_screen.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/models/cart_model.dart';
@@ -17,7 +12,7 @@ import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
-  CartPage({super.key});
+  const CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -59,14 +54,14 @@ class _CartPageState extends State<CartPage> {
             onPressed: () {
               Navigator.of(context).pop(null);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             )),
         title: Text("Cart", style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(color: Colors.white),
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(color: Colors.white),
         child: FutureBuilder(
             future: context
                 .read<CartProvider>()
@@ -86,7 +81,7 @@ class _CartPageState extends State<CartPage> {
 
               if (result != null) {
                 return Container(
-                  child: Center(
+                  child: const Center(
                     child: Text("No items"),
                   ),
                 );
@@ -297,7 +292,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
     int quantityChange = widget.cartItem.quantity;
 
     return StatefulBuilder(
-      builder: (context, setState2) => Container(
+      builder: (context, setState2) => SizedBox(
         height: widget.size.width / 3,
         child: Slidable(
           enabled: true,
@@ -342,7 +337,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
                         }
                       });
                     },
-                    shape: BeveledRectangleBorder(side: BorderSide(width: 1)),
+                    shape: const BeveledRectangleBorder(side: BorderSide(width: 1)),
                     value: widget.cartList
                         .where((element) =>
                             element.product.id == widget.cartItem.product.id)
@@ -390,8 +385,8 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                            shape: CircleBorder(),
-                                            minimumSize: Size(36, 36),
+                                            shape: const CircleBorder(),
+                                            minimumSize: const Size(36, 36),
                                             backgroundColor: Colors.white),
                                         onPressed: () async {
                                           await context
@@ -412,7 +407,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                           if (result == null) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
-                                                    duration: Duration(
+                                                    duration: const Duration(
                                                         milliseconds: 100),
                                                     content: Text(context
                                                         .read<CartProvider>()
@@ -442,7 +437,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                             );
                                           }
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.remove,
                                           color: Colors.black,
                                         )),
@@ -456,8 +451,8 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                     ),
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                            shape: CircleBorder(),
-                                            minimumSize: Size(36, 36),
+                                            shape: const CircleBorder(),
+                                            minimumSize: const Size(36, 36),
                                             backgroundColor: Colors.white),
                                         onPressed: () async {
                                           await context
@@ -478,7 +473,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                           if (result == null) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
-                                                    duration: Duration(
+                                                    duration: const Duration(
                                                         milliseconds: 100),
                                                     content: Text(context
                                                         .read<CartProvider>()
@@ -504,7 +499,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                             });
                                           }
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.add,
                                           color: Colors.black,
                                         )),
@@ -537,7 +532,7 @@ class _CartItemWidgetState extends State<CartItemWidget>
                                                 duration: Durations.medium1);
                                           }
                                         },
-                                        icon: Icon(Icons.more_vert)),
+                                        icon: const Icon(Icons.more_vert)),
                                   ),
                                   Expanded(
                                       flex: 8,

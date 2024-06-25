@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
 import 'package:mobilefinalhcmus/config/exception_config.dart';
@@ -16,7 +13,7 @@ class SockerConfig{
     socket = IO.io("", IO.OptionBuilder().setTransports(['websocket']).build());
 
   }
-  static SockerConfig? _sockerConfig  = SockerConfig._internal();
+  static final SockerConfig _sockerConfig  = SockerConfig._internal();
 
   static SockerConfig getInstance(){
     return _sockerConfig ?? SockerConfig._internal();
@@ -100,7 +97,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
             title: Container(
               height: 56,
               alignment: Alignment.bottomLeft,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
               ),
               child: Text(
                 "Let's find your booking!",style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -110,23 +107,23 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
               ),
             ),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(80), 
+              preferredSize: const Size.fromHeight(80), 
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
               
                 ),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: TextField(
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontSize: 18
                   ),
                   decoration: InputDecoration(
-                    prefixIconConstraints:BoxConstraints(
+                    prefixIconConstraints:const BoxConstraints(
                       minWidth: 32,
                       minHeight: 32
                     ) ,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    prefixIcon: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.search,size: 24,),
                     ),
                     border: OutlineInputBorder(
@@ -136,7 +133,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                     fillColor: Colors.white,
                     filled: true,
                     isDense: true,
-                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                   ),
                 ),
               )
@@ -161,7 +158,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
     for(int i =0 ; i < 5; i++){
       data.add(
         Container(
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
   
           decoration: BoxDecoration(
             color: Colors.white,
@@ -173,7 +170,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
               Expanded(
                 flex: 4,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
@@ -186,8 +183,8 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
               Expanded(
                 flex: 6,
                 child: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                      borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(15),
@@ -199,7 +196,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                       Expanded(
                         flex: 3,
                         child: Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.grey.shade200
@@ -210,16 +207,16 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                               Text("Saturday, Oct 10th", style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.bold
                               ),),
-                              Text("8:15 AM")
+                              const Text("8:15 AM")
                             ],
                           ),
                         ) 
                       ),
-                      SizedBox(width: 5,),
+                      const SizedBox(width: 5,),
                       Expanded(
                         flex: 7,
                         child: Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                           
@@ -229,13 +226,13 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                               Expanded(
                                 child: Row(
                                   children: [
-                                    Icon(Icons.article_outlined),
+                                    const Icon(Icons.article_outlined),
                                     Row(
                                       children: [
                                         Text("id: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.bold
                                         ),),
-                                        Text("db951a1f6430"),
+                                        const Text("db951a1f6430"),
                                       ],
                                     )
                                   ],
@@ -243,13 +240,13 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                               Expanded(
                                 child: Row(
                                   children: [
-                                    Icon(Icons.info_outline),
+                                    const Icon(Icons.info_outline),
                                     Row(
                                       children: [
                                         Text("service: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.bold
                                         ),),
-                                        Text("Cat toc 123"),
+                                        const Text("Cat toc 123"),
                                       ],
                                     )
                                   ],
@@ -257,13 +254,13 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                                  Expanded(
                                 child: Row(
                                   children: [
-                                    Image(image: AssetImage("assets/images/social-media.png"),height: 24,width: 24,),
+                                    const Image(image: AssetImage("assets/images/social-media.png"),height: 24,width: 24,),
                                     Row(
                                       children: [
                                         Text("status: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.bold
                                         ),),
-                                        Text("paid"),
+                                        const Text("paid"),
                                       ],
                                     )
                                   ],
@@ -272,13 +269,13 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                               Expanded(
                                 child: Row(
                                   children: [
-                                    Icon(Icons.people_outline),
+                                    const Icon(Icons.people_outline),
                                     Row(
                                       children: [
                                         Text("employee: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.bold
                                         ),),
-                                        Text("Nguyen Vu Khoi"),
+                                        const Text("Nguyen Vu Khoi"),
                                       ],
                                     )
                                   ],
@@ -320,7 +317,7 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
       children: [
         Container(
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
         
           ),
           child: Image(image: NetworkImage(widget.product.image![selectedImage])),
@@ -330,10 +327,10 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
           child: Container(
             height: 100,
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
      
           ),
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -378,7 +375,7 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
 }
 
 class FetchdataWidget extends StatefulWidget {
-  FetchdataWidget({super.key});
+  const FetchdataWidget({super.key});
 
   @override
   State<FetchdataWidget> createState() => _FetchdataWidgetState();
@@ -387,7 +384,7 @@ class FetchdataWidget extends StatefulWidget {
 class _FetchdataWidgetState extends State<FetchdataWidget> {
   String a = "ae";
   Stream? steam;
-  StreamController _streamController = StreamController();
+  final StreamController _streamController = StreamController();
   Future<void> getStream() async {
     try {
       final client = http.Client();
@@ -405,7 +402,7 @@ class _FetchdataWidgetState extends State<FetchdataWidget> {
           a = String.fromCharCodes(value);
         });
       });
-    } on FlutterException catch (e) {}
+    } on FlutterException {}
   }
 
   @override

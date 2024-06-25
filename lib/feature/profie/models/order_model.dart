@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 
 class OrderModel{
   String? id;

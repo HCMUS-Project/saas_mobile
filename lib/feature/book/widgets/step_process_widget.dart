@@ -103,7 +103,7 @@ class _StepProcessWidgetState extends State<StepProcessWidget> {
                           decoration:_show ? BoxDecoration(
                             color: Theme.of(context).colorScheme.secondary,
                             shape: BoxShape.circle
-                          ):BoxDecoration(
+                          ):const BoxDecoration(
                             color: Colors.transparent,
                             shape: BoxShape.circle
                           ) ,

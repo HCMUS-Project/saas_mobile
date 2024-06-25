@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
-import 'package:mobilefinalhcmus/feature/home/views/main_page.dart';
 import 'package:provider/provider.dart';
 
 class DetailService extends StatefulWidget {
@@ -23,7 +20,7 @@ class _DetailServiceState extends State<DetailService> {
         title: Text(widget.service.name!, style: Theme.of(context).textTheme.titleLarge,),
       ),
       body: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: LayoutBuilder(
           builder: (context, constraints) => Column(
             children: [
@@ -47,13 +44,13 @@ class _DetailServiceState extends State<DetailService> {
                               )),
                         ),
                       ),
-                      SliverToBoxAdapter(
+                      const SliverToBoxAdapter(
                         child: SizedBox(
                           height: 10,
                         ),
                       ),
                       SliverToBoxAdapter(
-                        child: Container(
+                        child: SizedBox(
                           height: 100,
                           child: Row(
                             children: [
@@ -71,7 +68,7 @@ class _DetailServiceState extends State<DetailService> {
                                       child: Container(
                                         alignment: Alignment.center,
                                                              
-                                        margin: EdgeInsets.only(right: 5),
+                                        margin: const EdgeInsets.only(right: 5),
                                         child:ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image(
@@ -96,7 +93,7 @@ class _DetailServiceState extends State<DetailService> {
                         ),
                       ),
                     ]),
-                    SliverToBoxAdapter(
+                    const SliverToBoxAdapter(
                       child: SizedBox(height: 10,),
                     ),
                     SliverMainAxisGroup(
@@ -112,7 +109,7 @@ class _DetailServiceState extends State<DetailService> {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 56,
                 child: ElevatedButton(onPressed: ()async{
                   

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CreatePasswordPage extends StatelessWidget {
   CreatePasswordPage({super.key});
-  FocusNode myFocusNode = new FocusNode();
+  FocusNode myFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -11,14 +11,14 @@ class CreatePasswordPage extends StatelessWidget {
         appBar: AppBar(
           scrolledUnderElevation: 0,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "Create New Password",
           ),
         ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Container(
+            child: SizedBox(
               width: size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,17 +27,17 @@ class CreatePasswordPage extends StatelessWidget {
                     height: 250,
                     width: 250,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 255, 250, 206),
                         shape: BoxShape.circle),
                     child: Container(
                       height: 100,
                       width: 100,
-                      decoration: BoxDecoration(shape: BoxShape.circle),
-                      child: Image(image: AssetImage("assets/images/key.png")),
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: const Image(image: AssetImage("assets/images/key.png")),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 35,
                   ),
                   Text("Your New Password Must Be Differnt",
@@ -50,7 +50,7 @@ class CreatePasswordPage extends StatelessWidget {
                           .textTheme
                           .bodyMedium
                           ?.copyWith(fontWeight: FontWeight.bold)),
-                  SizedBox(
+                  const SizedBox(
                     height: 35,
                   ),
                   Container(
@@ -66,7 +66,7 @@ class CreatePasswordPage extends StatelessWidget {
                                   color: Colors.grey.shade400,
                                   fontWeight: FontWeight.bold),
                         ),
-                        TextField(
+                        const TextField(
                           decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey))),
@@ -74,7 +74,7 @@ class CreatePasswordPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Container(
@@ -88,7 +88,7 @@ class CreatePasswordPage extends StatelessWidget {
                                 ?.copyWith(
                                     color: Colors.grey.shade400,
                                     fontWeight: FontWeight.bold)),
-                        TextField(
+                        const TextField(
                           decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey))),
@@ -96,14 +96,14 @@ class CreatePasswordPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Container(
+                  SizedBox(
                     width: size.width / 1.5,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFFFCE01)),
+                          backgroundColor: const Color(0xFFFFCE01)),
                       child: Text(
                         "Save",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

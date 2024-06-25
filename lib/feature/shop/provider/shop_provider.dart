@@ -323,7 +323,7 @@ class ShopProvider extends ChangeNotifier {
       print(userId);
       print("13123 $review");
       print(rating);
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data['productId'] = productId;
       // data['userId'] = userId ?? "volehoai070902@gmail.com";
       data['rating'] = rating;

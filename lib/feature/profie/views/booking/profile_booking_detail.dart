@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
@@ -18,10 +16,10 @@ class BookingDetailPage extends StatelessWidget {
         " " +
         bookingDetail['employee']['lastName'];
     return Scaffold(
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: 56,
         child: Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
@@ -55,14 +53,14 @@ class BookingDetailPage extends StatelessWidget {
                 children: [
                   //price
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       children: [
                         Expanded(
                             flex: 3,
                             child: Container(
                               alignment: Alignment.centerLeft,
-                              child: Image(
+                              child: const Image(
                                 image:
                                     AssetImage('assets/images/price-tag.png'),
                                 height: 32,
@@ -91,13 +89,13 @@ class BookingDetailPage extends StatelessWidget {
                   ),
                   //status
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Status"),
+                        const Text("Status"),
                         Container(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               shape: BoxShape.rectangle,
@@ -115,11 +113,11 @@ class BookingDetailPage extends StatelessWidget {
                   ),
                   //time
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Time"),
+                        const Text("Time"),
                         Container(
                           child: Text(date,
                               style: Theme.of(context)
@@ -135,11 +133,11 @@ class BookingDetailPage extends StatelessWidget {
                   ),
                   //id
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Id"),
+                        const Text("Id"),
                         Container(
                           child: Text(
                               bookingDetail['id'].toString().split("-")[4],
@@ -153,11 +151,11 @@ class BookingDetailPage extends StatelessWidget {
                   ),
                   //employee
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Employee"),
+                        const Text("Employee"),
                         Container(
                           child: Text(employee,
                               style: Theme.of(context)
@@ -172,7 +170,7 @@ class BookingDetailPage extends StatelessWidget {
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             //note
@@ -182,7 +180,7 @@ class BookingDetailPage extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       children: [
                         Column(
@@ -224,6 +222,8 @@ class MySeparator extends StatelessWidget {
         final dashHeight = height;
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
         return Flex(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
           children: List.generate(dashCount, (_) {
             return SizedBox(
               width: dashWidth,
@@ -233,8 +233,6 @@ class MySeparator extends StatelessWidget {
               ),
             );
           }),
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
         );
       },
     );

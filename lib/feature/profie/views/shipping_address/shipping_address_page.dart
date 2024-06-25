@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:mobilefinalhcmus/components/show_overlay.dart';
 
 class ShippingAdderssPage extends StatelessWidget {
   const ShippingAdderssPage({super.key});
@@ -13,12 +10,12 @@ class ShippingAdderssPage extends StatelessWidget {
         scrolledUnderElevation: 0,
       ),
       body: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: ListView.builder(
           itemCount: 3,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               child: Material(
                 elevation: 1,
                 color: Colors.grey.withOpacity(0.05),
@@ -60,7 +57,7 @@ class ShippingAdderssPage extends StatelessWidget {
       bottomNavigationBar: Container(
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                minimumSize: Size(56, 56), shape: BeveledRectangleBorder()),
+                minimumSize: const Size(56, 56), shape: const BeveledRectangleBorder()),
             onPressed: () async {
               // final renderBox = context.findRenderObject() as RenderBox;
               // final size = renderBox.size;
@@ -107,10 +104,10 @@ class ShippingAdderssPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary)),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Icon(Icons.add)
+                const Icon(Icons.add)
               ],
             )),
       ),

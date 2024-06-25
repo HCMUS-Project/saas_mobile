@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
-import 'package:mobilefinalhcmus/feature/auth/views/register_page.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
-import 'package:mobilefinalhcmus/feature/home/views/home_page.dart';
-import 'package:mobilefinalhcmus/feature/home/views/main_page.dart';
-import 'package:mobilefinalhcmus/feature/forgetpassword/views/forget_password.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/widgets/custom_textfield.dart';
 import 'package:mobilefinalhcmus/widgets/password_textfield.dart';
@@ -17,6 +13,8 @@ class LoginPage extends StatelessWidget {
   TextEditingController passController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final provider = SettingsProvider();
+
+  LoginPage({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -36,7 +34,7 @@ class LoginPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pushNamed('/auth/signup');
               },
-              child: Text(
+              child: const Text(
                 "Register",
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -53,9 +51,9 @@ class LoginPage extends StatelessWidget {
                 flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
+                  child: SizedBox(
                     width: constraints.maxWidth,
-                    child: Column(
+                    child: const Column(
                       children: [
                         Text(
                           "Sign In",
@@ -78,7 +76,7 @@ class LoginPage extends StatelessWidget {
               Expanded(
                   flex: 3,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(30),
@@ -89,7 +87,7 @@ class LoginPage extends StatelessWidget {
                         key: formKey,
                         child: Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             CustomTextField(
@@ -97,7 +95,7 @@ class LoginPage extends StatelessWidget {
                                     provider.emailValidator(value),
                                 controller: emailController,
                                 hintText: "Username"),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             PasswordFielddWidget(
@@ -112,13 +110,13 @@ class LoginPage extends StatelessWidget {
                                     Navigator.of(context)
                                         .pushNamed("/forgetpassword");
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Forgot Password?",
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   )),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             ElevatedButton(
@@ -126,7 +124,7 @@ class LoginPage extends StatelessWidget {
                                     .elevatedButtonTheme
                                     .style
                                     ?.copyWith(
-                                        fixedSize: MaterialStatePropertyAll(
+                                        fixedSize: WidgetStatePropertyAll(
                                             Size(
                                                 constraints.maxWidth / 2, 50))),
                                 onPressed: () async {
@@ -166,14 +164,14 @@ class LoginPage extends StatelessWidget {
                                                 '/home', (route) => false);
                                       } else {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
+                                            .showSnackBar(const SnackBar(
                                                 backgroundColor: Colors.red,
                                                 content: Text("Error")));
                                       }
                                     }
                                   }
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Sign In",
                                   style: TextStyle(color: Colors.white),
                                 )),
@@ -197,15 +195,15 @@ class LoginPage extends StatelessWidget {
                                               width: 24,
                                             ),
                                             title:
-                                                Text("Continue with Facebook"),
-                                            trailing: Icon(
+                                                const Text("Continue with Facebook"),
+                                            trailing: const Icon(
                                                 Icons.arrow_forward_outlined),
                                           ),
                                         ),
                                       )
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Row(
@@ -224,8 +222,8 @@ class LoginPage extends StatelessWidget {
                                               width: 24,
                                             ),
                                             title:
-                                                Text("Continue with Facebook"),
-                                            trailing: Icon(
+                                                const Text("Continue with Facebook"),
+                                            trailing: const Icon(
                                                 Icons.arrow_forward_outlined),
                                           ),
                                         ),

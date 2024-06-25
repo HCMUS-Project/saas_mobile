@@ -4,7 +4,6 @@ import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
-import 'package:mobilefinalhcmus/feature/shop/views/product_detail.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/product.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
     widget.result = List<ProductModel>.from(arguments['searchResults']);
     return Scaffold(
       appBar: AppBar(
-        title: Container(
+        title: SizedBox(
           height: 36,
           child: TextFormField(
             initialValue: widget.query,
@@ -56,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
                                 ConnectionState.waiting) {
                               return Container(
                                 decoration:
-                                    BoxDecoration(color: Colors.transparent),
+                                    const BoxDecoration(color: Colors.transparent),
                               );
                             }
                             final result = snapshot.data?.result;
@@ -107,9 +106,9 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       body: Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.5,
               mainAxisSpacing: 5,
@@ -122,7 +121,7 @@ class _SearchPageState extends State<SearchPage> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
-                      return ProductDetail2(product: product!);
+                      return ProductDetail2(product: product);
                     },
                   ));
                 },

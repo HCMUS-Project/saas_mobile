@@ -31,15 +31,15 @@ class _ServicePageState extends State<ServicePage> {
         onPressed: () {
           
         },
-        child: Icon(Icons.arrow_forward_ios, size: 20,),
         backgroundColor: Colors.blue,
+        child: const Icon(Icons.arrow_forward_ios, size: 20,),
       ) : null,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverToBoxAdapter(
             child: FadeAnimation(1.2, Padding(
-              padding: EdgeInsets.only(top: 120.0, right: 20.0, left: 20.0),
+              padding: const EdgeInsets.only(top: 120.0, right: 20.0, left: 20.0),
               child: Text(
                 'Which service \ndo you need?',
                 style: TextStyle(
@@ -53,19 +53,19 @@ class _ServicePageState extends State<ServicePage> {
           )
           ];
         }, body: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
                 child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 1.0,
                     crossAxisSpacing: 20.0,
                     mainAxisSpacing: 20.0,
                   ),
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: services.length,
                   itemBuilder: (BuildContext context, int index) {
                     return FadeAnimation((1.0 + index) / 4, serviceContainer(services[index].imageURL, services[index].name, index));
@@ -83,15 +83,16 @@ serviceContainer(String image, String name, int index) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (selectedService == index)
+          if (selectedService == index) {
             selectedService = -1;
-          else
+          } else {
             selectedService = index;
+          }
         });
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        padding: EdgeInsets.all(10.0),
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: selectedService == index ? Colors.blue.shade50 : Colors.grey.shade100,
           border: Border.all(
@@ -104,8 +105,8 @@ serviceContainer(String image, String name, int index) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.network(image, height: 80),
-            SizedBox(height: 20,),
-            Text(name, style: TextStyle(fontSize: 20),)
+            const SizedBox(height: 20,),
+            Text(name, style: const TextStyle(fontSize: 20),)
           ]
         ),
       ),

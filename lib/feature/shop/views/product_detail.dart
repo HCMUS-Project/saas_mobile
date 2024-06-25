@@ -1,10 +1,6 @@
-import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -12,10 +8,8 @@ import 'package:mobilefinalhcmus/feature/cart/models/cart_model.dart';
 import 'package:mobilefinalhcmus/feature/cart/provider/cart_provider.dart';
 import 'package:mobilefinalhcmus/feature/checkout/views/checkout_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
-import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/review/review_page.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetail extends StatelessWidget {
@@ -43,7 +37,7 @@ class ProductDetail extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
           ),
         ),
@@ -72,7 +66,7 @@ class ProductDetail extends StatelessWidget {
                           flex: 2,
                           child: Container(
                             height: 50,
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               border:
                                   Border.all(color: Colors.black, width: 1.5),
@@ -81,7 +75,7 @@ class ProductDetail extends StatelessWidget {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 onChanged: (value) {},
-                                hint: Text("Size"),
+                                hint: const Text("Size"),
                                 items: items
                                     .map((String item) =>
                                         DropdownMenuItem<String>(
@@ -101,14 +95,14 @@ class ProductDetail extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Expanded(
                           flex: 2,
                           child: Container(
                             height: 50,
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               border:
                                   Border.all(color: Colors.black, width: 1.5),
@@ -117,7 +111,7 @@ class ProductDetail extends StatelessWidget {
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
                                 onChanged: (value) {},
-                                hint: Text("Color"),
+                                hint: const Text("Color"),
                                 items: items
                                     .map((String item) =>
                                         DropdownMenuItem<String>(
@@ -137,14 +131,14 @@ class ProductDetail extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Expanded(
                             flex: 1,
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder()),
+                                    shape: const CircleBorder()),
                                 onPressed: () {},
                                 child: Image.asset("assets/images/heart.png")))
                       ],
@@ -177,7 +171,7 @@ class ProductDetail extends StatelessWidget {
                                   ?.copyWith(color: Colors.grey),
                             ),
                             RatingBar(
-                              itemPadding: EdgeInsets.all(2),
+                              itemPadding: const EdgeInsets.all(2),
                               itemSize: 18.0,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -224,9 +218,9 @@ class ProductDetail extends StatelessWidget {
                 ),
                 //Detail Product
                 Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: ReadMoreText(
-                    delimiterStyle: TextStyle(overflow: TextOverflow.fade),
+                    delimiterStyle: const TextStyle(overflow: TextOverflow.fade),
                     product.description!,
                     trimMode: TrimMode.Line,
                     trimLines: 2,
@@ -236,7 +230,7 @@ class ProductDetail extends StatelessWidget {
                 ),
 
                 //review
-                Divider(),
+                const Divider(),
                 ReviewWidget(
                   numberOfRating: product.numberRating,
                   rating: product.rating,
@@ -249,7 +243,7 @@ class ProductDetail extends StatelessWidget {
       ),
       bottomNavigationBar: (product.quantity!) > 0
           ? Container(
-              decoration: BoxDecoration(color: Colors.amber),
+              decoration: const BoxDecoration(color: Colors.amber),
               padding: EdgeInsets.zero,
               child: Row(
                 children: [
@@ -258,8 +252,8 @@ class ProductDetail extends StatelessWidget {
                       child: Container(
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(56, 56),
-                                shape: BeveledRectangleBorder()),
+                                fixedSize: const Size(56, 56),
+                                shape: const BeveledRectangleBorder()),
                             onPressed: () async {
                               int counter = 1;
                               await showModalBottomSheet<bool>(
@@ -270,7 +264,7 @@ class ProductDetail extends StatelessWidget {
                                   return StatefulBuilder(
                                       builder: (context, setState) {
                                     return Container(
-                                      padding: EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(8),
                                       height: 500,
                                       child: Column(
                                         children: [
@@ -283,7 +277,7 @@ class ProductDetail extends StatelessWidget {
                                                         flex: 3,
                                                         child: Container(
                                                           decoration:
-                                                              BoxDecoration(
+                                                              const BoxDecoration(
                                                             color: Colors.amber,
                                                           ),
                                                           child: Image(
@@ -337,7 +331,7 @@ class ProductDetail extends StatelessWidget {
                                                     Container(
                                                       child: Row(
                                                         children: [
-                                                          Expanded(
+                                                          const Expanded(
                                                               child: Text(
                                                                   "Quantity")),
                                                           Expanded(
@@ -349,7 +343,7 @@ class ProductDetail extends StatelessWidget {
                                                                       .elevatedButtonTheme
                                                                       .style
                                                                       ?.copyWith(
-                                                                          shape: MaterialStatePropertyAll(
+                                                                          shape: const WidgetStatePropertyAll(
                                                                               CircleBorder())),
                                                                   onPressed:
                                                                       () {
@@ -363,7 +357,7 @@ class ProductDetail extends StatelessWidget {
                                                                       );
                                                                     }
                                                                   },
-                                                                  child: Icon(Icons
+                                                                  child: const Icon(Icons
                                                                       .remove)),
                                                               Text("$counter"),
                                                               ElevatedButton(
@@ -372,21 +366,22 @@ class ProductDetail extends StatelessWidget {
                                                                       .elevatedButtonTheme
                                                                       .style
                                                                       ?.copyWith(
-                                                                          shape: MaterialStatePropertyAll(
+                                                                          shape: const WidgetStatePropertyAll(
                                                                               CircleBorder())),
                                                                   onPressed:
                                                                       () {
                                                                     if ((counter +
                                                                             1) <=
                                                                         product
-                                                                            .quantity!)
+                                                                            .quantity!) {
                                                                       setState(
                                                                         () {
                                                                           counter++;
                                                                         },
                                                                       );
+                                                                    }
                                                                   },
-                                                                  child: Align(
+                                                                  child: const Align(
                                                                       alignment:
                                                                           Alignment
                                                                               .center,
@@ -404,7 +399,7 @@ class ProductDetail extends StatelessWidget {
                                             ),
                                           ),
                                           Expanded(
-                                              child: Container(
+                                              child: SizedBox(
                                             width: double.infinity,
                                             child: ElevatedButton(
                                                 onPressed: () async {
@@ -436,10 +431,10 @@ class ProductDetail extends StatelessWidget {
                                                                   Alignment
                                                                       .center,
                                                               decoration:
-                                                                  BoxDecoration(
+                                                                  const BoxDecoration(
                                                                       color: Colors
                                                                           .transparent),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 height:
                                                                     size.height *
                                                                         0.5,
@@ -467,7 +462,7 @@ class ProductDetail extends StatelessWidget {
                                                                           child:
                                                                               Container(
                                                                             child:
-                                                                                Image(
+                                                                                const Image(
                                                                               image: AssetImage("assets/images/logo_0.png"),
                                                                             ),
                                                                           ),
@@ -490,7 +485,7 @@ class ProductDetail extends StatelessWidget {
                                                             ));
                                                     controller["show"]();
                                                     await Future.delayed(
-                                                        Duration(seconds: 1));
+                                                        const Duration(seconds: 1));
                                                     controller['hide']();
                                                     // final overlayController =
                                                     //     showOverlay(
@@ -541,7 +536,7 @@ class ProductDetail extends StatelessWidget {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.add_sharp,
                                   ),
                                   Text("Add to cart",
@@ -560,8 +555,8 @@ class ProductDetail extends StatelessWidget {
                       flex: 1,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              fixedSize: Size(56, 56),
-                              shape: RoundedRectangleBorder()),
+                              fixedSize: const Size(56, 56),
+                              shape: const RoundedRectangleBorder()),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
@@ -604,13 +599,13 @@ class ProductDetail extends StatelessWidget {
                           )))
                 ],
               ))
-          : Container(
+          : SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      shape: BeveledRectangleBorder(), fixedSize: Size(56, 56)),
+                      shape: const BeveledRectangleBorder(), fixedSize: const Size(56, 56)),
                   onPressed: product.quantity! > 0 ? () {} : null,
-                  child: Text("SOLD OUT")),
+                  child: const Text("SOLD OUT")),
             ),
     );
   }
@@ -630,8 +625,8 @@ class ReviewWidget extends StatelessWidget {
             onTap: () {},
             child: Container(
               height: 60,
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Colors.white),
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(color: Colors.white),
               child: Row(
                 children: [
                   Expanded(
@@ -639,9 +634,9 @@ class ReviewWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Product review"),
+                          const Text("Product review"),
                           RatingBar(
-                            itemPadding: EdgeInsets.all(2),
+                            itemPadding: const EdgeInsets.all(2),
                             itemSize: 18.0,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
@@ -673,7 +668,7 @@ class ReviewWidget extends StatelessWidget {
                               },
                             ));
                           },
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text("All"),

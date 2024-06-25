@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/register_page.dart';
-import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/booking/profile_booking_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profile_inf/profile_inf.dart';
@@ -22,12 +20,12 @@ class ProfiePage extends StatelessWidget {
     
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: HeaderOfProfile(),
+        appBar: const HeaderOfProfile(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              ShowProfile(),
+              const ShowProfile(),
               FeatureOfProfile(
                 type: ButtonType.VALIDATE_TOKEN,
                 context: context,
@@ -39,13 +37,13 @@ class ProfiePage extends StatelessWidget {
                       if (token == null) {
                         return LoginPage();
                       } else {
-                        return ProfileInfor();
+                        return const ProfileInfor();
                       }
                     },
                   ));
                 },
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 0.2,
               ),
@@ -68,7 +66,7 @@ class ProfiePage extends StatelessWidget {
                   }
                 },
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 0.2,
               ),
@@ -81,14 +79,14 @@ class ProfiePage extends StatelessWidget {
                       if (token == null) {
                         return LoginPage();
                       } else {
-                        return ProfileBooking();
+                        return const ProfileBooking();
                       }
                     },
                   ));
                 },
                 titleOfFeature: "My bookings",
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 0.2,
               ),
@@ -101,14 +99,14 @@ class ProfiePage extends StatelessWidget {
                       if (token == null) {
                         return LoginPage();
                       } else {
-                        return ShippingAdderssPage();
+                        return const ShippingAdderssPage();
                       }
                     },
                   ));
                 },
                 titleOfFeature: "Shipping address",
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 0.2,
               ),
@@ -117,11 +115,11 @@ class ProfiePage extends StatelessWidget {
                 callback: (token) {},
                 titleOfFeature: "Settings",
               ),
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 0.2,
               ),
-              if (token != null) SignOutProfile()
+              if (token != null) const SignOutProfile()
             ],
           ),
         ));
@@ -129,6 +127,8 @@ class ProfiePage extends StatelessWidget {
 }
 
 class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
+  const HeaderOfProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -143,11 +143,11 @@ class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(56);
+  Size get preferredSize => const Size.fromHeight(56);
 }
 
 class ShowProfile extends StatelessWidget {
-  ShowProfile({
+  const ShowProfile({
     super.key,
   });
 
@@ -164,7 +164,7 @@ class ShowProfile extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          Expanded(
+          const Expanded(
               flex: 2,
               child: CircleAvatar(
                 radius: 50,
@@ -179,6 +179,7 @@ class ShowProfile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             profile?['username'],
                             style: Theme.of(context)
@@ -186,11 +187,10 @@ class ShowProfile extends StatelessWidget {
                                 .bodyLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          alignment: Alignment.centerLeft,
                         ),
                         Container(
-                          child: Text(profile?['email']),
                           alignment: Alignment.centerLeft,
+                          child: Text(profile?['email']),
                         )
                       ],
                     ),
@@ -204,7 +204,7 @@ class ShowProfile extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
-                                return RegisterPage();
+                                return const RegisterPage();
                               },
                             ));
                           },
@@ -218,7 +218,7 @@ class ShowProfile extends StatelessWidget {
                                         Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.bold),
                           )),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       ElevatedButton(

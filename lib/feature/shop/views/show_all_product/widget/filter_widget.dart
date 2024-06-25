@@ -31,7 +31,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                 itemBuilder: (context, index) {
                   String? category = widget.categoryList[index];
                   return Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: ElevatedButton(
                       onPressed: (){
                         context.read<ShopProvider>().filterByCategory(categoryId: index);
@@ -60,7 +60,7 @@ class _FilterWidgetState extends State<FilterWidget> {
           Expanded(
             flex: 1,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,10 +70,10 @@ class _FilterWidgetState extends State<FilterWidget> {
                     child: Row(
                       children: [
                         SvgPicture.asset("assets/icons/filter.svg"),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
-                        Text("Filter")
+                        const Text("Filter")
                       ],
                     ),
                   ),
@@ -81,10 +81,10 @@ class _FilterWidgetState extends State<FilterWidget> {
                     child: Row(
                       children: [
                         SvgPicture.asset("assets/icons/incr_decr.svg"),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
-                        Text("Price: lowest to high")
+                        const Text("Price: lowest to high")
                       ],
                     ),
                   ),

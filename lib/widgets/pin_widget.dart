@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
-import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 final defaultPinTheme = PinTheme(
   width: 56,
   height: 56,
-  textStyle: TextStyle(
+  textStyle: const TextStyle(
       fontSize: 20,
       color: Color.fromRGBO(30, 60, 87, 1),
       fontWeight: FontWeight.w600),
   decoration: BoxDecoration(
-    color: Color(0xFFFFFBEB),
-    border: Border(bottom: BorderSide(color: Colors.yellow)),
+    color: const Color(0xFFFFFBEB),
+    border: const Border(bottom: BorderSide(color: Colors.yellow)),
     borderRadius: BorderRadius.circular(20),
   ),
 );
 
 final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-  color: Color(0xFFFFFBEB),
-  border: Border(bottom: BorderSide(
+  color: const Color(0xFFFFFBEB),
+  border: const Border(bottom: BorderSide(
     width: 2,
     color: Colors.yellow)),
   borderRadius: BorderRadius.circular(8),
@@ -29,8 +28,8 @@ final focusedPinTheme = defaultPinTheme.copyDecorationWith(
 
 final submittedPinTheme = defaultPinTheme.copyWith(
   decoration: defaultPinTheme.decoration?.copyWith(
-    color: Color(0xFFFFFBEB),
-    border: Border(bottom: BorderSide(
+    color: const Color(0xFFFFFBEB),
+    border: const Border(bottom: BorderSide(
       width: 2,
       color: Colors.yellow)),
   ),

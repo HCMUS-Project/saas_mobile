@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
@@ -11,6 +8,8 @@ import 'package:mobilefinalhcmus/widgets/verify_opt.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -60,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF161D3A),
+      backgroundColor: const Color(0xFF161D3A),
       appBar: AppBar(
        
       ),
@@ -72,9 +71,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
+                  child: SizedBox(
                     width: constraints.maxWidth,
-                    child: Column(
+                    child: const Column(
                       children: [
                         Text(
                           "Register",
@@ -91,21 +90,21 @@ class _RegisterPageState extends State<RegisterPage> {
               Expanded(
                 flex: 8,
                 child: Container(
-                  padding: EdgeInsets.only(bottom: 0),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.only(bottom: 0),
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30),
                           topRight: Radius.circular(30))),
                   child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Form(
                         key: formKey,
                         child: Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             CustomTextField(
@@ -113,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     provider.usernameValidator(value),
                                 controller: usernameController,
                                 hintText: "Username"),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             CustomTextField(
@@ -121,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     provider.emailValidator(value),
                                 controller: emailController,
                                 hintText: "Email"),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             PasswordFielddWidget(
@@ -129,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   provider.passwordValidator(value),
                               controller: passwordController,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             InternationalPhoneNumberInput(
@@ -151,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 }
                               },
                               keyboardType: TextInputType.phone,
-                              selectorConfig: SelectorConfig(
+                              selectorConfig: const SelectorConfig(
                                 selectorType: PhoneInputSelectorType.DROPDOWN,
                               ),
                               hintText: "Phone number",
@@ -160,13 +159,13 @@ class _RegisterPageState extends State<RegisterPage> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                   onTap: () {},
-                                  child: Text(
+                                  child: const Text(
                                     "Forgot Password?",
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   )),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Container(
@@ -234,7 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           }
                                         } else {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
+                                              .showSnackBar(const SnackBar(
                                                   backgroundColor: Colors.red,
                                                   content: Text("Error")));
                                         }
@@ -245,8 +244,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                           .watch<AuthenticateProvider>()
                                           .httpResponseFlutter
                                           .isLoading!
-                                      ? CircularProgressIndicator()
-                                      : Text(
+                                      ? const CircularProgressIndicator()
+                                      : const Text(
                                           "Register",
                                           style: TextStyle(color: Colors.white),
                                         )),

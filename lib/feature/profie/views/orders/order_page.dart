@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -28,10 +26,10 @@ class OrderPage extends StatelessWidget {
       body: Column(
         children: [
           
-          Container(height: 50, child: StateOfOrders()),
+          const SizedBox(height: 50, child: StateOfOrders()),
           Expanded(
               child: Container(
-            child: ShowOrders(),
+            child: const ShowOrders(),
           ))
         ],
       ),
@@ -84,7 +82,7 @@ class _StateOfOrdersState extends State<StateOfOrders> {
           )));
     }
     return Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -166,7 +164,7 @@ class OrderWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           elevation: 1,
           child: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(15)),
             child: Column(
@@ -177,7 +175,7 @@ class OrderWidget extends StatelessWidget {
                     Expanded(
                       child:Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             flex: 2,
                             child: Image(image: AssetImage("assets/images/social-media.png", ), height: 32,width: 32,)),
                           Expanded(
@@ -198,14 +196,14 @@ class OrderWidget extends StatelessWidget {
                       ) 
                     ),
                     
-                    Expanded(
+                    const Expanded(
                      
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Icon(Icons.arrow_forward_ios,size: 12,)))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                       height: 10,
                     ),
                 Row(
@@ -213,7 +211,7 @@ class OrderWidget extends StatelessWidget {
                     Expanded(
                       child: Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             flex: 2,
                             child: Icon(Icons.info_outline_rounded,size: 32, )),
                           Expanded(
@@ -237,7 +235,7 @@ class OrderWidget extends StatelessWidget {
                     Expanded(
                       child: Row(
                         children: [
-                          Expanded(
+                          const Expanded(
                             flex: 2,
                             child: Image(image: AssetImage('assets/images/price-tag.png'), width: 32,height: 32,)),
                           Expanded(
@@ -249,7 +247,7 @@ class OrderWidget extends StatelessWidget {
                                 color: Colors.grey.shade400,
                                 fontWeight: FontWeight.w600
                               ),),
-                               Text("${CurrencyConfig.convertTo(price: orderModel.total!) .toString()}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                               Text(CurrencyConfig.convertTo(price: orderModel.total!) .toString(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                 
                                 fontWeight: FontWeight.w600
                               ),)

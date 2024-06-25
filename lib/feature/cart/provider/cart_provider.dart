@@ -69,7 +69,7 @@ class CartProvider extends ChangeNotifier {
       print(quantity);
       print(productId);
       Uri? uri = Uri.tryParse("${dotenv.env['HTTP_URI']}ecommerce/cart/update");
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data['id'] = cartId;
       data['cartItems'] = {"quantity": quantity, "productId": productId};
 
@@ -100,7 +100,7 @@ class CartProvider extends ChangeNotifier {
       required String token}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
 
       print("riuuiruiruite:${product.id}");
       print(quantity);

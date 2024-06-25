@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
-import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
 import 'package:provider/provider.dart';
 
 class SignOutProfile extends StatelessWidget {
+  const SignOutProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +28,7 @@ class SignOutProfile extends StatelessWidget {
               Navigator.of(context)
                   .pushNamedAndRemoveUntil('/', (route) => false);
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   backgroundColor: Colors.red, content: Text("Error")));
             }
           }
@@ -36,7 +37,7 @@ class SignOutProfile extends StatelessWidget {
           "Log out",
           style: Theme.of(context).textTheme.bodyMedium,
         ),
-        trailing: Icon(Icons.logout),
+        trailing: const Icon(Icons.logout),
       ),
     );
   }

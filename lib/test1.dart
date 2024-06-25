@@ -1,10 +1,6 @@
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 
-
-
-
-
 class Test1 extends StatefulWidget {
    String? title = '123123';
 
@@ -45,7 +41,7 @@ class _MyHomePageState extends State<Test1> {
         title: Text((widget.title) ?? "1323"),
       ),
       body: Container(
-        child: Center(
+        child: const Center(
 
         ),
       )

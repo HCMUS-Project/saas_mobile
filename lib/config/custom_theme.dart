@@ -8,13 +8,13 @@ ThemeData customTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.black,
         primary: Colors.white,
-        secondary: Color(0xFF161D3A)),
+        secondary: const Color(0xFF161D3A)),
     scaffoldBackgroundColor: Colors.white,
-    textSelectionTheme: TextSelectionThemeData(cursorColor: Color(0xFF161D3A)),
-    iconTheme: IconThemeData(color: Color(0xFF161D3A), size: 24),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: Color(0xFF161D3A)),
+    iconTheme: const IconThemeData(color: Color(0xFF161D3A), size: 24),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0xFF161D3A),
+      backgroundColor: const Color(0xFF161D3A),
     )),
     textTheme: const TextTheme(
         titleLarge: TextStyle(color: Colors.black),
@@ -115,7 +115,7 @@ class ThemeConfig {
           seedColor: Colors.black, primary: bodyColor, secondary: headerColor),
       scaffoldBackgroundColor: bodyColor,
       textSelectionTheme:
-          TextSelectionThemeData(cursorColor: Color.fromARGB(255, 34, 38, 54)),
+          const TextSelectionThemeData(cursorColor: Color.fromARGB(255, 34, 38, 54)),
       iconTheme: IconThemeData(color: bodyTextColor, size: 24),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

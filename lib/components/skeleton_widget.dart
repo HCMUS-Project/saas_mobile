@@ -14,21 +14,24 @@ class SkeletonContainer extends StatelessWidget {
   }) : super(key: key);
 
   const SkeletonContainer.square({
+    Key? key,
     double? width,
     double? height,
-  }) : this._(width: width, height: height);
+  }) : this._(key: key, width: width, height: height);
 
   const SkeletonContainer.rounded({
+    Key? key,
     double? width,
     double? height,
     BorderRadius borderRadius = const BorderRadius.all(Radius.circular(12)),
-  }) : this._(width: width, height: height, borderRadius: borderRadius);
+  }) : this._(key: key,width: width, height: height, borderRadius: borderRadius);
 
   const SkeletonContainer.circular({
+    Key? key,
     double? width,
     double? height,
     BorderRadius borderRadius = const BorderRadius.all(Radius.circular(80)),
-  }) : this._(width: width, height: height, borderRadius: borderRadius);
+  }) : this._(key: key,width: width, height: height, borderRadius: borderRadius);
 
   @override
   Widget build(BuildContext context) => SkeletonAnimation(
@@ -46,7 +49,7 @@ class SkeletonContainer extends StatelessWidget {
       );
 }
 
-Widget buildSkeleton(BuildContext context) => Container(
+Widget buildSkeleton(BuildContext context) => SizedBox(
   height: 120,
   child: Column(
         children: <Widget>[
@@ -66,7 +69,7 @@ Widget buildSkeleton(BuildContext context) => Container(
                   height: 25,
                 ),
                 const SizedBox(height: 8),
-                SkeletonContainer.rounded(
+                const SkeletonContainer.rounded(
                   width: 60,
                   height: 13,
                 ),

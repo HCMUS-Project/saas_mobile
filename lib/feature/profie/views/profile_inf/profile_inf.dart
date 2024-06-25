@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileInfor extends StatefulWidget {
-  ProfileInfor({super.key});
+  const ProfileInfor({super.key});
 
   @override
   State<ProfileInfor> createState() => _ProfileInforState();
@@ -47,9 +45,9 @@ class _ProfileInforState extends State<ProfileInfor> {
                   Expanded(
                     flex: 9,
                     child: Container(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       alignment: Alignment.center,
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 70,
                         backgroundImage: AssetImage("assets/images/avatar.png"),
                       ),
@@ -62,13 +60,13 @@ class _ProfileInforState extends State<ProfileInfor> {
                       children: [
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 15)),
+                                fixedSize: const Size(100, 15)),
                             onPressed: () {
                               setState(() {
                                 editStatus = true;
                               });
                             },
-                            child: Text("Edit"))
+                            child: const Text("Edit"))
                       ],
                     ),
                   )
@@ -79,7 +77,7 @@ class _ProfileInforState extends State<ProfileInfor> {
                 flex: 6,
                 child: Container(
                   child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                       child: Column(
                     children: [
                       ShowInf(
@@ -117,7 +115,7 @@ class _ProfileInforState extends State<ProfileInfor> {
               Container(
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(fixedSize: Size(150, 15)),
+                    style: ElevatedButton.styleFrom(fixedSize: const Size(150, 15)),
                     onPressed: () async {
                       print(ageController.text);
                       await context
@@ -143,14 +141,14 @@ class _ProfileInforState extends State<ProfileInfor> {
                         
 
                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
+                                            .showSnackBar(const SnackBar(
                                                 backgroundColor: Colors.green,
                                                 content: Text(
                                                     "success")));
                         editStatus = false;
                       }
                     },
-                    child: Text("Update")),
+                    child: const Text("Update")),
               )
           ],
         ),
@@ -175,7 +173,7 @@ class ShowInf extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -190,7 +188,7 @@ class ShowInf extends StatelessWidget {
             controller: controller,
             enabled: editStatus ?? false,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(8),
+              contentPadding: const EdgeInsets.all(8),
               hintText: value,
               focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),

@@ -17,7 +17,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
               return Padding(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Container(
+                child: SizedBox(
                   height: 500,
                   child: SingleChildScrollView(
                     child: Column(
@@ -30,7 +30,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         RatingBar(
-                          itemPadding: EdgeInsets.all(2),
+                          itemPadding: const EdgeInsets.all(2),
                           itemSize: 35.0,
                           direction: Axis.horizontal,
                           allowHalfRating: true,
@@ -67,7 +67,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                           ],
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Material(
                             borderRadius: BorderRadius.circular(15),
                             elevation: 1,
@@ -77,7 +77,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                                 print(value);
                                 print(controller.text);
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide.none),
                                   border: OutlineInputBorder(
@@ -86,30 +86,30 @@ void PostReview ({required BuildContext context, required TextEditingController 
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           alignment: Alignment.centerLeft,
                           child: Column(
                             children: [
                               CircleAvatar(
                                 backgroundColor: Theme.of(context).colorScheme.secondary,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.camera_alt,
                                   color: Colors.white,
                                 ),
                               ),
-                              Text("Add your photo")
+                              const Text("Add your photo")
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           width: double.infinity,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(

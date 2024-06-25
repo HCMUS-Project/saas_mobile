@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
   ForgetPasswordPage({super.key});
-  FocusNode myFocusNode = new FocusNode();
+  FocusNode myFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -13,7 +12,7 @@ class ForgetPasswordPage extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Forget Password",
         ),
       ),
@@ -24,36 +23,36 @@ class ForgetPasswordPage extends StatelessWidget {
             child: Container(
               height: size.height,
               width: size.width,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Column(
                 children: [
                   Container(
                   height: 250,
                   width: 250,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 255, 250, 206),
                       shape: BoxShape.circle),
                   child: Container(
                     height: 100,
                     width: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                        shape: BoxShape.circle),
-                    child: Image(image: AssetImage("assets/images/lock.png")),
+                    child: const Image(image: AssetImage("assets/images/lock.png")),
                   ),
                 ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
-                  Text(
+                  const Text(
                     "Please Enter Your Email Address To",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(
+                  const Text(
                     "Recieve a Verification Cord.",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   TextField(
@@ -62,7 +61,7 @@ class ForgetPasswordPage extends StatelessWidget {
                             color: myFocusNode.hasFocus
                                 ? Colors.blue
                                 : Colors.black),
-                        label: Text("Email Address"),
+                        label: const Text("Email Address"),
                         focusedBorder: UnderlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.grey.shade400)),
@@ -73,12 +72,12 @@ class ForgetPasswordPage extends StatelessWidget {
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,
-                      child: Container(
+                      child: SizedBox(
                         width: size.width * 0.7,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFFFCE01)),
-                          child: Text(
+                              backgroundColor: const Color(0xFFFFCE01)),
+                          child: const Text(
                             "Send",
                             style: TextStyle(color: Colors.black),
                           ),

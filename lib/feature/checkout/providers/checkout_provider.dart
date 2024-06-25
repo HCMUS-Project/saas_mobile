@@ -61,7 +61,7 @@ class CheckoutProvider extends ChangeNotifier {
       httpResponseFlutter = HttpResponseFlutter.unknown();
       httpResponseFlutter.update(isLoading: true);
       notifyListeners();
-      Map<String, dynamic> data = Map();
+      Map<String, dynamic> data = {};
       data["productsId"] = productsId;
       data["quantities"] = quantities;
       data["phone"] = phone;

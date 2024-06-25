@@ -26,7 +26,7 @@ class FeatureOfProfile extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white
       ),
       child: ListTile(
@@ -37,7 +37,7 @@ class FeatureOfProfile extends StatelessWidget{
           }
         },
         title: Text(titleOfFeature,style: Theme.of(context).textTheme.bodyMedium,),
-        trailing: Icon(Icons.arrow_forward_ios_outlined ),
+        trailing: const Icon(Icons.arrow_forward_ios_outlined ),
       ),
     );
   }

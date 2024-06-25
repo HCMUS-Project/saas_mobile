@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/tenant/models/tenants_model.dart';
@@ -33,7 +31,7 @@ class TenantPage extends StatelessWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -47,19 +45,19 @@ class TenantPage extends StatelessWidget {
                             .titleLarge
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Container(
+                      SizedBox(
                         height: constraints.maxWidth / 1.5,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: 2,
                           itemBuilder: (context, index) {
                             final tenant = tenantList[index];
-                            return Container(
+                            return SizedBox(
                               width: constraints.maxWidth / 2,
                               child: Card(
                                 elevation: 1,
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15)),
                                   child: Column(
@@ -109,10 +107,10 @@ class TenantPage extends StatelessWidget {
                                                           fontWeight:
                                                               FontWeight.bold),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 10,
                                                 ),
-                                                Icon(
+                                                const Icon(
                                                   Icons.arrow_forward,
                                                   color: Colors.white,
                                                 )
@@ -129,7 +127,7 @@ class TenantPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -138,14 +136,14 @@ class TenantPage extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: Color(0xFF161D3A)),
+                        color: const Color(0xFF161D3A)),
                     child: Text(
                       "WELCOME TO SAASHCMUS",
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -158,7 +156,7 @@ class TenantPage extends StatelessWidget {
                         itemCount: 3,
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5),
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15)),
                             width: constraints.maxWidth * 0.7,
@@ -173,10 +171,10 @@ class TenantPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                       height: constraints.maxWidth / 3,
                       width: double.infinity,
                       child: Row(
@@ -185,11 +183,11 @@ class TenantPage extends StatelessWidget {
                             child: Card(
                     
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15),
                                    ),
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -207,11 +205,11 @@ class TenantPage extends StatelessWidget {
                           Expanded(
                             child: Card(
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -229,11 +227,11 @@ class TenantPage extends StatelessWidget {
                           Expanded(
                             child: Card(
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [

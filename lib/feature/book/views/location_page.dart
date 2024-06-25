@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobilefinalhcmus/feature/book/views/booking_page.dart';
 
 class ChoosingLocationPage extends StatelessWidget{
+  const ChoosingLocationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -10,7 +11,7 @@ class ChoosingLocationPage extends StatelessWidget{
         
         actions: [
           IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: (){
             
           },
