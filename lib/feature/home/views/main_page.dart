@@ -129,7 +129,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       await QuickAlert.show(
           context: context,
           text: "Your login session has expired",
-          textColor: Theme.of(context).colorScheme.secondary,
+          textColor: (Theme.of(context).textTheme.bodyMedium?.color)!,
           confirmBtnText: "Yes",
           cancelBtnText: "No",
           showCancelBtn: true,

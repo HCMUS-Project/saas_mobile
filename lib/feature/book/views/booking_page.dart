@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
+import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/enum/work_shift.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
@@ -14,6 +15,8 @@ import 'package:mobilefinalhcmus/feature/book/views/service_page/service_page.da
 
 import 'package:mobilefinalhcmus/feature/book/widgets/step_process_widget.dart';
 import 'package:mobilefinalhcmus/feature/service/animations/faded_animation.dart';
+import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
+import 'package:mobilefinalhcmus/helper/cal_discount.dart';
 import 'package:mobilefinalhcmus/helper/time_slot.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
@@ -37,6 +40,8 @@ class _BookingPageState extends State<BookingPage> {
   Widget? listTime;
   int selectedTime = -1;
   Map<String, dynamic>? controller;
+
+  VoucherModel voucher = VoucherModel();
   late AuthenticateProvider authenticateProvider;
   late BookingProvider bookingProvider;
   @override
@@ -219,22 +224,26 @@ class _BookingPageState extends State<BookingPage> {
                                         color: Colors.grey.shade200),
                                     child: GestureDetector(
                                       onTap: () async {
-                                        ServiceModel service =
+                                        voucher.update(VoucherModel.unknown());
+                                        ServiceModel? service =
                                             await Navigator.of(context)
                                                 .push(MaterialPageRoute(
                                           builder: (context) {
-                                            return ServicePage();
+                                            return ServicePage(
+                                              voucher: voucher,
+                                            );
                                           },
                                         ));
-
-                                        setState(() {
-                                          widget.selectedStep = 0;
-                                          listEmployee = null;
-                                          listTime = null;
-                                          chosenService = service;
-                                          widget.selectedStep++;
-                                          catchErro1 = null;
-                                        });
+                                        if(service != null){
+                                          setState(() {
+                                            widget.selectedStep = 0;
+                                            listEmployee = null;
+                                            listTime = null;
+                                            chosenService = service;
+                                            widget.selectedStep++;
+                                            catchErro1 = null;
+                                          });
+                                        }
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -259,13 +268,31 @@ class _BookingPageState extends State<BookingPage> {
                                       ),
                                     ),
                                   ),
+                                  if (catchErro1!=null)
                                   Text(
                                     catchErro1 ?? "",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
                                         ?.copyWith(color: Colors.red),
+                                  ),
+                                  if(voucher.id != null && chosenService != null )
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Image(image: AssetImage("assets/images/coupon.png"), height: 32,width: 32,)),
+                                      Expanded(
+                                        flex: 8,
+                                        child: Text(CurrencyConfig.convertTo(price: CalculateDiscount(voucher: voucher, chosenService: chosenService!)).toString(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),)),
+                                    ],
                                   )
+                                  else if (chosenService != null)
+                                  Text(CurrencyConfig.convertTo(price: (chosenService!.price)!).toString(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                          fontWeight: FontWeight.bold
+                                        ),)
                                 ]),
                           );
                         },
@@ -578,23 +605,42 @@ class _BookingPageState extends State<BookingPage> {
                                     height: 180,
                                     child: listTime,
                                   ),
-                                if (listEmployee != null)
-                                  Container(
-                                    height: 110,
+
+                                Consumer<BookingProvider>(
+                                  builder: (context, value, child) {
+                                    final isLoading = value.httpResponseFlutter.isLoading;
+                                    if (isLoading!){
+                                      return Container(
+                                        height: 110,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            color: Theme.of(context).colorScheme.secondary,
+                                          ),
+                                        ),
+                                      );
+                                    }else{
+                                    return  Container(
+                                    height: 90,
                                     child: listEmployee,
-                                  ),
+                                    );
+                                    }
+                                  },
+                                ),
+                                
 
                                 if (context
                                         .read<BookingProvider>()
                                         .selectedIndexEmployee !=
                                     null)
                                   Container(
-                                    alignment: Alignment.center,
+                                    alignment: Alignment.topCenter,
                                     child: ElevatedButton(
                                         onPressed: () async {
+                                          print("VOUCHERRRRRRRRRRRRRRRRRRRr: ${voucher.id}");
                                           await context
                                               .read<BookingProvider>()
                                               .createBooking(
+                                                  voucher: voucher.id,
                                                   token: context
                                                       .read<
                                                           AuthenticateProvider>()
@@ -614,6 +660,14 @@ class _BookingPageState extends State<BookingPage> {
                                           final result = context
                                               .read<BookingProvider>()
                                               .httpResponseFlutter;
+                                          final errorMessage = context.read<BookingProvider>().httpResponseFlutter.errorMessage;
+                                          if (errorMessage != null){
+                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              backgroundColor: Colors.red,
+                                              content: Text(errorMessage, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                color: Colors.white
+                                              ),)));
+                                          }
                                           if (result.result != null) {
                                             QuickAlert.show(
                                                 autoCloseDuration:
@@ -649,7 +703,19 @@ class _BookingPageState extends State<BookingPage> {
                 ),
               ),
             ),
+      bottomNavigationBar: Container(
+        
+        child: Row(
+          children: [
+            Expanded(child: Text(
+              ""
+            )),
+            Expanded(child: Text("")),
+          ],
+        ),
+      ),
     );
+    
   }
 }
 

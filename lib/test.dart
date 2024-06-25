@@ -8,21 +8,22 @@ import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
 import 'package:mobilefinalhcmus/config/exception_config.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-class SockerConfig{
+
+class SockerConfig {
   IO.Socket? socket;
-  SockerConfig._internal(){
+  SockerConfig._internal() {
     socket = IO.io("", IO.OptionBuilder().setTransports(['websocket']).build());
-
   }
-  static SockerConfig? _sockerConfig  = SockerConfig._internal();
+  static SockerConfig? _sockerConfig = SockerConfig._internal();
 
-  static SockerConfig getInstance(){
+  static SockerConfig getInstance() {
     return _sockerConfig ?? SockerConfig._internal();
   }
 
-  void init(){
+  void init() {
     socket?.on('connect', (_) {
       print('Connected to server');
     });
@@ -34,16 +35,11 @@ class SockerConfig{
 }
 
 class TestPage extends StatefulWidget {
-  TestPage({
-    super.key,
-    this.product
-  });
+  TestPage({super.key, this.product});
   ProductModel? product;
   @override
   State<TestPage> createState() => _TestPageState();
 }
-
-
 
 class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   late AnimationController _controller;
@@ -57,7 +53,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
   }
 
   final Uri _url = Uri.parse(
-    'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=10000000&vnp_Command=pay&vnp_CreateDate=20240607122138&vnp_CurrCode=VND&vnp_IpAddr=1.1.1.1&vnp_Locale=vn&vnp_OrderInfo=ipsum+et&vnp_OrderType=210000&vnp_ReturnUrl=https%3A%2F%2Fnvukhoi.id.vn&vnp_TmnCode=H0OFYK66&vnp_TxnRef=905720-1717762898394&vnp_Version=2.1.0&vnp_SecureHash=92f20e2fa59c8888e6e2f847c3521e469f6ed04afd00bb961cac26e284e5e27f01d35a17613d2c4051f23306c23a924c49addf813cd441c0925b3d9cc1873d38');
+      'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=10000000&vnp_Command=pay&vnp_CreateDate=20240607122138&vnp_CurrCode=VND&vnp_IpAddr=1.1.1.1&vnp_Locale=vn&vnp_OrderInfo=ipsum+et&vnp_OrderType=210000&vnp_ReturnUrl=https%3A%2F%2Fnvukhoi.id.vn&vnp_TmnCode=H0OFYK66&vnp_TxnRef=905720-1717762898394&vnp_Version=2.1.0&vnp_SecureHash=92f20e2fa59c8888e6e2f847c3521e469f6ed04afd00bb961cac26e284e5e27f01d35a17613d2c4051f23306c23a924c49addf813cd441c0925b3d9cc1873d38');
   SlidableController? slidableController;
   @override
   void initState() {
@@ -80,8 +76,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
           if (isToggle) {
             slidableController?.openEndActionPane(
                 curve: Curves.linear, duration: Durations.medium1);
-          } else 
-          {
+          } else {
             slidableController?.close(duration: Durations.medium1);
           }
 
@@ -90,7 +85,6 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
           } else {
             throw Exception('Could not launch $_url');
           }
-          
         },
       ),
       body: CustomScrollView(
@@ -100,49 +94,46 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
             title: Container(
               height: 56,
               alignment: Alignment.bottomLeft,
-              decoration: BoxDecoration(
-              ),
+              decoration: BoxDecoration(),
               child: Text(
-                "Let's find your booking!",style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
-                ),
+                "Let's find your booking!",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(80), 
-              child: Container(
-                decoration: BoxDecoration(
-              
-                ),
-                padding: EdgeInsets.all(20),
-                child: TextField(
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontSize: 18
-                  ),
-                  decoration: InputDecoration(
-                    prefixIconConstraints:BoxConstraints(
-                      minWidth: 32,
-                      minHeight: 32
-                    ) ,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.search,size: 24,),
+                preferredSize: Size.fromHeight(80),
+                child: Container(
+                  decoration: BoxDecoration(),
+                  padding: EdgeInsets.all(20),
+                  child: TextField(
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 18),
+                    decoration: InputDecoration(
+                      prefixIconConstraints:
+                          BoxConstraints(minWidth: 32, minHeight: 32),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.search,
+                          size: 24,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none
-                    ),
-                    fillColor: Colors.white,
-                    filled: true,
-                    isDense: true,
-                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   ),
-                ),
-              )
-            ),
+                )),
           ),
-
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -150,46 +141,121 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                 children: bookingList(),
               ),
             ),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.only(bottom: 8, left: 8, right: 8),
+            sliver: SliverGrid.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5,
+                  mainAxisExtent: 300,
+                  mainAxisSpacing: 5),
+              itemBuilder: (context, index) {
+                return Container(
+                    child: Material(
+                  color: Colors.white,
+                  elevation: 1,
+                  borderRadius: BorderRadius.circular(15),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image(
+                                image: NetworkImage(
+                                    "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw ohioeoefhehehefwohfohfowew"),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+                     
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    flex: 7,
+                                    child: Text("ShineCombo cắt gội 10 bước")),
+                                Expanded(flex: 3, child: Text("45 phút")),
+                              ],
+                            ),
+                             Divider(
+                        color: Colors.grey.shade200,
+                        
+                      ),
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                "This is dye hair description flejfjlewfnwfnjkwflwqrfhewkfhkwefwefbjkekwefkjefkwekwhe",
+                                textAlign: TextAlign.start,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              child: Column(
+                                children: [
+                                  Text("Standard Price"),
+                                  Text("120K")
+                                ],
+                              ),
+                            ),
+                            Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(5),
+                                child: ElevatedButton(
+                                    onPressed: () {}, child: Text("choose")))
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ));
+              },
+            ),
           )
         ],
       ),
     );
   }
 
-  List<Widget> bookingList (){
-    List<Widget> data =[];
-    for(int i =0 ; i < 5; i++){
-      data.add(
-        Container(
+  List<Widget> bookingList() {
+    List<Widget> data = [];
+    for (int i = 0; i < 5; i++) {
+      data.add(Skeletonizer(
+        enabled: false,
+        child: Container(
           margin: EdgeInsets.only(bottom: 10),
-  
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15)
-          ),
-          height:300 ,
+              color: Colors.white, borderRadius: BorderRadius.circular(15)),
+          height: 300,
           child: Column(
             children: [
               Expanded(
-                flex: 4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                    image: DecorationImage(image: NetworkImage("https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw",),fit: BoxFit.fill)
-                  ),
-
-                )
-              ),
+                  flex: 4,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                        ),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw",
+                            ),
+                            fit: BoxFit.fill)),
+                  )),
               Expanded(
                 flex: 6,
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                     borderRadius: BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15),
                     ),
@@ -197,104 +263,130 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                   child: Row(
                     children: [
                       Expanded(
-                        flex: 3,
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.grey.shade200
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Saturday, Oct 10th", style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold
-                              ),),
-                              Text("8:15 AM")
-                            ],
-                          ),
-                        ) 
+                          flex: 3,
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.grey.shade200),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Saturday, Oct 10th",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text("8:15 AM")
+                              ],
+                            ),
+                          )),
+                      SizedBox(
+                        width: 5,
                       ),
-                      SizedBox(width: 5,),
                       Expanded(
-                        flex: 7,
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          
-                          ),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Row(
+                          flex: 7,
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                    child: Row(
                                   children: [
                                     Icon(Icons.article_outlined),
                                     Row(
                                       children: [
-                                        Text("id: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold
-                                        ),),
+                                        Text(
+                                          "id: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
                                         Text("db951a1f6430"),
                                       ],
                                     )
                                   ],
                                 )),
-                              Expanded(
-                                child: Row(
+                                Expanded(
+                                    child: Row(
                                   children: [
                                     Icon(Icons.info_outline),
                                     Row(
                                       children: [
-                                        Text("service: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold
-                                        ),),
+                                        Text(
+                                          "service: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
                                         Text("Cat toc 123"),
                                       ],
                                     )
                                   ],
                                 )),
-                                 Expanded(
-                                child: Row(
+                                Expanded(
+                                    child: Row(
                                   children: [
-                                    Image(image: AssetImage("assets/images/social-media.png"),height: 24,width: 24,),
+                                    Image(
+                                      image: AssetImage(
+                                          "assets/images/social-media.png"),
+                                      height: 24,
+                                      width: 24,
+                                    ),
                                     Row(
                                       children: [
-                                        Text("status: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold
-                                        ),),
+                                        Text(
+                                          "status: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
                                         Text("paid"),
                                       ],
                                     )
                                   ],
                                 )),
-                                
-                              Expanded(
-                                child: Row(
+                                Expanded(
+                                    child: Row(
                                   children: [
                                     Icon(Icons.people_outline),
                                     Row(
                                       children: [
-                                        Text("employee: ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold
-                                        ),),
+                                        Text(
+                                          "employee: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                        ),
                                         Text("Nguyen Vu Khoi"),
                                       ],
                                     )
                                   ],
-                              )),
-                                
-                            ], 
-                          ),
-                        ))
+                                )),
+                              ],
+                            ),
+                          ))
                     ],
                   ),
                 ),
               )
             ],
           ),
-        )
-      );
+        ),
+      ));
     }
     return data;
   }
@@ -320,26 +412,23 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
       children: [
         Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-        
-          ),
-          child: Image(image: NetworkImage(widget.product.image![selectedImage])),
+          decoration: BoxDecoration(),
+          child:
+              Image(image: NetworkImage(widget.product.image![selectedImage])),
         ),
         Align(
           alignment: Alignment.bottomLeft,
           child: Container(
             height: 100,
             width: double.infinity,
-            decoration: BoxDecoration(
-     
-          ),
-          padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(),
+            padding: EdgeInsets.all(8),
             child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
                   final image = widget.product.image![index];
                   return GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         selectedImage = index;
                       });
@@ -347,32 +436,36 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
                     child: Container(
                       height: 100,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: selectedImage == index ? Colors.black : Colors.transparent,
-                          width: 2
-                        ),
-                        borderRadius: BorderRadius.circular(15)
-                      ),
+                          border: Border.all(
+                              color: selectedImage == index
+                                  ? Colors.black
+                                  : Colors.transparent,
+                              width: 2),
+                          borderRadius: BorderRadius.circular(15)),
                       child: Material(
                         elevation: 1,
                         color: Colors.amber,
                         borderRadius: BorderRadius.circular(15),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image(image: NetworkImage(image),fit: BoxFit.fill,width: 80,)),
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image(
+                              image: NetworkImage(image),
+                              fit: BoxFit.fill,
+                              width: 80,
+                            )),
                       ),
                     ),
                   );
-              }, 
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  width: 10,
-                );
-              }, 
-              itemCount: widget.product.image!.length),
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 10,
+                  );
+                },
+                itemCount: widget.product.image!.length),
           ),
         )
-      ],  
+      ],
     );
   }
 }

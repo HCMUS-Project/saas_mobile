@@ -112,6 +112,7 @@ class ThemeConfig {
       colorScheme: ColorScheme.fromSeed(
           onPrimary: bodyTextColor,
           onSurface: bodyTextColor,
+          
           seedColor: Colors.black, primary: bodyColor, secondary: headerColor),
       scaffoldBackgroundColor: bodyColor,
       textSelectionTheme:
@@ -122,6 +123,13 @@ class ThemeConfig {
         textStyle: TextStyle(color: buttonTextColor),
         backgroundColor: buttonColor,
       )),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: footerColor,
+        
+        unselectedLabelStyle: TextStyle(
+          color: footerTextColor
+        )
+      ),
       textTheme: TextTheme(
           titleLarge: TextStyle(color: bodyTextColor),
           titleMedium: TextStyle(color: bodyTextColor),
