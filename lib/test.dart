@@ -131,6 +131,41 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
                   ),
                 )),
           ),
+          SliverPadding(
+            padding: EdgeInsets.all(8),
+            sliver: SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    width: 1,
+                    color: Theme.of(context).textTheme.bodyLarge!.color!
+              
+                  )
+                ),
+                child: Row(
+
+                  children: [
+                    Expanded(
+                      flex: 2,
+                        child: Icon(Icons.person)),
+                    Expanded(
+                      flex: 8,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("First name",style: Theme.of(context).textTheme.bodyMedium,),
+                            Text("Jane",style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold
+                            ),)
+                          ],
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -139,6 +174,7 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
               ),
             ),
           ),
+
           SliverPadding(
             padding: EdgeInsets.only(bottom: 8, left: 8, right: 8),
             sliver: SliverGrid.builder(

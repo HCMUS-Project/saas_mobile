@@ -95,6 +95,7 @@ class _ServicePageState extends State<ServicePage>
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) {
                                   return ServiceVoucher(
+                                    service: chosenService!,
                                     chosenVoucher: widget.voucher,
                                   );
                                 },

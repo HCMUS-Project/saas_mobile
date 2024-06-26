@@ -275,12 +275,20 @@ class BookingProvider extends ChangeNotifier {
 
   Future<HttpResponseFlutter> getAllVoucher({
     required String token,
-
+    String? serviceId
   }) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
+      Map<String, dynamic> queryParameters = {
+        "service": serviceId
+      };
+
+      queryParameters.removeWhere((key, value) => value == null);
+
       final uri =
-          Uri.tryParse("${dotenv.env['HTTP_URI']}booking/voucher/find/all");
+          Uri.tryParse("${dotenv.env['HTTP_URI']}booking/voucher/find/all")?.replace(
+            queryParameters: queryParameters
+          );
       final rs = await http.get(headers: {
         HttpHeaders.authorizationHeader: "Bearer $token",
         'Content-type': 'application/json',

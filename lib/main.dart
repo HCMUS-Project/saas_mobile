@@ -21,6 +21,7 @@ import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
+import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +41,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -74,23 +74,23 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
           return FutureBuilder(
-            future: value
-                .getTheme(domain: context.read<AuthenticateProvider>().domain!),
+            future: value.getTheme(
+                domain: context.read<AuthenticateProvider>().domain!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container();
               }
               final rs = value.httpResponseFlutter.result?['themeConfig'];
-              
+
               final theme = ThemeConfig.fromJson(rs);
-             
+
               return MaterialApp(
                 title: 'Flutter Demo',
                 debugShowCheckedModeBanner: false,
                 theme: theme.theme,
                 initialRoute: '/',
                 routes: {
-                  '/': (context) => const IntroPage(),
+                  '/': (context) => TestPage(),
                   '/tenant': (context) => const TenantPage(),
                   '/auth/login': (context) => LoginPage(),
                   '/auth/signup': (context) => const RegisterPage(),
