@@ -343,7 +343,7 @@ class ProductDetail extends StatelessWidget {
                                                                       .elevatedButtonTheme
                                                                       .style
                                                                       ?.copyWith(
-                                                                          shape: const WidgetStatePropertyAll(
+                                                                          shape: const MaterialStatePropertyAll(
                                                                               CircleBorder())),
                                                                   onPressed:
                                                                       () {
@@ -366,7 +366,7 @@ class ProductDetail extends StatelessWidget {
                                                                       .elevatedButtonTheme
                                                                       .style
                                                                       ?.copyWith(
-                                                                          shape: const WidgetStatePropertyAll(
+                                                                          shape: const MaterialStatePropertyAll(
                                                                               CircleBorder())),
                                                                   onPressed:
                                                                       () {

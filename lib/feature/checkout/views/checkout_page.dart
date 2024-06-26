@@ -422,10 +422,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                                 child: Checkbox(
                                                                               checkColor: Theme.of(context).colorScheme.secondary,
                                                                               shape: const CircleBorder(),
-                                                                              side: WidgetStateBorderSide.resolveWith(
-                                                                                (states) => BorderSide(width: 1.0, color: Theme.of(context).colorScheme.secondary),
-                                                                              ),
-                                                                              fillColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
+                                                                              side: BorderSide(width: 1.0, color: Theme.of(context).colorScheme.secondary),
+                                                                              fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.primary),
                                                                               value: listChosenVoucher.where((element) => element.id == voucher.id).isNotEmpty,
                                                                               onChanged: (value) {
                                                                                 print(value);
@@ -472,7 +470,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                       child: SizedBox(
                                                                           width: double.infinity,
                                                                           child: ElevatedButton(
-                                                                              style: Theme.of(context).elevatedButtonTheme.style?.copyWith(shape: const WidgetStatePropertyAll(BeveledRectangleBorder())),
+                                                                              style: Theme.of(context).elevatedButtonTheme.style?.copyWith(shape: MaterialStatePropertyAll((BeveledRectangleBorder()))),
                                                                               onPressed: () {
                                                                                 context.read<CheckoutProvider>().listenerFlag = "VOUCHER";
                                                                                 context.read<CheckoutProvider>().update();

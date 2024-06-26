@@ -124,7 +124,7 @@ class LoginPage extends StatelessWidget {
                                     .elevatedButtonTheme
                                     .style
                                     ?.copyWith(
-                                        fixedSize: WidgetStatePropertyAll(
+                                        fixedSize: MaterialStatePropertyAll(
                                             Size(
                                                 constraints.maxWidth / 2, 50))),
                                 onPressed: () async {

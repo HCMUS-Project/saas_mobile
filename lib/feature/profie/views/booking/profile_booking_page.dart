@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
@@ -353,6 +354,7 @@ class _EndDrawerState extends State<EndDrawer> {
                               widget.selectedServiceFilter.clear();
                               widget.selectedStatusFilter.clear();
                               widget.pagingController.refresh();
+
                               Navigator.of(context).pop();
                             });
                           },
@@ -404,7 +406,8 @@ class showBookingHistory extends StatefulWidget {
 
 class _showBookingHistoryState extends State<showBookingHistory> {
   late BookingProvider bookingProvider;
-
+  List<Map<String, dynamic>>? dateTitle = [];
+  
   final int _pageSize = 5;
   @override
   void initState() {
@@ -413,7 +416,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
     bookingProvider = context.read<BookingProvider>();
     widget.pagingController.addPageRequestListener((pageKey) async {
       try {
-        print("SELTECTED SERVICE ${widget.selectedServiceFilter}");
+        
         await bookingProvider.getAllBooking(
             token: context.read<AuthenticateProvider>().token!,
             services: widget.selectedServiceFilter,
@@ -458,6 +461,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
               );
             },
             firstPageErrorIndicatorBuilder: (context) {
+
               return const Center(
                 child: Text("Somethings went wrong!"),
               );
@@ -466,6 +470,10 @@ class _showBookingHistoryState extends State<showBookingHistory> {
               return const Center(
                 child: Text("Somethings went wrong!"),
               );
+            },
+            firstPageProgressIndicatorBuilder: (context) {
+              dateTitle = [];
+              return Text("");
             },
             newPageProgressIndicatorBuilder: (context) {
               return Container(
@@ -485,7 +493,27 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                   .format(DateTime.parse(booking['startTime']));
               final startTime = DateFormat("HH:mm")
                   .format(DateTime.parse(booking['startTime']));
-
+              final createdAt = DateFormat("EEEE,MMM d").format(DateTime.parse(booking['createdAt']));
+             
+              if (dateTitle!.isEmpty){
+                print("date tiltle is null");
+                print(dateTitle );
+                print(createdAt);
+                dateTitle?.add({
+                  createdAt:index 
+                });
+      
+                
+              }else{
+                print("data title $createdAt");
+                print(dateTitle!.where((element) => element[createdAt] != null));
+                if (dateTitle!.where((element) => element[createdAt] != null).isEmpty){
+                  dateTitle?.add({
+                  createdAt:index 
+                  });
+                }
+              }
+              
               return GestureDetector(
                 onTap: () => {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -496,202 +524,223 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                     },
                   ))
                 },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                  height: 300,
-                  child: Material(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                    ),
-                    elevation: 1,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            flex: 4,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                  ),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        booking['service']['images'][0],
+                child: Column(
+                  children: [
+                    if (dateTitle!.where((element) => element[createdAt] == index).isNotEmpty)
+                      Container(
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.secondary,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(15)
+                          ),
+                          child: Text(createdAt,style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold
+                          ),),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                      height: 300,
+                      child: Material(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                        ),
+                        elevation: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 4,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15),
                                       ),
-                                      fit: BoxFit.fill)),
-                            )),
-                        Expanded(
-                          flex: 6,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 3,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          color: Colors.grey.shade200),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            date,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            booking['service']['images'][0],
                                           ),
-                                          Text(startTime),
-                                        ],
-                                      ),
-                                    )),
-                                const SizedBox(
-                                  width: 5,
+                                          fit: BoxFit.fill)),
+                                )),
+                            Expanded(
+                              flex: 6,
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),
+                                  ),
                                 ),
-                                Expanded(
-                                    flex: 7,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                              child: Row(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: Colors.grey.shade200),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Icon(
-                                                  Icons.article_outlined),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "id: ",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  Text(booking['id']
-                                                      .toString()
-                                                      .split("-")[4]),
-                                                ],
-                                              )
-                                            ],
-                                          )),
-                                          Expanded(
-                                              child: Row(
-                                            children: [
-                                              const Icon(Icons.info_outline),
-                                              Container(
-                                                child: Text(
-                                                  "service: ",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                ),
+                                              Text(
+                                                date,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                               ),
-                                              SizedBox(
-                                                width: 100,
-                                                child: Text(
-                                                  booking['service']['name'],
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  softWrap: true,
-                                                ),
-                                              ),
+                                              Text(startTime),
                                             ],
-                                          )),
-                                          Expanded(
-                                              child: Row(
+                                          ),
+                                        )),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                        flex: 7,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15),
+                                          ),
+                                          child: Column(
                                             children: [
-                                              const Image(
-                                                image: AssetImage(
-                                                    "assets/images/social-media.png"),
-                                                height: 24,
-                                                width: 24,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "status: ",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium
-                                                        ?.copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  Text(booking['status']),
-                                                ],
-                                              )
-                                            ],
-                                          )),
-                                          Expanded(
-                                              child: Row(
-                                            children: [
-                                              const Icon(Icons.people_outline),
                                               Expanded(
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      "employee: ",
+                                                  child: Row(
+                                                children: [
+                                                  const Icon(
+                                                      Icons.article_outlined),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "id: ",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                      Text(booking['id']
+                                                          .toString()
+                                                          .split("-")[4]),
+                                                    ],
+                                                  )
+                                                ],
+                                              )),
+                                              Expanded(
+                                                  child: Row(
+                                                children: [
+                                                  const Icon(Icons.info_outline),
+                                                  Container(
+                                                    child: Text(
+                                                      "service: ",
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyMedium
                                                           ?.copyWith(
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                                  FontWeight.bold),
                                                     ),
-                                                    Expanded(
-                                                      child: Text(booking[
-                                                                  'employee']
-                                                              ['firstName'] +
-                                                          " " +
-                                                          booking['employee']
-                                                              ['lastName']),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 100,
+                                                    child: Text(
+                                                      booking['service']['name'],
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      softWrap: true,
                                                     ),
-                                                  ],
-                                                ),
-                                              )
+                                                  ),
+                                                ],
+                                              )),
+                                              Expanded(
+                                                  child: Row(
+                                                children: [
+                                                  const Image(
+                                                    image: AssetImage(
+                                                        "assets/images/social-media.png"),
+                                                    height: 24,
+                                                    width: 24,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "status: ",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium
+                                                            ?.copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                      ),
+                                                      Text(booking['status']),
+                                                    ],
+                                                  )
+                                                ],
+                                              )),
+                                              Expanded(
+                                                  child: Row(
+                                                children: [
+                                                  const Icon(Icons.people_outline),
+                                                  Expanded(
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          "employee: ",
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .bodyMedium
+                                                              ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(booking[
+                                                                      'employee']
+                                                                  ['firstName'] +
+                                                              " " +
+                                                              booking['employee']
+                                                                  ['lastName']),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              )),
                                             ],
-                                          )),
-                                        ],
-                                      ),
-                                    ))
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               );
             },

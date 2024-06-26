@@ -56,8 +56,11 @@ class _ServiceVoucherState extends State<ServiceVoucher> {
             );
           }
           final rs = snapshot.data?.result;
-          vouchers = List<Map<String, dynamic>>.from(rs?['vouchers']);
-          print(vouchers);
+          if (rs != null){
+            vouchers = List<Map<String, dynamic>>.from(rs?['vouchers']);
+            print(vouchers);
+          }
+          
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: CustomScrollView(
@@ -67,8 +70,7 @@ class _ServiceVoucherState extends State<ServiceVoucher> {
                   callback: () {
                     setState(() {});
                   },
-                  vouchers:
-                      vouchers!.map((e) => VoucherModel.fromJson(e)).toList(),
+                  vouchers: vouchers!.map((e) => VoucherModel.fromJson(e)).toList() ,
                 )
               ],
             ),
@@ -108,7 +110,12 @@ class _ShowVoucherState extends State<ShowVoucher> {
       //     DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z")
       //         .parse(voucher.expireAt!)
       //         .toLocal());
-      return Container(
+      return VoucherItem(voucher, isChoose);
+    }));
+  }
+
+  Widget VoucherItem(VoucherModel voucher, bool isChoose){
+    return Container(
         margin: EdgeInsets.only(top: 8),
         height: 100,
         child: Material(
@@ -182,6 +189,5 @@ class _ShowVoucherState extends State<ShowVoucher> {
           ),
         ),
       );
-    }));
   }
 }

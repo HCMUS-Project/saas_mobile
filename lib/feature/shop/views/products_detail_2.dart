@@ -283,7 +283,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                             .elevatedButtonTheme
                                                                             .style
                                                                             ?.copyWith(
-                                                                                shape: const WidgetStatePropertyAll(
+                                                                                shape: const MaterialStatePropertyAll(
                                                                                     CircleBorder())),
                                                                         onPressed:
                                                                             () {
@@ -305,7 +305,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                                             .elevatedButtonTheme
                                                                             .style
                                                                             ?.copyWith(
-                                                                                shape: const WidgetStatePropertyAll(
+                                                                                shape: const MaterialStatePropertyAll(
                                                                                     CircleBorder())),
                                                                         onPressed:
                                                                             () {
