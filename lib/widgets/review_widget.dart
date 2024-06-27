@@ -39,7 +39,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                           initialRating: 0,
                           ratingWidget: RatingWidget(
                             full: Image.asset('assets/images/star_full.png',color: Theme.of(context).colorScheme.secondary,),
-                            half: Image.asset('assets/images/star_haft.png',color: Theme.of(context).colorScheme.secondary),
+                            half: Image.asset('assets/images/star_half.png',color: Theme.of(context).colorScheme.secondary),
                             empty:
                                 Image.asset('assets/images/star_border.png',color: Theme.of(context).colorScheme.secondary),
                           ),

@@ -12,6 +12,8 @@ class HomeProvider extends ChangeNotifier {
   int? _seletedIndex = 0;
   int? temp = 0;
   int? get seletedIndex => _seletedIndex;
+
+
   set setIndex(int index) {
     _seletedIndex = index;
     notifyListeners();

@@ -143,6 +143,9 @@ class AuthenticateProvider extends ChangeNotifier {
       required String password}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
+      httpResponseFlutter.update(
+        isLoading: true
+      );
       notifyListeners();
       Map<String, dynamic> data = {};
       data['domain'] = domain;
@@ -162,8 +165,8 @@ class AuthenticateProvider extends ChangeNotifier {
         throw FlutterException(bodyRes['message'], bodyRes['statusCode']);
       }
 
-      httpResponseFlutter.update(result: bodyRes['data']);
-
+      httpResponseFlutter.update(result: bodyRes['data'], isLoading: false);
+      notifyListeners();
       Map<String, dynamic> decodedToken =
           JwtDecoder.decode(httpResponseFlutter.result?['accessToken']);
       
@@ -178,12 +181,17 @@ class AuthenticateProvider extends ChangeNotifier {
 
       await prefs.setString(
           "username", httpResponseFlutter.result?['username']);
+        
     } on FlutterException catch (e) {
       print(e);
       httpResponseFlutter.update(
         errorMessage: e.toJson()['message'],
         statusCode: e.toJson()['statusCode'],
       );
+      httpResponseFlutter.update(
+        isLoading: false
+      );
+      notifyListeners();
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/profile_inf/profile_edit_inf.dart';
 import 'package:provider/provider.dart';
 
 class ProfileInfor extends StatefulWidget {
@@ -29,10 +30,12 @@ class _ProfileInforState extends State<ProfileInfor> {
     ageController.text = (profile?['age']).toString();
 
     return Scaffold(
-      
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Text("Profile",style: Theme.of(context).textTheme.titleLarge,),
+        title: Text(
+          "Profile",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -62,9 +65,9 @@ class _ProfileInforState extends State<ProfileInfor> {
                             style: ElevatedButton.styleFrom(
                                 fixedSize: const Size(100, 15)),
                             onPressed: () {
-                              setState(() {
-                                editStatus = true;
-                              });
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                return EditProfile();
+                              },));
                             },
                             child: const Text("Edit"))
                       ],
@@ -77,79 +80,240 @@ class _ProfileInforState extends State<ProfileInfor> {
                 flex: 6,
                 child: Container(
                   child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                      child: Column(
-                    children: [
-                      ShowInf(
-                        controller: usernameController,
-                        editStatus: editStatus,
-                        title: "Name",
-                        value: profile?['username'],
-                      ),
-                      ShowInf(
-                        controller: emailController,
-                        editStatus: editStatus,
-                        title: "Email",
-                        value: profile?['email'],
-                      ),
-                      ShowInf(
-                        controller: addressController,
-                        editStatus: editStatus,
-                        title: "Address",
-                        value: profile?['address'],
-                      ),
-                      ShowInf(
-                        controller: ageController,
-                        editStatus: editStatus,
-                        title: "Age",
-                        value: (profile?['age']).toString(),
-                      ),
-                      ShowInf(
-                        title: "Domain",
-                        value: profile?['domain'],
-                      ),
-                    ],
-                  )),
+                      physics: const BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!)),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 2, child: Icon(Icons.person)),
+                                  Expanded(
+                                      flex: 8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Name",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            profile?['username'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!)),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 2, child: Icon(Icons.email)),
+                                  Expanded(
+                                      flex: 8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Email",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            profile?['email'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!)),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 2, child: Icon(Icons.home)),
+                                  Expanded(
+                                      flex: 8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Address",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            profile?['address'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!)),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 2, child: Icon(Icons.face)),
+                                  Expanded(
+                                      flex: 8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Age",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            (profile?['age']).toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!)),
+                              child: Row(
+                                children: [
+                                  Expanded(flex: 2, child: Icon(Icons.domain)),
+                                  Expanded(
+                                      flex: 8,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Domain",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            profile?['domain'],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
+                            // ShowInf(
+                            //   controller: emailController,
+                            //   editStatus: editStatus,
+                            //   title: "Email",
+                            //   value: profile?['email'],
+                            // ),
+                            // ShowInf(
+                            //   controller: addressController,
+                            //   editStatus: editStatus,
+                            //   title: "Address",
+                            //   value: profile?['address'],
+                            // ),
+                            // ShowInf(
+                            //   controller: ageController,
+                            //   editStatus: editStatus,
+                            //   title: "Age",
+                            //   value: (profile?['age']).toString(),
+                            // ),
+                            // ShowInf(
+                            //   title: "Domain",
+                            //   value: profile?['domain'],
+                            // ),
+                          ],
+                        ),
+                      )),
                 )),
-            if (editStatus)
-              Container(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(fixedSize: const Size(150, 15)),
-                    onPressed: () async {
-                      print(ageController.text);
-                      await context
-                          .read<AuthenticateProvider>()
-                          .updateProfile(
-                              token:
-                                  context.read<AuthenticateProvider>().token!,
-                              address: addressController.text,
-                              username: usernameController.text,
-                              age: int.parse(ageController.text),
-                              name: " ",
-                              gender: " ",
-                              phone: phoneController.text);
-                      final error = context
-                          .read<AuthenticateProvider>()
-                          .httpResponseFlutter
-                          .errorMessage;
-                      if (error != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text(error)));
-                      }else{
-                        
-
-                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                backgroundColor: Colors.green,
-                                                content: Text(
-                                                    "success")));
-                        editStatus = false;
-                      }
-                    },
-                    child: const Text("Update")),
-              )
+            
           ],
         ),
       ),
@@ -157,51 +321,4 @@ class _ProfileInforState extends State<ProfileInfor> {
   }
 }
 
-class ShowInf extends StatelessWidget {
-  String title;
-  String value;
-  bool? editStatus;
-  TextEditingController? controller;
-  ShowInf({
-    this.controller,
-    this.editStatus,
-    required this.value,
-    required this.title,
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          TextFormField(
-            controller: controller,
-            enabled: editStatus ?? false,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(8),
-              hintText: value,
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  // borderSide: BorderSide.none
-                  borderSide: BorderSide(
-                      color: Colors.black, style: BorderStyle.solid)),
-              border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: Colors.black)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}

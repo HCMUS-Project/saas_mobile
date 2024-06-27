@@ -24,8 +24,8 @@ class _ProfileBookingState extends State<ProfileBooking> {
   List<Map<String, dynamic>>? services = [];
   List<String> selectedServiceFilter = [];
   List<String> selectedStatusFilter = [];
-  final PagingController<int, dynamic> pagingController =
-      PagingController(firstPageKey: 1, invisibleItemsThreshold: 3);
+  PagingController<int, dynamic>? pagingController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -33,6 +33,8 @@ class _ProfileBookingState extends State<ProfileBooking> {
     bookingProvider = context.read<BookingProvider>();
     bookingProvider.bookingList = [];
     bookingProvider.page = 1;
+    pagingController =
+        PagingController(firstPageKey: 1, invisibleItemsThreshold: 3);
   }
 
   Future<void> fetchServices() async {
@@ -44,8 +46,9 @@ class _ProfileBookingState extends State<ProfileBooking> {
 
   @override
   void dispose() {
+    pagingController?.dispose();
+    print("dispose booking profile");
     super.dispose();
-    pagingController.dispose();
   }
 
   @override
@@ -56,7 +59,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             endDrawer: EndDrawer(
-                pagingController: pagingController,
+                pagingController: pagingController!,
                 selectedServiceFilter: selectedServiceFilter,
                 selectedStatusFilter: selectedStatusFilter,
                 services: services),
@@ -138,7 +141,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
                               )),
                         ),
                         showBookingHistory(
-                          pagingController: pagingController,
+                          pagingController: pagingController!,
                           selectedServiceFilter: selectedServiceFilter,
                           selectedStatusFilter: selectedStatusFilter,
                         )
@@ -407,36 +410,40 @@ class showBookingHistory extends StatefulWidget {
 class _showBookingHistoryState extends State<showBookingHistory> {
   late BookingProvider bookingProvider;
   List<Map<String, dynamic>>? dateTitle = [];
-  
+
   final int _pageSize = 5;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    bookingProvider = context.read<BookingProvider>();
-    widget.pagingController.addPageRequestListener((pageKey) async {
-      try {
-        
-        await bookingProvider.getAllBooking(
-            token: context.read<AuthenticateProvider>().token!,
-            services: widget.selectedServiceFilter,
-            status: widget.selectedStatusFilter,
-            limit: 5,
-            page: pageKey);
-        final bookings = bookingProvider.bookingList;
-        
-        final isLastPage = bookings.length < _pageSize;
-        if (isLastPage) {
-          widget.pagingController.appendLastPage(bookings);
-        } else {
-          final nextPageKey = pageKey + 1;
-          widget.pagingController.appendPage(bookings, nextPageKey);
-          
-        }
-      } catch (e) {
+    if (mounted) {
+      bookingProvider = context.read<BookingProvider>();
+      widget.pagingController.addPageRequestListener(_fetchData);
+    }
+  }
+
+  Future<void> _fetchData(int pageKey) async {
+    try {
+      await bookingProvider.getAllBooking(
+          token: context.read<AuthenticateProvider>().token!,
+          services: widget.selectedServiceFilter,
+          status: widget.selectedStatusFilter,
+          limit: 5,
+          page: pageKey);
+      final bookings = bookingProvider.bookingList;
+
+      final isLastPage = bookings.length < _pageSize;
+      if (isLastPage) {
+        widget.pagingController.appendLastPage(bookings);
+      } else {
+        final nextPageKey = pageKey + 1;
+        widget.pagingController.appendPage(bookings, nextPageKey);
+      }
+    } catch (e) {
+      if (mounted){
         widget.pagingController.error = e;
       }
-    });
+    }
   }
 
   @override
@@ -461,7 +468,6 @@ class _showBookingHistoryState extends State<showBookingHistory> {
               );
             },
             firstPageErrorIndicatorBuilder: (context) {
-
               return const Center(
                 child: Text("Somethings went wrong!"),
               );
@@ -493,27 +499,25 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                   .format(DateTime.parse(booking['startTime']));
               final startTime = DateFormat("HH:mm")
                   .format(DateTime.parse(booking['startTime']));
-              final createdAt = DateFormat("EEEE,MMM d").format(DateTime.parse(booking['createdAt']));
-             
-              if (dateTitle!.isEmpty){
+              final createdAt = DateFormat("EEEE,MMM d")
+                  .format(DateTime.parse(booking['createdAt']));
+
+              if (dateTitle!.isEmpty) {
                 print("date tiltle is null");
-                print(dateTitle );
+                print(dateTitle);
                 print(createdAt);
-                dateTitle?.add({
-                  createdAt:index 
-                });
-      
-                
-              }else{
+                dateTitle?.add({createdAt: index});
+              } else {
                 print("data title $createdAt");
-                print(dateTitle!.where((element) => element[createdAt] != null));
-                if (dateTitle!.where((element) => element[createdAt] != null).isEmpty){
-                  dateTitle?.add({
-                  createdAt:index 
-                  });
+                print(
+                    dateTitle!.where((element) => element[createdAt] != null));
+                if (dateTitle!
+                    .where((element) => element[createdAt] != null)
+                    .isEmpty) {
+                  dateTitle?.add({createdAt: index});
                 }
               }
-              
+
               return GestureDetector(
                 onTap: () => {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -526,27 +530,32 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                 },
                 child: Column(
                   children: [
-                    if (dateTitle!.where((element) => element[createdAt] == index).isNotEmpty)
+                    if (dateTitle!
+                        .where((element) => element[createdAt] == index)
+                        .isNotEmpty)
                       Container(
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(15)
+                              color: Theme.of(context).colorScheme.secondary,
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Text(
+                            createdAt,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          child: Text(createdAt,style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold
-                          ),),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15)),
                       height: 300,
                       child: Material(
                         borderRadius: const BorderRadius.only(
@@ -618,7 +627,8 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                         child: Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           ),
                                           child: Column(
                                             children: [
@@ -649,7 +659,8 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                               Expanded(
                                                   child: Row(
                                                 children: [
-                                                  const Icon(Icons.info_outline),
+                                                  const Icon(
+                                                      Icons.info_outline),
                                                   Container(
                                                     child: Text(
                                                       "service: ",
@@ -658,13 +669,15 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                           .bodyMedium
                                                           ?.copyWith(
                                                               fontWeight:
-                                                                  FontWeight.bold),
+                                                                  FontWeight
+                                                                      .bold),
                                                     ),
                                                   ),
                                                   SizedBox(
                                                     width: 100,
                                                     child: Text(
-                                                      booking['service']['name'],
+                                                      booking['service']
+                                                          ['name'],
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       maxLines: 1,
@@ -702,13 +715,15 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                               Expanded(
                                                   child: Row(
                                                 children: [
-                                                  const Icon(Icons.people_outline),
+                                                  const Icon(
+                                                      Icons.people_outline),
                                                   Expanded(
                                                     child: Row(
                                                       children: [
                                                         Text(
                                                           "employee: ",
-                                                          style: Theme.of(context)
+                                                          style: Theme.of(
+                                                                  context)
                                                               .textTheme
                                                               .bodyMedium
                                                               ?.copyWith(
@@ -719,7 +734,8 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                         Expanded(
                                                           child: Text(booking[
                                                                       'employee']
-                                                                  ['firstName'] +
+                                                                  [
+                                                                  'firstName'] +
                                                               " " +
                                                               booking['employee']
                                                                   ['lastName']),

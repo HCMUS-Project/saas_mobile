@@ -83,8 +83,8 @@ class _BookingPageState extends State<BookingPage> {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      ),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
                         ),
@@ -98,9 +98,10 @@ class _BookingPageState extends State<BookingPage> {
                                 children: [
                                   Expanded(
                                     child: ElevatedButton(
-                                      style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-
-                                      ),
+                                        style: Theme.of(context)
+                                            .elevatedButtonTheme
+                                            .style
+                                            ?.copyWith(),
                                         onPressed: () {
                                           controller?['hide']();
                                         },
@@ -132,7 +133,6 @@ class _BookingPageState extends State<BookingPage> {
                                               .textTheme
                                               .titleSmall
                                               ?.copyWith(
-                                                  
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .primary,
@@ -205,7 +205,8 @@ class _BookingPageState extends State<BookingPage> {
                         index: 0,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration: const BoxDecoration(color: Colors.white),
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -214,9 +215,7 @@ class _BookingPageState extends State<BookingPage> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
-                                        ?.copyWith(
-                                            
-                                            fontWeight: FontWeight.bold),
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -233,7 +232,7 @@ class _BookingPageState extends State<BookingPage> {
                                             );
                                           },
                                         ));
-                                        if(service != null){
+                                        if (service != null) {
                                           setState(() {
                                             widget.selectedStep = 0;
                                             listEmployee = null;
@@ -267,31 +266,55 @@ class _BookingPageState extends State<BookingPage> {
                                       ),
                                     ),
                                   ),
-                                  if (catchErro1!=null)
-                                  Text(
-                                    catchErro1 ?? "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(color: Colors.red),
-                                  ),
-                                  if(voucher.id != null && chosenService != null )
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Image(image: AssetImage("assets/images/coupon.png"), height: 32,width: 32,)),
-                                      Expanded(
-                                        flex: 8,
-                                        child: Text(CurrencyConfig.convertTo(price: CalculateDiscount(voucher: voucher, chosenService: chosenService!)).toString(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                          fontWeight: FontWeight.bold
-                                        ),)),
-                                    ],
-                                  )
+                                  if (catchErro1 != null)
+                                    Text(
+                                      catchErro1 ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(color: Colors.red),
+                                    ),
+                                  if (voucher.id != null &&
+                                      chosenService != null)
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 2,
+                                            child: Image(
+                                              image: AssetImage(
+                                                  "assets/images/coupon.png"),
+                                              height: 32,
+                                              width: 32,
+                                            )),
+                                        Expanded(
+                                            flex: 8,
+                                            child: Text(
+                                              CurrencyConfig.convertTo(
+                                                      price: CalculateDiscount(
+                                                          voucher: voucher,
+                                                          chosenService:
+                                                              chosenService!))
+                                                  .toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                            )),
+                                      ],
+                                    )
                                   else if (chosenService != null)
-                                  Text(CurrencyConfig.convertTo(price: (chosenService!.price)!).toString(), style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                          fontWeight: FontWeight.bold
-                                        ),)
+                                    Text(
+                                      CurrencyConfig.convertTo(
+                                              price: (chosenService!.price)!)
+                                          .toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                    )
                                 ]),
                           );
                         },
@@ -304,7 +327,8 @@ class _BookingPageState extends State<BookingPage> {
                         index: 1,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration: const BoxDecoration(color: Colors.white),
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -313,8 +337,7 @@ class _BookingPageState extends State<BookingPage> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
-                                      ?.copyWith(
-                                          fontWeight: FontWeight.bold),
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
@@ -328,8 +351,8 @@ class _BookingPageState extends State<BookingPage> {
                                         });
                                       } else {
                                         final startDate = DateTime.now();
-                                        final endDate =
-                                            startDate.add(const Duration(days: 5));
+                                        final endDate = startDate
+                                            .add(const Duration(days: 5));
                                         chosenDate = await showDatePicker(
                                             builder: (context, child) {
                                               return Theme(
@@ -382,13 +405,13 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                 ),
                                 if (catchErro2 != null)
-                                Text(
-                                  catchErro2 ?? "",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(color: Colors.red),
-                                )
+                                  Text(
+                                    catchErro2 ?? "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: Colors.red),
+                                  )
                               ],
                             ),
                           );
@@ -402,7 +425,8 @@ class _BookingPageState extends State<BookingPage> {
                         index: 2,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration: const BoxDecoration(color: Colors.white),
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -411,9 +435,7 @@ class _BookingPageState extends State<BookingPage> {
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
-                                      ?.copyWith(
-                                 
-                                          fontWeight: FontWeight.bold),
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
 
                                 Container(
@@ -508,7 +530,7 @@ class _BookingPageState extends State<BookingPage> {
                                                         (context, index) {
                                                       final employ =
                                                           employee[index];
-                                                 
+
                                                       return GestureDetector(
                                                         onTap: () {
                                                           print(context
@@ -526,8 +548,9 @@ class _BookingPageState extends State<BookingPage> {
                                                           });
                                                         },
                                                         child: Container(
-                                                          margin: const EdgeInsets
-                                                              .symmetric(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .symmetric(
                                                                   horizontal:
                                                                       2),
                                                           child: Column(
@@ -555,11 +578,16 @@ class _BookingPageState extends State<BookingPage> {
                                                                 ),
                                                               ),
                                                               Expanded(
-                                                                child: Text(employ[
-                                                                        'firstName'] +
-                                                                    " " +
-                                                                    employ[
-                                                                        'lastName'], maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                                                child: Text(
+                                                                  employ['firstName'] +
+                                                                      " " +
+                                                                      employ[
+                                                                          'lastName'],
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
                                                               )
                                                             ],
                                                           ),
@@ -608,25 +636,27 @@ class _BookingPageState extends State<BookingPage> {
 
                                 Consumer<BookingProvider>(
                                   builder: (context, value, child) {
-                                    final isLoading = value.httpResponseFlutter.isLoading;
-                                    if (isLoading!){
+                                    final isLoading =
+                                        value.httpResponseFlutter.isLoading;
+                                    if (isLoading!) {
                                       return Container(
                                         height: 110,
                                         child: Center(
                                           child: CircularProgressIndicator(
-                                            color: Theme.of(context).colorScheme.secondary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                           ),
                                         ),
                                       );
-                                    }else{
-                                    return  Container(
-                                    height: 90,
-                                    child: listEmployee,
-                                    );
+                                    } else {
+                                      return Container(
+                                        height: 90,
+                                        child: listEmployee,
+                                      );
                                     }
                                   },
                                 ),
-                                
 
                                 if (context
                                         .read<BookingProvider>()
@@ -636,7 +666,70 @@ class _BookingPageState extends State<BookingPage> {
                                     alignment: Alignment.topCenter,
                                     child: ElevatedButton(
                                         onPressed: () async {
-                                          print("VOUCHERRRRRRRRRRRRRRRRRRRr: ${voucher.id}");
+                                          print(
+                                              "VOUCHERRRRRRRRRRRRRRRRRRRr: ${voucher.id}");
+
+                                          final renderBox = context
+                                              .findRenderObject() as RenderBox;
+                                          final size = renderBox.size;
+                                          print(size.height);
+                                          print(size.width);
+                                          final controller = showOverlay(
+                                              context: context,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.transparent),
+                                                child: Container(
+                                                  height: size.height * 0.2,
+                                                  width: size.width * 0.5,
+                                                  child: Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      elevation: 1,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary
+                                                          .withAlpha(150),
+                                                      child: Column(
+                                                        children: [
+                                                          Expanded(
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .secondary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                              child: Text(
+                                                                "Loading...",
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyMedium
+                                                                    ?.copyWith(
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )),
+                                                ),
+                                              ));
+                                          controller['show']();
                                           await context
                                               .read<BookingProvider>()
                                               .createBooking(
@@ -654,19 +747,30 @@ class _BookingPageState extends State<BookingPage> {
                                                   startTime: context
                                                       .read<BookingProvider>()
                                                       .selectedTimeForBooking!);
+                                          controller['hide']();
                                           context
                                               .read<BookingProvider>()
                                               .flushData();
                                           final result = context
                                               .read<BookingProvider>()
                                               .httpResponseFlutter;
-                                          final errorMessage = context.read<BookingProvider>().httpResponseFlutter.errorMessage;
-                                          if (errorMessage != null){
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                              backgroundColor: Colors.red,
-                                              content: Text(errorMessage, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                                color: Colors.white
-                                              ),)));
+                                          final errorMessage = context
+                                              .read<BookingProvider>()
+                                              .httpResponseFlutter
+                                              .errorMessage;
+                                          if (errorMessage != null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    backgroundColor: Colors.red,
+                                                    content: Text(
+                                                      errorMessage,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                              color:
+                                                                  Colors.white),
+                                                    )));
                                           }
                                           if (result.result != null) {
                                             QuickAlert.show(
@@ -704,18 +808,14 @@ class _BookingPageState extends State<BookingPage> {
               ),
             ),
       bottomNavigationBar: Container(
-        
         child: Row(
           children: [
-            Expanded(child: Text(
-              ""
-            )),
+            Expanded(child: Text("")),
             Expanded(child: Text("")),
           ],
         ),
       ),
     );
-    
   }
 }
 

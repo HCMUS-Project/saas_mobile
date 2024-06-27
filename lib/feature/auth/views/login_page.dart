@@ -171,9 +171,15 @@ class LoginPage extends StatelessWidget {
                                     }
                                   }
                                 },
-                                child: const Text(
-                                  "Sign In",
-                                  style: TextStyle(color: Colors.white),
+                                child: Consumer<AuthenticateProvider>(
+                                  builder: (context, value, child) {
+                                    final isLoading = context.select((AuthenticateProvider provider) => provider.httpResponseFlutter.isLoading);
+                                    return isLoading! ? CircularProgressIndicator() :const Text(
+                                    "Sign In",
+                                    style: TextStyle(color: Colors.white),
+                                  );
+                                  },
+                    
                                 )),
                             Expanded(
                               child: Column(

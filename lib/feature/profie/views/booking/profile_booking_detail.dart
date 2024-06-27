@@ -12,9 +12,7 @@ class BookingDetailPage extends StatelessWidget {
     print(bookingDetail);
     final date = DateFormat("hh:mm - dd/MM/yyyy")
         .format(DateTime.parse(bookingDetail['createdAt']));
-    final employee = bookingDetail['employee']['firstName'] +
-        " " +
-        bookingDetail['employee']['lastName'];
+    final employee = bookingDetail['employee']['firstName'] + " " + bookingDetail['employee']['lastName'];
     return Scaffold(
       bottomNavigationBar: SizedBox(
         height: 56,

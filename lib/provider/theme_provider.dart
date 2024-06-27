@@ -8,7 +8,11 @@ import 'package:mobilefinalhcmus/config/http_response.dart';
 
 class ThemeProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
-
+  String initialRoute = '/';
+  set setRoute(String route){
+    initialRoute = route;
+    notifyListeners();
+  }
   Future<void> getTheme({required String domain}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();

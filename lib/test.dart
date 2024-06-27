@@ -99,254 +99,254 @@ class _TestPageState extends State<TestPage> with TickerProviderStateMixin {
           }
         },
       ),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: (){},
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-              width: 50,
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(5)
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(image: AssetImage("assets/images/avatar.png"), fit: BoxFit.cover)
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Icon(Icons.settings),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-        title: Text("Profile", style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.bold
-        ),),
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(30),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(  
-                color: Theme.of(context).scaffoldBackgroundColor,
-
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: Row(
-                children: headerProfile.values.map((e) => Expanded(
-                  child: GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        selectedHeader = e.index;
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: selectedHeader == e.index ? Color(0xffBB433E) : Colors.transparent
-                        ),
-                        child: Text(e.name, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold
-                        ),)),
-                  ),
-                ),).toList(),
-              ),
-
-            ),
-          ),
-        ),
-      ),
-      body: Center(
-        child: profileWidget[selectedHeader],
-      ),
-      // body: CustomScrollView(
-      //   slivers: [
-      //     SliverAppBar(
-      //       pinned: true,
-      //       title: Container(
-      //         height: 56,
-      //         alignment: Alignment.bottomLeft,
-      //         decoration: BoxDecoration(),
-      //         child: Text(
-      //           "Let's find your booking!",
-      //           style: Theme.of(context)
-      //               .textTheme
-      //               .titleLarge
-      //               ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back),
+      //     onPressed: (){},
+      //   ),
+      //   actions: [
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Container(
+      //         width: 50,
+      //         decoration: BoxDecoration(
+      //           color: Theme.of(context).scaffoldBackgroundColor,
+      //           borderRadius: BorderRadius.circular(5)
       //         ),
-      //       ),
-      //       bottom: PreferredSize(
-      //           preferredSize: Size.fromHeight(80),
-      //           child: Container(
-      //             decoration: BoxDecoration(),
-      //             padding: EdgeInsets.all(20),
-      //             child: TextField(
-      //               style: Theme.of(context)
-      //                   .textTheme
-      //                   .bodyMedium
-      //                   ?.copyWith(fontSize: 18),
-      //               decoration: InputDecoration(
-      //                 prefixIconConstraints:
-      //                     BoxConstraints(minWidth: 32, minHeight: 32),
-      //                 prefixIcon: Padding(
-      //                   padding: const EdgeInsets.all(8.0),
-      //                   child: Icon(
-      //                     Icons.search,
-      //                     size: 24,
-      //                   ),
+      //         child: Row(
+      //           children: [
+      //             Expanded(
+
+      //               child: Container(
+      //                 decoration: BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(5),
+      //                   image: DecorationImage(image: AssetImage("assets/images/avatar.png"), fit: BoxFit.cover)
       //                 ),
-      //                 border: OutlineInputBorder(
-      //                     borderRadius: BorderRadius.circular(10),
-      //                     borderSide: BorderSide.none),
-      //                 fillColor: Colors.white,
-      //                 filled: true,
-      //                 isDense: true,
-      //                 contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       //               ),
       //             ),
-      //           )),
-      //     ),
-      //     SliverPadding(
-      //       padding: EdgeInsets.all(8),
-      //       sliver: SliverToBoxAdapter(
-      //         child: Container(
-      //           padding: EdgeInsets.all(8),
-      //           decoration: BoxDecoration(
-      //             borderRadius: BorderRadius.circular(15),
-      //             border: Border.all(
-      //               width: 1,
-      //               color: Theme.of(context).textTheme.bodyLarge!.color!
-      //
+      //             Expanded(
+      //               child: Container(
+      //                 child: Icon(Icons.settings),
+      //               ),
       //             )
-      //           ),
-      //           child: Row(
-      //
-      //             children: [
-      //               Expanded(
-      //                 flex: 2,
-      //                   child: Icon(Icons.person)),
-      //               Expanded(
-      //                 flex: 8,
-      //                   child: Column(
-      //                     crossAxisAlignment: CrossAxisAlignment.start,
-      //                     children: [
-      //                       Text("First name",style: Theme.of(context).textTheme.bodyMedium,),
-      //                       Text("Jane",style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-      //                         fontWeight: FontWeight.bold
-      //                       ),)
-      //                     ],
-      //                   )),
-      //             ],
-      //           ),
+      //           ],
       //         ),
-      //       ),
-      //     ),
-      //     SliverToBoxAdapter(
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(16.0),
-      //         child: Column(
-      //           children: bookingList(),
-      //         ),
-      //       ),
-      //     ),
-      //
-      //     SliverPadding(
-      //       padding: EdgeInsets.only(bottom: 8, left: 8, right: 8),
-      //       sliver: SliverGrid.builder(
-      //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //             crossAxisCount: 2,
-      //             crossAxisSpacing: 5,
-      //             mainAxisExtent: 300,
-      //             mainAxisSpacing: 5),
-      //         itemBuilder: (context, index) {
-      //           return Container(
-      //               child: Material(
-      //             color: Colors.white,
-      //             elevation: 1,
-      //             borderRadius: BorderRadius.circular(15),
-      //             child: Column(
-      //               children: [
-      //                 Expanded(
-      //                   child: Container(
-      //                     decoration: BoxDecoration(),
-      //                     child: ClipRRect(
-      //                       borderRadius: BorderRadius.circular(15),
-      //                       child: Image(
-      //                           image: NetworkImage(
-      //                               "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw ohioeoefhehehefwohfohfowew"),
-      //                           fit: BoxFit.cover),
-      //                     ),
-      //                   ),
-      //                 ),
-      //
-      //                 Padding(
-      //                   padding: const EdgeInsets.all(8.0),
-      //                   child: Column(
-      //                     children: [
-      //                       Row(
-      //                         children: [
-      //                           Expanded(
-      //                               flex: 7,
-      //                               child: Text("ShineCombo cắt gội 10 bước")),
-      //                           Expanded(flex: 3, child: Text("45 phút")),
-      //                         ],
-      //                       ),
-      //                        Divider(
-      //                   color: Colors.grey.shade200,
-      //
-      //                 ),
-      //                       Container(
-      //                         alignment: Alignment.bottomLeft,
-      //                         child: Text(
-      //                           "This is dye hair description flejfjlewfnwfnjkwflwqrfhewkfhkwefwefbjkekwefkjefkwekwhe",
-      //                           textAlign: TextAlign.start,
-      //                           maxLines: 2,
-      //                           overflow: TextOverflow.ellipsis,
-      //                         ),
-      //                       ),
-      //                       Container(
-      //                         child: Column(
-      //                           children: [
-      //                             Text("Standard Price"),
-      //                             Text("120K")
-      //                           ],
-      //                         ),
-      //                       ),
-      //                       Container(
-      //                           width: double.infinity,
-      //                           padding: EdgeInsets.all(5),
-      //                           child: ElevatedButton(
-      //                               onPressed: () {}, child: Text("choose")))
-      //                     ],
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //           ));
-      //         },
       //       ),
       //     )
       //   ],
+      //   title: Text("Profile", style: Theme.of(context).textTheme.titleLarge?.copyWith(
+      //     fontWeight: FontWeight.bold
+      //   ),),
+      //   centerTitle: true,
+      //   bottom: PreferredSize(
+      //     preferredSize: Size.fromHeight(30),
+      //     child: Padding(
+      //       padding: const EdgeInsets.all(8.0),
+      //       child: Container(
+      //         padding: EdgeInsets.all(4),
+      //         decoration: BoxDecoration(  
+      //           color: Theme.of(context).scaffoldBackgroundColor,
+
+      //           borderRadius: BorderRadius.circular(10)
+      //         ),
+      //         child: Row(
+      //           children: headerProfile.values.map((e) => Expanded(
+      //             child: GestureDetector(
+      //               onTap: (){
+      //                 setState(() {
+      //                   selectedHeader = e.index;
+      //                 });
+      //               },
+      //               child: Container(
+      //                 alignment: Alignment.center,
+      //                   padding: EdgeInsets.all(4),
+      //                   decoration: BoxDecoration(
+      //                     borderRadius: BorderRadius.circular(5),
+      //                     color: selectedHeader == e.index ? Color(0xffBB433E) : Colors.transparent
+      //                   ),
+      //                   child: Text(e.name, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+      //                     fontWeight: FontWeight.bold
+      //                   ),)),
+      //             ),
+      //           ),).toList(),
+      //         ),
+
+      //       ),
+      //     ),
+      //   ),
       // ),
+      // body: Center(
+      //   child: profileWidget[selectedHeader],
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            title: Container(
+              height: 56,
+              alignment: Alignment.bottomLeft,
+              decoration: BoxDecoration(),
+              child: Text(
+                "Let's find your booking!",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            bottom: PreferredSize(
+                preferredSize: Size.fromHeight(80),
+                child: Container(
+                  decoration: BoxDecoration(),
+                  padding: EdgeInsets.all(20),
+                  child: TextField(
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 18),
+                    decoration: InputDecoration(
+                      prefixIconConstraints:
+                          BoxConstraints(minWidth: 32, minHeight: 32),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.search,
+                          size: 24,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    ),
+                  ),
+                )),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.all(8),
+            sliver: SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    width: 1,
+                    color: Theme.of(context).textTheme.bodyLarge!.color!
+      
+                  )
+                ),
+                child: Row(
+      
+                  children: [
+                    Expanded(
+                      flex: 2,
+                        child: Icon(Icons.person)),
+                    Expanded(
+                      flex: 8,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("First name",style: Theme.of(context).textTheme.bodyMedium,),
+                            Text("Jane",style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold
+                            ),)
+                          ],
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: bookingList(),
+              ),
+            ),
+          ),
+      
+          SliverPadding(
+            padding: EdgeInsets.only(bottom: 8, left: 8, right: 8),
+            sliver: SliverGrid.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5,
+                  mainAxisExtent: 300,
+                  mainAxisSpacing: 5),
+              itemBuilder: (context, index) {
+                return Container(
+                    child: Material(
+                  color: Colors.white,
+                  elevation: 1,
+                  borderRadius: BorderRadius.circular(15),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image(
+                                image: NetworkImage(
+                                    "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46?fbclid=IwZXh0bgNhZW0CMTAAAR3nXis-D-fHoCBcAAYdSQEoWnBAFda_fePlO-iBXxWjnmLELhz7wj5Gn4s_aem_ZmFrZWR1bW15MTZieXRlcw ohioeoefhehehefwohfohfowew"),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
+      
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    flex: 7,
+                                    child: Text("ShineCombo cắt gội 10 bước")),
+                                Expanded(flex: 3, child: Text("45 phút")),
+                              ],
+                            ),
+                             Divider(
+                        color: Colors.grey.shade200,
+      
+                      ),
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                "This is dye hair description flejfjlewfnwfnjkwflwqrfhewkfhkwefwefbjkekwefkjefkwekwhe",
+                                textAlign: TextAlign.start,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Container(
+                              child: Column(
+                                children: [
+                                  Text("Standard Price"),
+                                  Text("120K")
+                                ],
+                              ),
+                            ),
+                            Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(5),
+                                child: ElevatedButton(
+                                    onPressed: () {}, child: Text("choose")))
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ));
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 

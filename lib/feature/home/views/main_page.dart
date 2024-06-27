@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/booking_page.dart';
@@ -10,6 +11,7 @@ import 'package:mobilefinalhcmus/feature/home/views/home_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profie_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/product_page.dart';
 import 'package:mobilefinalhcmus/main.dart';
+import 'package:mobilefinalhcmus/widgets/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -59,26 +61,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             ));
           }
         });
-
+        final controller = LoadingWidget(context);
+        controller['show']();
         await checkToken(context);
-        // await FutureBuilder(
-        //     future: checkToken(context),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return Container(
-        //           decoration: BoxDecoration(
-        //               color: Theme.of(context).colorScheme.primary),
-        //           child: Center(),
-        //         );
-        //       }
-
-        //       if (snapshot.connectionState == ConnectionState.done) {
-        //         print('done');
-        //         // WidgetsBinding.instance.addPostFrameCallback((_) {
-        //         // });
-        //       }
-        //       return Container();
-        //     });
+        controller['hide']();
       });
     }
 
@@ -103,13 +89,14 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      Future.wait([
-        context
-            .read<AuthenticateProvider>()
-            .refreshTokenFunc(refreshToken: authenticateProvider.refreshToken!)
-      ]);
+      final controller = LoadingWidget(context);
+      controller['show']();
+      await context
+          .read<AuthenticateProvider>()
+          .refreshTokenFunc(refreshToken: authenticateProvider.refreshToken!);
+      controller['hide']();
     }
   }
 
