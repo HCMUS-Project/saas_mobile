@@ -19,6 +19,7 @@ class MainPage extends StatefulWidget {
   const MainPage({
     super.key,
   });
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -61,10 +62,32 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             ));
           }
         });
-        final controller = LoadingWidget(context);
-        controller['show']();
-        await checkToken(context);
-        controller['hide']();
+        print("troi oi la dsadasdasdasdsadasd");
+        print(authenticateProvider.httpResponseFlutter.errorMessage);
+        // after intro, check error when refresh token
+        if (authenticateProvider.httpResponseFlutter.errorMessage != null ){
+          await prefs.remove("token");
+          await prefs.remove("refreshToken");
+          await prefs.remove("username");
+          await QuickAlert.show(
+              context: context,
+              text: "Your login session has expired",
+              textColor: (Theme.of(context).textTheme.bodyMedium?.color)!,
+              confirmBtnText: "Yes",
+              cancelBtnText: "No",
+              showCancelBtn: true,
+              onConfirmBtnTap: () async {
+
+                setState(() {
+                  homeProvider.setIndex = 0;
+                });
+                Navigator.pop(context);
+              },
+              type: QuickAlertType.info);
+
+        }else{
+          expiredTokenTime = getRefreshToken();
+        }
       });
     }
 
@@ -91,49 +114,20 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      final controller = LoadingWidget(context);
-      controller['show']();
-      await context
-          .read<AuthenticateProvider>()
-          .refreshTokenFunc(refreshToken: authenticateProvider.refreshToken!);
-      controller['hide']();
+
+      if (authenticateProvider.token != null){
+        final controller = LoadingWidget(context);
+        controller['show']();
+        await context
+            .read<AuthenticateProvider>()
+            .refreshTokenFunc(refreshToken: authenticateProvider.refreshToken!);
+        controller['hide']();
+      }
+
     }
   }
 
-  Future<void> checkToken(BuildContext context) async {
-    print("check token");
-    await context.read<AuthenticateProvider>().refreshTokenFunc(
-        refreshToken: context.read<AuthenticateProvider>().refreshToken!);
 
-    if (context.read<AuthenticateProvider>().httpResponseFlutter.errorMessage !=
-        null) {
-      await prefs.remove("token");
-      await prefs.remove("refreshToken");
-      await prefs.remove("username");
-      await QuickAlert.show(
-          context: context,
-          text: "Your login session has expired",
-          textColor: (Theme.of(context).textTheme.bodyMedium?.color)!,
-          confirmBtnText: "Yes",
-          cancelBtnText: "No",
-          showCancelBtn: true,
-          onConfirmBtnTap: () async {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/',
-              (route) => false,
-            );
-            // Navigator.of(context).pushAndRemoveUntil(
-            //     MaterialPageRoute(
-            //       builder: (context) => IntroPage(),
-            //     ),
-            //     (route) => false);
-          },
-          type: QuickAlertType.info);
-    } else {
-      expiredTokenTime = getRefreshToken();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +142,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         animationCurve: Curves.linear,
         selectedIndex: context.read<HomeProvider>().seletedIndex!,
         iconSize: 30,
-        showElevation: false, // use this to remove appBar's elevation
+        showElevation: false,
+        // use this to remove appBar's elevation
         onItemSelected: (index) => setState(() {
           homeProvider.setIndex = index;
           context.read<HomeProvider>().setTemp = 0;

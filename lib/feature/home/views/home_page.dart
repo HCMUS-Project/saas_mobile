@@ -20,14 +20,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
   }
 
   @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    print("dsadsadasdsd");
+  }
+  @override
   Widget build(BuildContext context) {
+    print("home build");
     return FutureBuilder(
         future: Future.wait([
           context.read<BookingProvider>().getAllService(
@@ -65,7 +74,7 @@ class _HomePageState extends State<HomePage> {
 
           print(products);
           return Scaffold(
-            appBar: const AppBarHomePage(),
+            appBar: AppBarHomePage(),
             body: CustomScrollView(
               slivers: [
                 const SliverToBoxAdapter(child: CarosselWidget()),
@@ -430,7 +439,8 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     final username = context.read<AuthenticateProvider>().username;
-
+    print("TEN CUA TUI LA: ");
+    print(username);
     return AppBar(
         centerTitle: false,
         title: username != null

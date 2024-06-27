@@ -77,15 +77,14 @@ class MyApp extends StatelessWidget {
             future: value.getTheme(
                 domain: context.read<AuthenticateProvider>().domain!),
             builder: (context, snapshot) {
-              
               final rs = value.httpResponseFlutter.result?['themeConfig'];
               ThemeConfig? theme;
+
               if (rs!=null){
                 theme = ThemeConfig.fromJson(rs);
-                // value.setRoute = "/home";
+                value.setRoute = "/home";
               }
-     
-              print("rebuild home");
+
               return MaterialApp(
                 title: 'Flutter Demo',
                 debugShowCheckedModeBanner: false,

@@ -11,7 +11,6 @@ class ThemeProvider extends ChangeNotifier {
   String initialRoute = '/';
   set setRoute(String route){
     initialRoute = route;
-    notifyListeners();
   }
   Future<void> getTheme({required String domain}) async {
     try {
@@ -21,7 +20,6 @@ class ThemeProvider extends ChangeNotifier {
       final uri = Uri.parse("${dotenv.env['HTTP_URI']}tenant/configTheme/find")
           .replace(queryParameters: queryParameters);
 
-      print(uri);
       final rs = await http.get(headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -33,7 +31,6 @@ class ThemeProvider extends ChangeNotifier {
       }
 
       final result = Map<String, dynamic>.from(body);
-      print(result);
       httpResponseFlutter.update(
           result: result['data'], statusCode: rs.statusCode);
     } on FlutterException catch (e) {
