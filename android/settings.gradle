@@ -1,12 +1,21 @@
 pluginManagement {
-    def flutterSdkPath = {
-        def properties = new Properties()
-        file("local.properties").withInputStream { properties.load(it) }
-        def flutterSdkPath = properties.getProperty("flutter.sdk")
-        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-        return flutterSdkPath
+    def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
+    def properties = new Properties()
+    if(System.getenv("IS_CI_BUILD") == "true") {
+        properties.load(localPropertiesFile.newDataInputStream())
+        properties.setProperty("flutter.sdk", "/Users/runner/work/1/s/flutter")
+        properties.store(localPropertiesFile.newWriter(), null)
     }
-    settings.ext.flutterSdkPath = flutterSdkPath()
+
+    // def flutterSdkPath = properties.getProperty("flutter.sdk")
+    // def flutterSdkPath = {
+    //     def properties = new Properties()
+    //     file("local.properties").withInputStream { properties.load(it) }
+    //     def flutterSdkPath = properties.getProperty("flutter.sdk")
+    //     assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+    //     return flutterSdkPath
+    // }
+    settings.ext.flutterSdkPath = flutterSdkPath
 
     includeBuild("${settings.ext.flutterSdkPath}/packages/flutter_tools/gradle")
 

@@ -66,12 +66,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
 
             final Uri url = Uri.parse(_checkoutProvider!
                 .httpResponseFlutter.result?['data']['paymentUrl']);
-            
+
             if (await canLaunchUrl(url)) {
-            await launchUrl(url);
-          } else {
-            throw Exception('Could not launch $url');
-          }
+              await launchUrl(url);
+            } else {
+              throw Exception('Could not launch $url');
+            }
             // Navigator.of(context).push(MaterialPageRoute(
             //   builder: (context) {
             //     return SuccessPage();
@@ -105,8 +105,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Image(
-                              image: NetworkImage(product.image![0])),
+                          child: Image(image: NetworkImage(product.image![0])),
                         )),
                     Expanded(
                         flex: 8,
@@ -155,10 +154,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary
-            ),
-       
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.primary),
           );
         }
 
@@ -168,7 +165,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 .map((e) => PaymentMethod.fromJson(e))
                 .toList());
         return Scaffold(
-     
           appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
@@ -176,12 +172,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 },
                 icon: const Icon(
                   Icons.arrow_back,
-                
                 )),
             automaticallyImplyLeading: false,
-        
             scrolledUnderElevation: 0,
-            title: Text("Checkout", style: Theme.of(context).textTheme.titleLarge,),
+            title: Text(
+              "Checkout",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
           body: Consumer<ProfileProvider>(
             builder: (context, value, child) {
@@ -287,7 +284,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                               .listenerFlag;
                                           print(flag);
                                           return Container(
-                                            margin: const EdgeInsets.only(left: 2),
+                                            margin:
+                                                const EdgeInsets.only(left: 2),
                                             alignment: Alignment.center,
                                             height: 40,
                                             child: Text(
@@ -352,9 +350,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                               flex: 10,
                                                               child: Container(
                                                                   padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                              8),
+                                                                      const EdgeInsets.all(
+                                                                          8),
                                                                   width: double
                                                                       .infinity,
                                                                   child: ListView
@@ -532,8 +529,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                 Container(
                                                   height: 5,
                                                   width: 50,
-                                                  decoration: const BoxDecoration(
-                                                      color: Colors.grey),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color: Colors.grey),
                                                 ),
                                                 Expanded(
                                                   flex: 10,
@@ -551,8 +549,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                   .all(8.0),
                                                           child: Container(
                                                             padding:
-                                                                const EdgeInsets.all(
-                                                                    8),
+                                                                const EdgeInsets
+                                                                    .all(8),
                                                             decoration: BoxDecoration(
                                                                 borderRadius:
                                                                     BorderRadius
@@ -585,8 +583,9 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                                                         context)
                                                                     .pop();
                                                               },
-                                                              trailing: const Icon(Icons
-                                                                  .arrow_forward_ios),
+                                                              trailing:
+                                                                  const Icon(Icons
+                                                                      .arrow_forward_ios),
                                                               title: Text(
                                                                 paymentMethod
                                                                     .type!,
@@ -632,7 +631,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                     value.selectedPayMethod;
                                 return SizedBox(
                                   height: size.width / 5,
-                                 
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -709,14 +707,15 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                   return Container(
                                     height: 150,
                                     width: size.width / 2,
-                                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5),
                                     child: Card(
                                       color: Colors.white,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(15),
-                                          side:
-                                              const BorderSide(color: Colors.black)),
+                                          side: const BorderSide(
+                                              color: Colors.black)),
                                       elevation: 1,
                                       child: const Column(
                                         children: [
@@ -854,7 +853,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             final indexPaymentMethod = context
                                 .read<CheckoutProvider>()
                                 .selectedPayMethod;
-
+                            print("PAYMENT METHOD: ");
+                            print(paymentMethods[indexPaymentMethod].id);
                             await context.read<CheckoutProvider>().createOrder(
                                 paymentMethod:
                                     paymentMethods[indexPaymentMethod].id!,
