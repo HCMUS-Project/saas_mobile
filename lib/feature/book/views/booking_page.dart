@@ -530,7 +530,7 @@ class _BookingPageState extends State<BookingPage> {
                                                         (context, index) {
                                                       final employ =
                                                           employee[index];
-
+                                                      print(employ);
                                                       return GestureDetector(
                                                         onTap: () {
                                                           print(context
@@ -556,6 +556,8 @@ class _BookingPageState extends State<BookingPage> {
                                                           child: Column(
                                                             children: [
                                                               Container(
+                                                                height: 50,
+                                                                width: 50,
                                                                 padding:
                                                                     const EdgeInsets
                                                                         .all(3),
@@ -567,15 +569,22 @@ class _BookingPageState extends State<BookingPage> {
                                                                             .colorScheme
                                                                             .secondary
                                                                         : null,
+                                                                    image: DecorationImage(image:NetworkImage(
+                                                                          
+                                                                          employ[
+                                                                              'image'] ?? "assets/images/avatar.png")),
                                                                     shape: BoxShape
                                                                         .circle),
-                                                                child:
-                                                                    const CircleAvatar(
-                                                                  radius: 27,
-                                                                  child: Image(
-                                                                      image: AssetImage(
-                                                                          'assets/images/avatar.png')),
-                                                                ),
+                                                                // child:
+                                                                //     CircleAvatar(
+                                                                //   radius: 27,
+                                                                //   child: Image(
+                                                                //       fit: BoxFit.cover,
+                                                                //       image: NetworkImage(
+                                                                          
+                                                                //           employ[
+                                                                //               'image'] ?? "assets/images/avatar.png")),
+                                                                // ),
                                                               ),
                                                               Expanded(
                                                                 child: Text(
@@ -854,6 +863,8 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
               // final startTime = DateTime.parse(slot['startTime']);
               // final time = TimeOfDay.fromDateTime(startTime);
               // print(time);
+              print("Employee:");
+              print(slot['employees']);
               final employee =
                   List<Map<String, dynamic>>.from(slot['employees']);
 

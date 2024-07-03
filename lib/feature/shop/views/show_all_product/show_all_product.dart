@@ -38,9 +38,9 @@ class _ShowAllProductState extends State<ShowAllProduct> {
     // TODO: implement build
 
     List<String?> categoryList = [];
-    categoryList.addAll(context.read<ShopProvider>().categoryList);
     categoryList.add("All");
-    categoryList = categoryList.reversed.toList();
+    categoryList.addAll(context.read<ShopProvider>().categoryList);
+
     print(categoryList);
     return Scaffold(
       appBar: AppBar(

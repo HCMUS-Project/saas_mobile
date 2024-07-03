@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
+import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:mobilefinalhcmus/widgets/custom_textfield.dart';
 import 'package:mobilefinalhcmus/widgets/password_textfield.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class LoginPage extends StatelessWidget {
     // Size size = MediaQuery.of(context).size;
     // print(context.read<AuthenticateProvider>().domain);
     final domain = dotenv.env['DOMAIN'];
+    final tenant = context.read<ThemeProvider>().tenant;
     print(domain);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -53,7 +55,7 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
                     width: constraints.maxWidth,
-                    child: const Column(
+                    child:  Column(
                       children: [
                         Text(
                           "Sign In",
@@ -65,8 +67,7 @@ class LoginPage extends StatelessWidget {
                         CircleAvatar(
                           backgroundColor: Colors.transparent,
                           maxRadius: 65,
-                          child: Image(
-                              image: AssetImage("assets/images/logo_0.png")),
+                          child: Image(image: NetworkImage("${tenant?.tenantProfile?.logo}")),
                         )
                       ],
                     ),

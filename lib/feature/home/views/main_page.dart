@@ -11,6 +11,7 @@ import 'package:mobilefinalhcmus/feature/home/views/home_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profie_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/product_page.dart';
 import 'package:mobilefinalhcmus/main.dart';
+import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:mobilefinalhcmus/widgets/loading_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
@@ -133,7 +134,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     context.read<AuthenticateProvider>().setHomeRoute =
         (ModalRoute.of(context)!.settings.name)!;
-
+    
     return Scaffold(
       body: Center(
         child: tabItems[homeProvider.seletedIndex!],

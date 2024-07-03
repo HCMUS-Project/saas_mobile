@@ -5,7 +5,7 @@ import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
-void PostReview ({required BuildContext context, required TextEditingController textController, required String productId})async{
+void PostReview ({required BuildContext context, required TextEditingController textController, String? productId, String? bookingId})async{
   double reviewRating = 0 ;
   TextEditingController controller = TextEditingController();
   print('qwekjqwhekjqwh');
@@ -116,18 +116,25 @@ void PostReview ({required BuildContext context, required TextEditingController 
                                   backgroundColor: Theme.of(context).colorScheme.secondary),
                               onPressed: ()async {
                                 print(controller.text);
-                                await context.read<ShopProvider>().ReviewProduct(token:context.read<AuthenticateProvider>().token!,productId: productId, review: controller.text, rating: reviewRating);
-                                final errorMessage = context.read<ShopProvider>().httpResponseFlutter.errorMessage;
-                                if (errorMessage != null){
-                                  await QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.error,
-                                    text: errorMessage
-                                  );
-                                }else{
-                                  Navigator.of(context).pop();
+                                String? errorMessage;
+                                if(productId!=null){
+                                  await context.read<ShopProvider>().ReviewProduct(token:context.read<AuthenticateProvider>().token!,productId: productId!, review: controller.text, rating: reviewRating);
+                                  errorMessage = context.read<ShopProvider>().httpResponseFlutter.errorMessage;
+                                }
+
+                                if (bookingId !=null){
                                   
                                 }
+                                if (errorMessage != null){
+                                    await QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      text: errorMessage
+                                    );
+                                  }else{
+                                    Navigator.of(context).pop();
+                                    
+                                  }
 
                               },
                               child: Text(

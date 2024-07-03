@@ -2,17 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
-
+import 'package:mobilefinalhcmus/widgets/review_widget.dart';
 
 class BookingDetailPage extends StatelessWidget {
   BookingDetailPage({super.key, required this.bookingDetail});
   Map<String, dynamic> bookingDetail;
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     print(bookingDetail);
     final date = DateFormat("hh:mm - dd/MM/yyyy")
         .format(DateTime.parse(bookingDetail['createdAt']));
-    final employee = bookingDetail['employee']['firstName'] + " " + bookingDetail['employee']['lastName'];
+    final employee = bookingDetail['employee']['firstName'] +
+        " " +
+        bookingDetail['employee']['lastName'];
+    final textButton = bookingDetail['status'] == "SUCCESS"
+        ? "Review"
+        : bookingDetail['status'] == "PENDING"
+            ? "Cancle"
+            : null;
+    final buttonColor = bookingDetail['status'] == "SUCCESS"
+        ? Colors.green.shade200
+        : bookingDetail['status'] == "PENDING"
+            ? Colors.red
+            : null;
     return Scaffold(
       bottomNavigationBar: SizedBox(
         height: 56,
@@ -20,11 +33,24 @@ class BookingDetailPage extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Row(
             children: [
-              Expanded(
-                  child:
-                      ElevatedButton(onPressed: () {}, child: Text("Cancle",style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold
-                      ),)))
+              if (textButton != null)
+                Expanded(
+                    child: ElevatedButton(
+                        style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                          backgroundColor: MaterialStatePropertyAll(buttonColor)
+                        ),
+                        onPressed: () {
+                          if (textButton == "Review" ){
+                            PostReview(context: context, textController: textEditingController, bookingId: bookingDetail['id']);
+                          }
+                        },
+                        child: Text(
+                          textButton,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        )))
             ],
           ),
         ),

@@ -74,25 +74,28 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
           return FutureBuilder(
-            future: value.getTheme(
-                domain: context.read<AuthenticateProvider>().domain!),
+            future: Future.wait([
+              value.getTheme(
+                  domain: context.read<AuthenticateProvider>().domain!),
+              value.getTenantProfile(
+                  domain: context.read<AuthenticateProvider>().domain!)
+            ]),
             builder: (context, snapshot) {
               final rs = value.httpResponseFlutter.result?['themeConfig'];
               ThemeConfig? theme;
 
-              if (rs!=null){
+              if (rs != null) {
                 theme = ThemeConfig.fromJson(rs);
                 value.setRoute = "/home";
               }
-
+              
               return MaterialApp(
                 title: 'Flutter Demo',
                 debugShowCheckedModeBanner: false,
-                theme: rs != null? theme?.theme : customTheme,
+                theme: rs != null ? theme?.theme : customTheme,
                 initialRoute: '/',
                 routes: {
                   '/': (context) => IntroPage(),
-                  '/tenant': (context) => const TenantPage(),
                   '/auth/login': (context) => LoginPage(),
                   '/auth/signup': (context) => const RegisterPage(),
                   '/home': (context) => const MainPage(),

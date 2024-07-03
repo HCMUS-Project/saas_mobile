@@ -77,45 +77,53 @@ class _ProductPageState extends State<ProductPage> {
 
             return Container(
               
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ShowCategoryOfProduct(
-                      funct: context.read<ShopProvider>().findProductRecommend(
-                          domain: context.read<AuthenticateProvider>().domain!),
-                      titleCategory: "Top Recommend",
-                      widthContainer: widthContainer,
-                    ),
-                    ShowCategoryOfProduct(
-                      funct: context.read<ShopProvider>().findProductTopSeller(
-                          domain: context.read<AuthenticateProvider>().domain!),
-                      titleCategory: "Top Seller",
-                      widthContainer: widthContainer,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: widthContainer,
-                        decoration: BoxDecoration(
-                            image: const DecorationImage(
-                                image: NetworkImage(
-                                    "https://cdn.shopify.com/s/files/1/2384/0833/files/1_Quiff_1024x1024.jpg?v=1668876008"),
-                                fit: BoxFit.fill),
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(30)),
+              child: RefreshIndicator(
+                color: Theme.of(context).colorScheme.secondary,
+                onRefresh: () async{
+                  setState(() {
+                    
+                  });
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ShowCategoryOfProduct(
+                        funct: context.read<ShopProvider>().findProductRecommend(
+                            domain: context.read<AuthenticateProvider>().domain!),
+                        titleCategory: "Top Recommend",
+                        widthContainer: widthContainer,
                       ),
-                    ),
-                    result == null
-                        ? Container(
-                            child: Column(
-                                children: List.generate(
-                                    5, (index) => buildSkeleton(context))))
-                        : ShowProduct(
-                            selectedGrid: selectedGrid,
-                            showProductStream: showProductStream,
-                            productList: products,
-                          )
-                  ],
+                      ShowCategoryOfProduct(
+                        funct: context.read<ShopProvider>().findProductTopSeller(
+                            domain: context.read<AuthenticateProvider>().domain!),
+                        titleCategory: "Top Seller",
+                        widthContainer: widthContainer,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: widthContainer,
+                          decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                  image: NetworkImage(
+                                      "https://cdn.shopify.com/s/files/1/2384/0833/files/1_Quiff_1024x1024.jpg?v=1668876008"),
+                                  fit: BoxFit.fill),
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(30)),
+                        ),
+                      ),
+                      result == null
+                          ? Container(
+                              child: Column(
+                                  children: List.generate(
+                                      5, (index) => buildSkeleton(context))))
+                          : ShowProduct(
+                              selectedGrid: selectedGrid,
+                              showProductStream: showProductStream,
+                              productList: products,
+                            )
+                    ],
+                  ),
                 ),
               ),
             );

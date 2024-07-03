@@ -58,11 +58,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-      backgroundColor: const Color(0xFF161D3A),
-      appBar: AppBar(
-       
-      ),
+      backgroundColor: Theme.of(context).colorScheme.secondary,
+      appBar: AppBar(),
       body: LayoutBuilder(
         builder: (context, constraints) => Container(
           child: Column(
