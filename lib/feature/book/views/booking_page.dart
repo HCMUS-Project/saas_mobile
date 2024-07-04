@@ -28,7 +28,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  ServiceModel? chosenService;
+  ServiceModel chosenService =ServiceModel.unknown();
   DateTime? chosenDate;
   int selectedIndexEmployee = -1;
   String? selectedEmployee;
@@ -40,7 +40,7 @@ class _BookingPageState extends State<BookingPage> {
   int selectedTime = -1;
   Map<String, dynamic>? controller;
 
-  VoucherModel voucher = VoucherModel();
+  VoucherModel voucher = VoucherModel.unknown();
   late AuthenticateProvider authenticateProvider;
   late BookingProvider bookingProvider;
   @override
@@ -222,22 +222,24 @@ class _BookingPageState extends State<BookingPage> {
                                         color: Colors.grey.shade200),
                                     child: GestureDetector(
                                       onTap: () async {
-                                        voucher.update(VoucherModel.unknown());
                                         ServiceModel? service =
                                             await Navigator.of(context)
                                                 .push(MaterialPageRoute(
                                           builder: (context) {
                                             return ServicePage(
                                               voucher: voucher,
+                                              chosenService: chosenService,
                                             );
                                           },
                                         ));
+                                        print("SERVICE:");
+                                        print(chosenService);
                                         if (service != null) {
                                           setState(() {
                                             widget.selectedStep = 0;
                                             listEmployee = null;
                                             listTime = null;
-                                            chosenService = service;
+
                                             widget.selectedStep++;
                                             catchErro1 = null;
                                           });
@@ -253,7 +255,7 @@ class _BookingPageState extends State<BookingPage> {
                                               const Icon(Icons.home),
                                               Expanded(
                                                 child: Text(
-                                                  chosenService?.name ??
+                                                  chosenService.name ??
                                                       "See all services",
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -275,7 +277,7 @@ class _BookingPageState extends State<BookingPage> {
                                           ?.copyWith(color: Colors.red),
                                     ),
                                   if (voucher.id != null &&
-                                      chosenService != null)
+                                      chosenService.id != null)
                                     Row(
                                       children: [
                                         Expanded(
@@ -293,7 +295,7 @@ class _BookingPageState extends State<BookingPage> {
                                                       price: CalculateDiscount(
                                                           voucher: voucher,
                                                           chosenService:
-                                                              chosenService!))
+                                                              chosenService))
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -304,10 +306,10 @@ class _BookingPageState extends State<BookingPage> {
                                             )),
                                       ],
                                     )
-                                  else if (chosenService != null)
+                                  else if (chosenService.id != null)
                                     Text(
                                       CurrencyConfig.convertTo(
-                                              price: (chosenService!.price)!)
+                                              price: (chosenService.price)!)
                                           .toString(),
                                       style: Theme.of(context)
                                           .textTheme
@@ -344,7 +346,7 @@ class _BookingPageState extends State<BookingPage> {
                                       color: Colors.grey.shade200),
                                   child: GestureDetector(
                                     onTap: () async {
-                                      if (chosenService?.name == null) {
+                                      if (chosenService.name == null) {
                                         setState(() {
                                           catchErro1 =
                                               "You have not selected a service yet";
@@ -443,7 +445,7 @@ class _BookingPageState extends State<BookingPage> {
                                       color: Colors.grey.shade200),
                                   child: GestureDetector(
                                     onTap: () async {
-                                      if (chosenService == null) {
+                                      if (chosenService.id == null) {
                                         setState(() {
                                           catchErro1 =
                                               "You have not selected a service yet";
@@ -463,18 +465,18 @@ class _BookingPageState extends State<BookingPage> {
                                                     .token!,
                                                 date: chosenDate!
                                                     .toIso8601String(),
-                                                service: (chosenService?.id)!);
+                                                service: (chosenService.id)!);
 
                                         final timeStartConvert = chosenService
-                                            ?.timeService?['startTime']
+                                            .timeService?['startTime']
                                             .toString()
                                             .split(":");
                                         final timeEndConvert = chosenService
-                                            ?.timeService?['endTime']
+                                            .timeService?['endTime']
                                             .toString()
                                             .split(":");
                                         final duration = chosenService
-                                            ?.timeService?['duration'];
+                                            .timeService?['duration'];
                                         final startHour = timeStartConvert?[0];
                                         final startMinute =
                                             timeStartConvert?[1];
@@ -494,10 +496,10 @@ class _BookingPageState extends State<BookingPage> {
                                                 startTime,
                                                 endTime,
                                                 step,
-                                                chosenService?.timeService?[
+                                                chosenService.timeService?[
                                                     'breakStart'],
                                                 chosenService
-                                                    ?.timeService?['breakEnd'])
+                                                    .timeService?['breakEnd'])
                                             .map((tod) => tod.format(context))
                                             .toList();
                                         final result = context
@@ -569,10 +571,9 @@ class _BookingPageState extends State<BookingPage> {
                                                                             .colorScheme
                                                                             .secondary
                                                                         : null,
-                                                                    image: DecorationImage(image:NetworkImage(
-                                                                          
-                                                                          employ[
-                                                                              'image'] ?? "assets/images/avatar.png")),
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage(employ['image'] ??
+                                                                            "assets/images/avatar.png")),
                                                                     shape: BoxShape
                                                                         .circle),
                                                                 // child:
@@ -581,7 +582,7 @@ class _BookingPageState extends State<BookingPage> {
                                                                 //   child: Image(
                                                                 //       fit: BoxFit.cover,
                                                                 //       image: NetworkImage(
-                                                                          
+
                                                                 //           employ[
                                                                 //               'image'] ?? "assets/images/avatar.png")),
                                                                 // ),
@@ -751,7 +752,7 @@ class _BookingPageState extends State<BookingPage> {
                                                   employee: context
                                                       .read<BookingProvider>()
                                                       .selectedIndexEmployee,
-                                                  service: (chosenService?.id)!,
+                                                  service: (chosenService.id)!,
                                                   note: "qua da pepsi oi",
                                                   startTime: context
                                                       .read<BookingProvider>()

@@ -11,15 +11,15 @@ import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ServicePage extends StatefulWidget {
-  ServicePage({super.key, required this.voucher});
+  ServicePage({super.key, required this.voucher, required this.chosenService});
   VoucherModel voucher;
+  ServiceModel chosenService;
   @override
   State<ServicePage> createState() => _ServicePageState();
 }
 
 class _ServicePageState extends State<ServicePage>
     with SingleTickerProviderStateMixin {
-  ServiceModel? chosenService;
   List<Map<String, dynamic>>? services;
   AnimationController? controller;
   Animation<Offset>? offset;
@@ -40,10 +40,14 @@ class _ServicePageState extends State<ServicePage>
     // TODO: implement build
     VoucherModel voucher = widget.voucher;
     int afterDiscountPrice = 0;
-    if (chosenService != null && voucher.discountPercent != null) {
+    final chosenService = widget.chosenService;
+    print("Chosen service");
+    print(chosenService);
+    if (chosenService.id != null && voucher.discountPercent != null) {
       afterDiscountPrice = CalculateDiscount(
-          chosenService: chosenService!, voucher: widget.voucher);
+          chosenService: chosenService, voucher: widget.voucher);
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Choose service",
@@ -53,7 +57,7 @@ class _ServicePageState extends State<ServicePage>
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (chosenService != null)
+          if (widget.chosenService.id != null)
             SlideTransition(
               position: offset!,
               child: Container(
@@ -143,9 +147,9 @@ class _ServicePageState extends State<ServicePage>
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text("Total"),
-                          if (voucher?.id == null)
+                          if (voucher.id == null)
                             Text(CurrencyConfig.convertTo(
-                                    price: chosenService?.price ?? 0)
+                                    price: chosenService.price ?? 0)
                                 .toString())
                           else
                             Row(
@@ -235,10 +239,10 @@ class _ServicePageState extends State<ServicePage>
                           itemBuilder: (context, index) {
                             Map<String, dynamic> service = Map();
                             service['name'] = "item";
-                            service['timeService'] = {
-                              'duration':10
-                            };
-                            service['images'] = ["https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46"];
+                            service['timeService'] = {'duration': 10};
+                            service['images'] = [
+                              "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46"
+                            ];
                             service['description'] = "";
                             service['price'] = 0;
                             return Skeletonizer(
@@ -367,7 +371,7 @@ class _ServicePageState extends State<ServicePage>
                               setState(() {
                                 final voucherUnkown = VoucherModel.unknown();
                                 widget.voucher.update(voucherUnkown);
-                                chosenService = ServiceModel.fromJson(service);
+                                widget.chosenService.update(ServiceModel.fromJson(service));
                               });
                             },
                             child: Text("choose"))),

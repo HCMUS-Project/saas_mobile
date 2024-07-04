@@ -39,6 +39,8 @@ class _IntroPageState extends State<IntroPage> {
       WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) async {
           if (context.read<AuthenticateProvider>().token != null) {
+            print(context.read<AuthenticateProvider>().token);
+            print(context.read<AuthenticateProvider>().refreshToken);
             await checkToken(context);
           }
           Navigator.pushReplacementNamed(context, '/home');
