@@ -29,6 +29,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Timer? expiredTokenTime;
   late HomeProvider homeProvider;
   late AuthenticateProvider authenticateProvider;
+  Map<String, dynamic>? loadingController;
   List<Widget> tabItems = [
     const HomePage(),
     const ProductPage(),
@@ -66,7 +67,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         print("troi oi la dsadasdasdasdsadasd");
         print(authenticateProvider.httpResponseFlutter.errorMessage);
         // after intro, check error when refresh token
-        if (authenticateProvider.httpResponseFlutter.errorMessage != null ){
+        if (authenticateProvider.httpResponseFlutter.errorMessage != null) {
           await prefs.remove("token");
           await prefs.remove("refreshToken");
           await prefs.remove("username");
@@ -78,15 +79,13 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               cancelBtnText: "No",
               showCancelBtn: true,
               onConfirmBtnTap: () async {
-
                 setState(() {
                   homeProvider.setIndex = 0;
                 });
                 Navigator.pop(context);
               },
               type: QuickAlertType.info);
-
-        }else{
+        } else {
           expiredTokenTime = getRefreshToken();
         }
       });
@@ -115,26 +114,23 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-
-      if (authenticateProvider.token != null){
-        final controller = LoadingWidget(context);
-        controller['show']();
+      if (loadingController == null) {
+        loadingController = LoadingWidget(context);
+        loadingController?['show']();
         await context
             .read<AuthenticateProvider>()
             .refreshTokenFunc(refreshToken: authenticateProvider.refreshToken!);
-        controller['hide']();
+        loadingController?['hide']();
+        loadingController = null;
       }
-
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     context.read<AuthenticateProvider>().setHomeRoute =
         (ModalRoute.of(context)!.settings.name)!;
-    
+
     return Scaffold(
       body: Center(
         child: tabItems[homeProvider.seletedIndex!],
