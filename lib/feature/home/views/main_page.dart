@@ -114,7 +114,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      if (loadingController == null) {
+      print(loadingController);
+      if (loadingController == null && authenticateProvider.token!=null) {
         loadingController = LoadingWidget(context);
         loadingController?['show']();
         await context
