@@ -1,14 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/review/model/review_model.dart';
+import 'package:mobilefinalhcmus/widgets/review_widget.dart';
 import 'package:provider/provider.dart';
 
 class ReviewPage extends StatefulWidget {
   ReviewPage(
-      {super.key, required this.productId, this.numberOfRating, this.rating});
-  String productId;
+      {super.key,  this.productId, this.numberOfRating, this.rating,this.serviceId});
+  String? productId;
+  String? serviceId;
   int? numberOfRating;
   double? rating;
   @override
@@ -26,6 +31,8 @@ class _ReviewPageState extends State<ReviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("productId: ${widget.productId}");
+    print("serviceId: ${widget.serviceId}");
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -102,52 +109,28 @@ class _ReviewPageState extends State<ReviewPage> {
               ),
               ListReview(
                 productId: widget.productId,
+                reviewId: widget.serviceId,
               )
             ],
           ),
         ),
       ),
-      floatingActionButton: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-
-          // fixedSize: Size(170, 15)
-        ),
-        onPressed: () {},
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              "Write a review",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white),
-            )
-          ],
-        ),
-      ),
+      
     );
   }
 }
 
 class ListReview extends StatefulWidget {
-  ListReview({super.key, required this.productId});
-
-  String productId;
+  ListReview({super.key, this.productId, this.reviewId});
+  String? reviewId;
+  String? productId;
   @override
   State<ListReview> createState() => _ListReviewState();
 }
 
 class _ListReviewState extends State<ListReview> {
   final controller = ScrollController();
+  TextEditingController textController = TextEditingController();
   int page = 1;
 
   @override
@@ -167,12 +150,20 @@ class _ListReviewState extends State<ListReview> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.reviewId);
     return FutureBuilder(
-      future: context.read<ShopProvider>().reviewOfProduct(
+      future:widget.productId != null ?  
+          context.read<ShopProvider>().reviewOfProduct(
           domain: context.read<AuthenticateProvider>().domain,
           page: page,
           pageSize: 5,
-          productId: widget.productId),
+          productId: widget.productId) 
+          : context.read<BookingProvider>().reviewOfService(
+            domain: context.read<AuthenticateProvider>().domain!,
+            serviceId: widget.reviewId!,
+            page: page,
+            pageSize:  5
+          ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -181,10 +172,17 @@ class _ListReviewState extends State<ListReview> {
             child: const Center(),
           );
         }
-        final result = context.read<ShopProvider>().httpResponseFlutter.result!;
-        final reviews = List<Map<String, dynamic>>.from(result['reviews']);
 
-        return Expanded(
+        final result = snapshot.data?.result;
+        print(result);
+        final reviews = List<Map<String, dynamic>>.from(result?['reviews']);
+        print(reviews);
+        return reviews.length == 0 ?Expanded(
+          flex: 8,
+          child: Center(child: Text("No comments yet", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.bold
+          ),),),
+        ): Expanded(
             flex: 8,
             child: ListView.builder(
               itemCount: reviews.length + 1,
@@ -196,6 +194,7 @@ class _ListReviewState extends State<ListReview> {
                   );
                 } else if (reviews.isNotEmpty) {
                   final review = ReviewModel.fromJson(reviews[index]);
+
                   return LayoutBuilder(
                     builder: (context, constraints) => Container(
                       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -213,7 +212,50 @@ class _ListReviewState extends State<ListReview> {
                               child: Column(
                                 children: [
                                   Container(
-                                    child: Text(review.user!),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 9,
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(review.user!)),
+                                        ),
+                                        if (review.user?.toLowerCase() == context.read<AuthenticateProvider>().profile?['email'].toString().toLowerCase())
+                                        Expanded(
+                                          flex: 1,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: IconButton(onPressed: () {
+                                              showModalBottomSheet(context: context, 
+                                              builder: (context) {                                     
+                                                return Container(
+                                                  width: double.infinity,
+                                                  height: 100,
+                                                  child: Column(
+                                                    children: [
+                                                      Expanded(child: TextButton(onPressed: ()async{
+                                                        textController.text = review.review!;
+                                                        final check = await PostReview(context: context, textController: textController, serviceId: widget.reviewId,productId: widget.productId, reviewRating: review.rating!);
+                                                        if(check){
+                                                          setState(() {
+                                                            
+                                                          });
+                                                        }
+                                                      }, child: Text("Edit",style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                        fontWeight: FontWeight.bold
+                                                      ),))),
+                                                      Expanded(child: TextButton(onPressed: (){}, child: Text("Remove",style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                        fontWeight: FontWeight.bold
+                                                      )))),
+                                                    ],
+                                                  ),
+                                                );
+                                              },);
+                                            }, icon: Icon(Icons.more_horiz)),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                     padding: const EdgeInsets.only(left: 8),

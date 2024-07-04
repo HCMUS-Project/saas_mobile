@@ -41,7 +41,7 @@ class BookingDetailPage extends StatelessWidget {
                         ),
                         onPressed: () {
                           if (textButton == "Review" ){
-                            PostReview(context: context, textController: textEditingController, bookingId: bookingDetail['id']);
+                            PostReview(context: context, textController: textEditingController, serviceId: bookingDetail['service']['id']);
                           }
                         },
                         child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/components/loading_screen.dart';
+import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/models/cart_model.dart';
@@ -59,24 +60,28 @@ class _CheckOutPageState extends State<CheckOutPage> {
           LoadingScreen.instance().show(context: context);
         } else {
           LoadingScreen.instance().hide();
-          if (_checkoutProvider!.httpResponseFlutter.errorMessage != null) {
-            print(_checkoutProvider!.httpResponseFlutter.errorMessage);
+          final indexPaymentMethod =
+              context.read<CheckoutProvider>().selectedPayMethod;
+          if (paymentMethods[indexPaymentMethod].type?.toLowerCase() == "cod") {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return SuccessPage();
+              },));
           } else {
-            print(_checkoutProvider!.httpResponseFlutter.result);
-
-            final Uri url = Uri.parse(_checkoutProvider!
-                .httpResponseFlutter.result?['data']['paymentUrl']);
-
-            if (await canLaunchUrl(url)) {
-              await launchUrl(url);
+            if (_checkoutProvider!.httpResponseFlutter.errorMessage != null) {
+              print(_checkoutProvider!.httpResponseFlutter.errorMessage);
+              
             } else {
-              throw Exception('Could not launch $url');
+              print(_checkoutProvider!.httpResponseFlutter.result);
+
+              final Uri url = Uri.parse(_checkoutProvider!
+                  .httpResponseFlutter.result?['data']['paymentUrl']);
+
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url);
+              } else {
+                throw Exception('Could not launch $url');
+              }
             }
-            // Navigator.of(context).push(MaterialPageRoute(
-            //   builder: (context) {
-            //     return SuccessPage();
-            //   },
-            // ));
           }
         }
       }

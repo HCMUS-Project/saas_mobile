@@ -308,4 +308,84 @@ class BookingProvider extends ChangeNotifier {
       return httpResponseFlutter;
     }
   }
+
+  Future<HttpResponseFlutter> reviewOfService({
+    required String domain,
+    required String serviceId,
+    int? pageSize,
+    int? page
+  
+  })async{
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      Map<String, dynamic> queryParameters = {
+        "domain": domain,
+        "serviceId": serviceId,
+        "pageSize":pageSize.toString(),
+        "page":page.toString()
+      };
+
+      queryParameters.removeWhere((key, value) => value == null);
+
+      final uri =
+          Uri.tryParse("${dotenv.env['HTTP_URI']}booking/review/find")?.replace(
+            queryParameters: queryParameters
+          );
+      print(uri);
+      final rs = await http.get(headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }, uri!);
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+      final result = Map<String, dynamic>.from(body);
+      print(result);
+      httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
+    }
+  }
+
+  Future<HttpResponseFlutter> postReviewService({
+    required String token,
+    required String serviceId,
+    required String review,
+    required double rating
+  })async{
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+
+      final uri = Uri.tryParse("${dotenv.env['HTTP_URI']}booking/review/create");
+      Map<String,dynamic> data= Map();
+      data['serviceId'] = serviceId;
+      data['review'] = review;
+      data['rating'] = rating;
+      final rs = await http.post(headers: {
+        HttpHeaders.authorizationHeader:"Bearer $token",
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }, uri!,body: json.encode(data));
+
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+      final result = Map<String, dynamic>.from(body);
+
+      httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
+    }
+  }
+
 }

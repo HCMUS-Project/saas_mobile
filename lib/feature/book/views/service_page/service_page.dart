@@ -5,6 +5,7 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:mobilefinalhcmus/feature/book/views/voucher/service_voucher.dart';
+import 'package:mobilefinalhcmus/feature/home/views/detail_service.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
 import 'package:mobilefinalhcmus/helper/cal_discount.dart';
 import 'package:provider/provider.dart';
@@ -272,116 +273,123 @@ class _ServicePageState extends State<ServicePage>
   }
 
   Widget ServiceItem(Map<String, dynamic> service) {
-    return Container(
-        child: Material(
-      color: Colors.white,
-      elevation: 1,
-      borderRadius: BorderRadius.circular(15),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image(
-                    image: NetworkImage(service['images'][0].toString()),
-                    fit: BoxFit.fill),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return DetailService(service: ServiceModel.fromJson(service));
+        },));
+      },
+      child: Container(
+          child: Material(
+        color: Colors.white,
+        elevation: 1,
+        borderRadius: BorderRadius.circular(15),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image(
+                      image: NetworkImage(service['images'][0].toString()),
+                      fit: BoxFit.fill),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 7,
-                            child: Text(
-                              service['name'],
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                Icon(Icons.timer_sharp),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                    "${service['timeService']['duration'].toString()}"),
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.grey.shade200,
-                  ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        service['description'],
-                        textAlign: TextAlign.start,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Row(
                         children: [
-                          Text("Standard Price"),
-                          Text(CurrencyConfig.convertTo(price: service['price'])
-                              .toString())
+                          Expanded(
+                              flex: 7,
+                              child: Text(
+                                service['name'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                          Expanded(
+                              flex: 3,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.timer_sharp),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                      "${service['timeService']['duration'].toString()}"),
+                                ],
+                              )),
                         ],
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                        alignment: Alignment.bottomCenter,
-                        padding: EdgeInsets.all(5),
-                        child: ElevatedButton(
-                            style: Theme.of(context)
-                                .elevatedButtonTheme
-                                .style
-                                ?.copyWith(
-                                    fixedSize: MaterialStatePropertyAll(
-                                        Size(150, 36))),
-                            onPressed: () {
-                              switch (controller?.status) {
-                                case AnimationStatus.completed:
-                                  controller?.forward();
-                                  break;
-                                case AnimationStatus.dismissed:
-                                  controller?.reverse();
-                                  break;
-                                default:
-                              }
-                              setState(() {
-                                final voucherUnkown = VoucherModel.unknown();
-                                widget.voucher.update(voucherUnkown);
-                                widget.chosenService.update(ServiceModel.fromJson(service));
-                              });
-                            },
-                            child: Text("choose"))),
-                  )
-                ],
+                    Divider(
+                      color: Colors.grey.shade200,
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          service['description'],
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Standard Price"),
+                            Text(CurrencyConfig.convertTo(price: service['price'])
+                                .toString())
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                          alignment: Alignment.bottomCenter,
+                          padding: EdgeInsets.all(5),
+                          child: ElevatedButton(
+                              style: Theme.of(context)
+                                  .elevatedButtonTheme
+                                  .style
+                                  ?.copyWith(
+                                      fixedSize: MaterialStatePropertyAll(
+                                          Size(150, 36))),
+                              onPressed: () {
+                                switch (controller?.status) {
+                                  case AnimationStatus.completed:
+                                    controller?.forward();
+                                    break;
+                                  case AnimationStatus.dismissed:
+                                    controller?.reverse();
+                                    break;
+                                  default:
+                                }
+                                setState(() {
+                                  final voucherUnkown = VoucherModel.unknown();
+                                  widget.voucher.update(voucherUnkown);
+                                  widget.chosenService.update(ServiceModel.fromJson(service));
+                                });
+                              },
+                              child: Text("choose"))),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    ));
+          ],
+        ),
+      )),
+    );
   }
 }

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
-void PostReview ({required BuildContext context, required TextEditingController textController, String? productId, String? bookingId})async{
-  double reviewRating = 0 ;
+Future<bool> PostReview ({required BuildContext context, required TextEditingController textController, String? productId, String? serviceId, double reviewRating = 0})async{
   TextEditingController controller = TextEditingController();
-  print('qwekjqwhekjqwh');
-  return showModalBottomSheet(
+  final rs = await showModalBottomSheet(
             isScrollControlled: true,
             backgroundColor: Colors.white,
             context: context,
@@ -36,7 +35,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                           allowHalfRating: true,
                           itemCount: 5,
                           ignoreGestures: false,
-                          initialRating: 0,
+                          initialRating: reviewRating,
                           ratingWidget: RatingWidget(
                             full: Image.asset('assets/images/star_full.png',color: Theme.of(context).colorScheme.secondary,),
                             half: Image.asset('assets/images/star_half.png',color: Theme.of(context).colorScheme.secondary),
@@ -72,7 +71,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                             borderRadius: BorderRadius.circular(15),
                             elevation: 1,
                             child: TextField(
-                              controller: controller,
+                              controller: textController,
                               onChanged: (value){
                                 print(value);
                                 print(controller.text);
@@ -118,12 +117,14 @@ void PostReview ({required BuildContext context, required TextEditingController 
                                 print(controller.text);
                                 String? errorMessage;
                                 if(productId!=null){
-                                  await context.read<ShopProvider>().ReviewProduct(token:context.read<AuthenticateProvider>().token!,productId: productId!, review: controller.text, rating: reviewRating);
+                                  print("review product");
+                                  await context.read<ShopProvider>().ReviewProduct(token:context.read<AuthenticateProvider>().token!,productId: productId!, review: textController.text, rating: reviewRating);
                                   errorMessage = context.read<ShopProvider>().httpResponseFlutter.errorMessage;
                                 }
 
-                                if (bookingId !=null){
-                                  
+                                if (serviceId !=null){
+                                  await context.read<BookingProvider>().postReviewService(token:context.read<AuthenticateProvider>().token!,serviceId: serviceId, review: textController.text, rating: reviewRating);
+                                  errorMessage = context.read<ShopProvider>().httpResponseFlutter.errorMessage;
                                 }
                                 if (errorMessage != null){
                                     await QuickAlert.show(
@@ -132,7 +133,7 @@ void PostReview ({required BuildContext context, required TextEditingController 
                                       text: errorMessage
                                     );
                                   }else{
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop(true);
                                     
                                   }
 
@@ -154,4 +155,5 @@ void PostReview ({required BuildContext context, required TextEditingController 
               );
             },
           );
+  return rs;
 }

@@ -152,7 +152,7 @@ class ShopProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> reviewOfProduct(
+  Future<HttpResponseFlutter> reviewOfProduct(
       {String? domain, String? productId, int? pageSize, int? page}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
@@ -180,10 +180,11 @@ class ShopProvider extends ChangeNotifier {
 
       httpResponseFlutter.update(
           result: result['data'], statusCode: rs.statusCode);
+      return httpResponseFlutter;
     } on FlutterException catch (e) {
       print(e);
-      httpResponseFlutter.update(
-          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      httpResponseFlutter.update(result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
     }
   }
 

@@ -4,6 +4,7 @@ class ServiceModel {
   String? description;
   int? price;
   String? id;
+  int?numberRating;
   Map<String, dynamic>? timeService;
   double? rating;
   int? views;
@@ -11,6 +12,7 @@ class ServiceModel {
       {this.description,
       this.id,
       this.images,
+      this.numberRating,
       this.name,
       this.price,
       this.timeService,
@@ -37,6 +39,8 @@ class ServiceModel {
         timeService: Map<String, dynamic>.from(json['timeService']),
         description: json["description"],
         rating: double.parse(json['rating'].toString()),
-        views: json['views']);
+        views: json['views'],
+        numberRating: json['numberRating']
+        );
   }
 }
