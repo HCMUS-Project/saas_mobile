@@ -27,7 +27,7 @@ class FeatureOfProfile extends StatelessWidget{
     // TODO: implement build
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white
+
       ),
       child: ListTile(
         onTap: (){

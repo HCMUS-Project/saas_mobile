@@ -35,8 +35,28 @@ class _OrderDetailState extends State<OrderDetail> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Order Details",style: Theme.of(context).textTheme.titleLarge),
+        title: Text("Order Details",
+            style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
+      ),
+      bottomNavigationBar: Container(
+        height: 56,
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child:
+                  ElevatedButton(onPressed: () {}, child: const Text("Cancel")),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+                child: ElevatedButton(
+                    onPressed: () {}, child: const Text("Reorder")))
+          ],
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => Container(
@@ -45,7 +65,7 @@ class _OrderDetailState extends State<OrderDetail> {
             child: Column(
               children: [
                 SizedBox(
-                  height: constraints.maxHeight * 0.09,
+                  height: constraints.maxHeight * 0.1,
                   child: Column(
                     children: [
                       Container(
@@ -191,23 +211,6 @@ class _OrderDetailState extends State<OrderDetail> {
                 const SizedBox(
                   height: 20,
                 ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                            onPressed: () {}, child: const Text("Cancel")),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {}, child: const Text("Reorder")))
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
@@ -254,8 +257,7 @@ class _OrderDetailState extends State<OrderDetail> {
                     flex: 7,
                     child: Container(
                       height: 100,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary),
+                      decoration: BoxDecoration(),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,24 +265,28 @@ class _OrderDetailState extends State<OrderDetail> {
                           Row(
                             children: [
                               Expanded(
-                                flex: 8,
+                                  flex: 8,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //title
-                                  Text(
-                                    convertToProduct.name!,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  //desc
-                                  Text(
-                                    convertToProduct.description!,
-                                  ),
-                                ],
-                              )),
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //title
+                                      Text(
+                                        convertToProduct.name!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                      //desc
+                                      Text(
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        convertToProduct.description!,
+                                      ),
+                                    ],
+                                  )),
                               Expanded(
                                 flex: 2,
                                 child: Container(

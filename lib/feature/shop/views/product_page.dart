@@ -242,7 +242,9 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         shape:
-                                                            const RoundedRectangleBorder(),
+                                                            const RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.all(Radius.circular(5))
+                                                            ),
                                                       ),
                                                       onPressed:
                                                           product.quantity! > 0

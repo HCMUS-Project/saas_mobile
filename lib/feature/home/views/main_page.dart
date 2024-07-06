@@ -137,6 +137,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         child: tabItems[homeProvider.seletedIndex!],
       ),
       bottomNavigationBar: FlashyTabBar(
+        height: 56,
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        
         animationCurve: Curves.linear,
         selectedIndex: context.read<HomeProvider>().seletedIndex!,
         iconSize: 30,
@@ -149,14 +152,17 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
         items: [
           FlashyTabBarItem(
+            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
             icon: const Icon(Icons.home_outlined),
             title: const Text('Home'),
           ),
           FlashyTabBarItem(
+            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
             icon: const Icon(Icons.shopping_cart_outlined),
             title: const Text('Shop'),
           ),
           FlashyTabBarItem(
+            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
             icon: const Icon(Icons.shopping_bag_outlined),
             title: const Text('Book'),
           ),
@@ -165,6 +171,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           //   title: Text('Service'),
           // ),
           FlashyTabBarItem(
+            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
             icon: const Icon(Icons.person_4_outlined),
             title: const Text('Profile'),
           ),

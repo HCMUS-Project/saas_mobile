@@ -162,9 +162,13 @@ class _HomePageState extends State<HomePage> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-                                      child: Image(
-                                          image: NetworkImage(product.image![0]),
-                                          fit: BoxFit.fill),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image(
+                                          
+                                            image: NetworkImage(product.image![0]),
+                                            fit: BoxFit.fill),
+                                      ),
                                     );
                                   },
                                 ),

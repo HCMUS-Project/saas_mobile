@@ -140,7 +140,7 @@ class ShowOrders extends StatelessWidget {
         },);
 
         return Container(
-            decoration: BoxDecoration(color: Colors.grey.shade100),
+            // decoration: BoxDecoration(color: Colors.grey.shade100),
             child: ListView.builder(
               itemCount: orderList.length,
               itemBuilder: (context, index) {

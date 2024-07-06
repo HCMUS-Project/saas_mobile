@@ -102,6 +102,7 @@ class ThemeConfig {
         elevation: 0,
 
       ),
+      
       appBarTheme: AppBarTheme(
           scrolledUnderElevation: 0,
           color: headerColor,
@@ -125,8 +126,8 @@ class ThemeConfig {
       )),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: footerColor,
-        
-        unselectedLabelStyle: TextStyle(
+          
+        unselectedLabelStyle: TextStyle(  
           color: footerTextColor
         )
       ),

@@ -28,7 +28,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  ServiceModel chosenService =ServiceModel.unknown();
+  ServiceModel chosenService = ServiceModel.unknown();
   DateTime? chosenDate;
   int selectedIndexEmployee = -1;
   String? selectedEmployee;
@@ -191,7 +191,7 @@ class _BookingPageState extends State<BookingPage> {
               ),
             )
           : Container(
-              decoration: const BoxDecoration(color: Colors.white),
+              // decoration: const BoxDecoration(color: Colors.white),
               child: FutureBuilder(
                 future: Future.wait([
                   // determinePosition()
@@ -205,8 +205,7 @@ class _BookingPageState extends State<BookingPage> {
                         index: 0,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(),
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -219,7 +218,11 @@ class _BookingPageState extends State<BookingPage> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.grey.shade200),
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary
+                                            .withOpacity(0.5)),
                                     child: GestureDetector(
                                       onTap: () async {
                                         ServiceModel? service =
@@ -329,8 +332,7 @@ class _BookingPageState extends State<BookingPage> {
                         index: 1,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -343,7 +345,11 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.grey.shade200),
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary
+                                          .withOpacity(0.5)),
                                   child: GestureDetector(
                                     onTap: () async {
                                       if (chosenService.name == null) {
@@ -427,8 +433,7 @@ class _BookingPageState extends State<BookingPage> {
                         index: 2,
                         functionA: (setActive, startTimer) {
                           return Container(
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
+                            decoration: const BoxDecoration(),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -442,7 +447,11 @@ class _BookingPageState extends State<BookingPage> {
 
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.grey.shade200),
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary
+                                          .withOpacity(0.5)),
                                   child: GestureDetector(
                                     onTap: () async {
                                       if (chosenService.id == null) {
@@ -496,8 +505,8 @@ class _BookingPageState extends State<BookingPage> {
                                                 startTime,
                                                 endTime,
                                                 step,
-                                                chosenService.timeService?[
-                                                    'breakStart'],
+                                                chosenService
+                                                    .timeService?['breakStart'],
                                                 chosenService
                                                     .timeService?['breakEnd'])
                                             .map((tod) => tod.format(context))
