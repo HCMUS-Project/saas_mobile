@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 
 class PasswordFielddWidget extends StatefulWidget {
    PasswordFielddWidget({
@@ -38,7 +39,7 @@ class _PasswordFielddWidgetState extends State<PasswordFielddWidget> {
           border: const OutlineInputBorder(
             borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(30))),
-          hintText: "Password",
+          hintText: AppLocalizations.of(context)!.translate('loginPassword')!,
           filled: true,
           fillColor: Colors.grey.shade200,
           suffixIcon: IconButton(

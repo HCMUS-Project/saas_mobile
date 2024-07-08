@@ -13,6 +13,7 @@ import 'package:mobilefinalhcmus/feature/book/views/service_page/service_page.da
 import 'package:mobilefinalhcmus/feature/book/widgets/step_process_widget.dart';
 import 'package:mobilefinalhcmus/feature/service/animations/faded_animation.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/helper/cal_discount.dart';
 import 'package:mobilefinalhcmus/helper/time_slot.dart';
 import 'package:provider/provider.dart';
@@ -210,7 +211,7 @@ class _BookingPageState extends State<BookingPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "1. Choose service",
+                                    "1. ${AppLocalizations.of(context)!.translate('choose')!} ${AppLocalizations.of(context)!.translate('service')!}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
@@ -259,7 +260,7 @@ class _BookingPageState extends State<BookingPage> {
                                               Expanded(
                                                 child: Text(
                                                   chosenService.name ??
-                                                      "See all services",
+                                                      "${AppLocalizations.of(context)!.translate('seeAll')!} ${AppLocalizations.of(context)!.translate('service')!}",
                                                   textAlign: TextAlign.center,
                                                 ),
                                               ),
@@ -337,7 +338,7 @@ class _BookingPageState extends State<BookingPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "2. Choose datetime",
+                                  "2. ${AppLocalizations.of(context)!.translate('choose')!} ${AppLocalizations.of(context)!.translate('datetime')!}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -355,7 +356,7 @@ class _BookingPageState extends State<BookingPage> {
                                       if (chosenService.name == null) {
                                         setState(() {
                                           catchErro1 =
-                                              "You have not selected a service yet";
+                                              AppLocalizations.of(context)!.translate('notSelected')! + " " + AppLocalizations.of(context)!.translate('service')!;
                                         });
                                       } else {
                                         final startDate = DateTime.now();
@@ -396,7 +397,7 @@ class _BookingPageState extends State<BookingPage> {
                                               child: Expanded(
                                                 child: Text(
                                                   chosenDate == null
-                                                      ? "Choose time of day"
+                                                      ? AppLocalizations.of(context)!.translate('choose')! + " " + AppLocalizations.of(context)!.translate('datetime')!
                                                       : DateFormat(
                                                               'EEEE, d MMM, yyyy')
                                                           .format(chosenDate!),
@@ -438,7 +439,7 @@ class _BookingPageState extends State<BookingPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "3. Choose employee",
+                                  "3. ${AppLocalizations.of(context)!.translate('choose')!} ${AppLocalizations.of(context)!.translate('employee')!}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyLarge
@@ -457,12 +458,12 @@ class _BookingPageState extends State<BookingPage> {
                                       if (chosenService.id == null) {
                                         setState(() {
                                           catchErro1 =
-                                              "You have not selected a service yet";
+                                              AppLocalizations.of(context)!.translate('notSelected')! + " " + AppLocalizations.of(context)!.translate('service')!;
                                         });
                                       } else if (chosenDate == null) {
                                         setState(() {
                                           catchErro2 =
-                                              "You have not selected  date yet";
+                                              AppLocalizations.of(context)!.translate('notSelected')! + " " + AppLocalizations.of(context)!.translate('datetime')!;
                                         });
                                       } else {
                                         await context
@@ -562,7 +563,7 @@ class _BookingPageState extends State<BookingPage> {
                                                           margin:
                                                               const EdgeInsets
                                                                   .symmetric(
-                                                                    vertical: 2,
+                                                                  vertical: 2,
                                                                   horizontal:
                                                                       2),
                                                           child: Column(
@@ -575,11 +576,14 @@ class _BookingPageState extends State<BookingPage> {
                                                                         .all(3),
                                                                 decoration: BoxDecoration(
                                                                     border: Border.all(
-                                                                      width: 2,
-                                                                      color: context.watch<BookingProvider>().selectedIndexEmployee ==
-                                                                            employ['id']
-                                                                                .toString() ? Theme.of(context).colorScheme.secondary:Colors.transparent
-                                                                    ),
+                                                                        width:
+                                                                            2,
+                                                                        color: context.watch<BookingProvider>().selectedIndexEmployee == employ['id'].toString()
+                                                                            ? Theme.of(context)
+                                                                                .colorScheme
+                                                                                .secondary
+                                                                            : Colors
+                                                                                .transparent),
                                                                     image: DecorationImage(
                                                                         image: NetworkImage(employ['image'] ??
                                                                             "assets/images/avatar.png")),
@@ -624,14 +628,14 @@ class _BookingPageState extends State<BookingPage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
-                                        child: const Row(
+                                        child:  Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Icon(Icons.person_add),
                                             Expanded(
                                               child: Text(
-                                                "Choose employees that you like",
+                                                "${AppLocalizations.of(context)!.translate('choose')!} ${AppLocalizations.of(context)!.translate('employee')!} ${AppLocalizations.of(context)!.translate('thatyoulike')!}",
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),

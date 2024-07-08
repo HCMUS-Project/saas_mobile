@@ -113,17 +113,20 @@ class _HomePageState extends State<HomePage> {
                         ),
                   SliverMainAxisGroup(
                     slivers: <Widget>[
-                      const SliverPadding(
+                      SliverPadding(
                         padding: EdgeInsets.all(8),
                         sliver: SliverToBoxAdapter(
-                          child: Text("Top seller",
+                          child: Text(AppLocalizations.of(context)!.translate('topSeller')!,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                         ),
                       ),
+
                       result_2 == null
                           ? SliverGrid(
+
                               gridDelegate: SliverQuiltedGridDelegate(
+                              
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 4,
                                 crossAxisSpacing: 4,
@@ -140,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )
                           : SliverPadding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.fromLTRB(8,0,8,8),
                               sliver: SliverGrid(
                                 gridDelegate: SliverQuiltedGridDelegate(
                                   crossAxisCount: 3,

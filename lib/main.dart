@@ -35,8 +35,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
-  AppLanguageProvider appLanguage = AppLanguageProvider();
-  await appLanguage.fetchLocale();
+  
   runApp(const MyApp());
 }
 
@@ -83,6 +82,7 @@ class MyApp extends StatelessWidget {
         builder: (context, value, child) {
           return FutureBuilder(
             future: Future.wait([
+              context.read<AppLanguageProvider>().fetchLocale(),
               value.getTheme(
                   domain: context.read<AuthenticateProvider>().domain!),
               value.getTenantProfile(
@@ -99,6 +99,7 @@ class MyApp extends StatelessWidget {
 
               return Consumer<AppLanguageProvider>(
                 builder: (context, model, child) {
+                  print(model.appLocale.languageCode);
                   return MaterialApp(
                     title: 'Flutter Demo',
                     debugShowCheckedModeBanner: false,

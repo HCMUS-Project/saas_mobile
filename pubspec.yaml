@@ -38,7 +38,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flashy_tab_bar2: ^0.0.10
   pinput: ^4.0.0
-  intl: ^0.18.1
+  intl: any
   flutter_rating_bar: ^4.0.1
   sa4_migration_kit: ^1.0.0
   readmore: ^3.0.0

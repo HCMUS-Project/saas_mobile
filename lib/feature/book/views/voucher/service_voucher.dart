@@ -5,6 +5,7 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -35,13 +36,13 @@ class _ServiceVoucherState extends State<ServiceVoucher> {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    "Agree",
+                    AppLocalizations.of(context)!.translate('done')!,
                     style: Theme.of(context).textTheme.bodyMedium,
                   )),
             )
           : null,
       appBar: AppBar(
-        title: Text("Voucher", style: Theme.of(context).textTheme.titleLarge),
+        title: Text(AppLocalizations.of(context)!.translate('voucher')!, style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -214,7 +215,7 @@ class _ShowVoucherState extends State<ShowVoucher> {
                         widget.callback();
                       },
                       child: Text(
-                        isChoose ? "Applied" : "Apply",
+                        isChoose ? AppLocalizations.of(context)!.translate('applied')! :AppLocalizations.of(context)!.translate('apply')!,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ))),
             ],

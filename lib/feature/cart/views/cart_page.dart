@@ -9,6 +9,7 @@ import 'package:mobilefinalhcmus/feature/cart/provider/cart_provider.dart';
 import 'package:mobilefinalhcmus/feature/checkout/views/checkout_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
@@ -143,7 +144,7 @@ class _CartPageState extends State<CartPage> {
                               child: Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                "Total: ${CurrencyConfig.convertTo(price: totalTemp).toString()}",
+                                "${AppLocalizations.of(context)!.translate('total')!}: ${CurrencyConfig.convertTo(price: totalTemp).toString()}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
@@ -160,7 +161,7 @@ class _CartPageState extends State<CartPage> {
                           final totalTemp = context.select(
                             (CartProvider value) => value.total,
                           );
-                          print("adasdsadsadsad: $totalTemp");
+      
                           return GestureDetector(
                             onTap: context.select(
                               (CartProvider value) => value.cartList.isNotEmpty,
@@ -192,7 +193,7 @@ class _CartPageState extends State<CartPage> {
                                       ? Theme.of(context).colorScheme.secondary
                                       : Colors.grey),
                               child: Text(
-                                "CHECK OUT",
+                                AppLocalizations.of(context)!.translate('checkout')!.toUpperCase(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge

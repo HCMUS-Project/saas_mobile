@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:mobilefinalhcmus/widgets/custom_textfield.dart';
@@ -36,8 +37,8 @@ class LoginPage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pushNamed('/auth/signup');
               },
-              child: const Text(
-                "Register",
+              child: Text(
+                AppLocalizations.of(context)!.translate('register')!,
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
@@ -58,7 +59,7 @@ class LoginPage extends StatelessWidget {
                     child:  Column(
                       children: [
                         Text(
-                          "Sign In",
+                          AppLocalizations.of(context)!.translate('login')!,
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -93,15 +94,15 @@ class LoginPage extends StatelessWidget {
                             ),
                             CustomTextField(
                                 validator: (value) =>
-                                    provider.emailValidator(value),
+                                    provider.emailValidator(value,context),
                                 controller: emailController,
-                                hintText: "Username"),
+                                hintText: AppLocalizations.of(context)!.translate('username')!),
                             const SizedBox(
                               height: 10,
                             ),
                             PasswordFielddWidget(
                               validator: (value) =>
-                                  provider.passwordValidator(value),
+                                  provider.passwordValidator(value,context),
                               controller: passController,
                             ),
                             Align(
@@ -111,8 +112,8 @@ class LoginPage extends StatelessWidget {
                                     Navigator.of(context)
                                         .pushNamed("/forgetpassword");
                                   },
-                                  child: const Text(
-                                    "Forgot Password?",
+                                  child: Text(
+                                    AppLocalizations.of(context)!.translate('forgotPassword')!,
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   )),
@@ -130,7 +131,7 @@ class LoginPage extends StatelessWidget {
                                                 constraints.maxWidth / 2, 50))),
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
-                                    print("ewqewq");
+                
                                     await context
                                         .read<AuthenticateProvider>()
                                         .SignIn(
@@ -175,8 +176,8 @@ class LoginPage extends StatelessWidget {
                                 child: Consumer<AuthenticateProvider>(
                                   builder: (context, value, child) {
                                     final isLoading = context.select((AuthenticateProvider provider) => provider.httpResponseFlutter.isLoading);
-                                    return isLoading! ? CircularProgressIndicator() :const Text(
-                                    "Sign In",
+                                    return isLoading! ? CircularProgressIndicator() :Text(
+                                    AppLocalizations.of(context)!.translate('login')!,
                                     style: TextStyle(color: Colors.white),
                                   );
                                   },

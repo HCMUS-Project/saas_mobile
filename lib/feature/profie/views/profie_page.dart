@@ -10,6 +10,7 @@ import 'package:mobilefinalhcmus/feature/profie/views/settings/setting_page.dart
 import 'package:mobilefinalhcmus/feature/profie/views/shipping_address/shipping_address_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/widgets/feature_profile.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/widgets/sign_out_profile.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class ProfiePage extends StatelessWidget {
@@ -30,7 +31,7 @@ class ProfiePage extends StatelessWidget {
               FeatureOfProfile(
                 type: ButtonType.VALIDATE_TOKEN,
                 context: context,
-                titleOfFeature: "Profile",
+                titleOfFeature: AppLocalizations.of(context)!.translate('profile')!,
                 callback:({token}) {
                   print(token);
                   Navigator.of(context).push(MaterialPageRoute(
@@ -51,7 +52,7 @@ class ProfiePage extends StatelessWidget {
               FeatureOfProfile(
                 context: context,
                 type: ButtonType.VALIDATE_TOKEN,
-                titleOfFeature: "My orders",
+                titleOfFeature: AppLocalizations.of(context)!.translate('myOrders')!,
                 callback: ({token}) {
                   if (token == null) {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -85,28 +86,28 @@ class ProfiePage extends StatelessWidget {
                     },
                   ));
                 },
-                titleOfFeature: "My bookings",
+                titleOfFeature: AppLocalizations.of(context)!.translate('myBookings')!,
               ),
-              const Divider(
-                color: Colors.grey,
-                thickness: 0.2,
-              ),
-              FeatureOfProfile(
-                type: ButtonType.VALIDATE_TOKEN,
-                context: context,
-                callback: ({token}) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      if (token == null) {
-                        return LoginPage();
-                      } else {
-                        return const ShippingAdderssPage();
-                      }
-                    },
-                  ));
-                },
-                titleOfFeature: "Shipping address",
-              ),
+              // const Divider(
+              //   color: Colors.grey,
+              //   thickness: 0.2,
+              // ),
+              // FeatureOfProfile(
+              //   type: ButtonType.VALIDATE_TOKEN,
+              //   context: context,
+              //   callback: ({token}) {
+              //     Navigator.of(context).push(MaterialPageRoute(
+              //       builder: (context) {
+              //         if (token == null) {
+              //           return LoginPage();
+              //         } else {
+              //           return const ShippingAdderssPage();
+              //         }
+              //       },
+              //     ));
+              //   },
+              //   titleOfFeature: "Shipping address",
+              // ),
               const Divider(
                 color: Colors.grey,
                 thickness: 0.2,
@@ -119,7 +120,7 @@ class ProfiePage extends StatelessWidget {
                     return SettingPage();
                   },));
                 },
-                titleOfFeature: "Settings",
+                titleOfFeature: AppLocalizations.of(context)!.translate('settings')!,
               ),
               const Divider(
                 color: Colors.grey,
@@ -141,7 +142,7 @@ class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       
       title: Text(
-        "My profile",
+        AppLocalizations.of(context)!.translate('profile')!,
         style: Theme.of(context).textTheme.titleLarge,
       ),
     );
@@ -215,7 +216,7 @@ class ShowProfile extends StatelessWidget {
                             ));
                           },
                           child: Text(
-                            "Register",
+                            AppLocalizations.of(context)!.translate('register')!,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -236,7 +237,7 @@ class ShowProfile extends StatelessWidget {
                             ));
                           },
                           child: Text(
-                            "Login",
+                            AppLocalizations.of(context)!.translate('login')!,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

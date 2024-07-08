@@ -15,6 +15,7 @@ import 'package:mobilefinalhcmus/feature/checkout/views/checkout_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 
 import 'package:mobilefinalhcmus/feature/shop/views/review/review_page.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/test1.dart';
 import 'package:provider/provider.dart';
 
@@ -114,7 +115,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Description",
+                          AppLocalizations.of(context)!.translate('description')!,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium
@@ -149,7 +150,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Reviews (${product.numberRating})",
+                          "${AppLocalizations.of(context)!.translate('review')!} (${product.numberRating})",
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium

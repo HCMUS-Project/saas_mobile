@@ -7,6 +7,7 @@ import 'package:mobilefinalhcmus/feature/book/views/models/service_model.dart';
 import 'package:mobilefinalhcmus/feature/book/views/voucher/service_voucher.dart';
 import 'package:mobilefinalhcmus/feature/home/views/detail_service.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/helper/cal_discount.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -51,7 +52,7 @@ class _ServicePageState extends State<ServicePage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Choose service",
+        title: Text("${AppLocalizations.of(context)!.translate('choose')!} ${AppLocalizations.of(context)!.translate('service')!}",
             style: Theme.of(context).textTheme.titleLarge),
       ),
       bottomNavigationBar: Column(
@@ -86,7 +87,7 @@ class _ServicePageState extends State<ServicePage>
                         child: Container(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              voucher.voucherName ?? "Voucher",
+                              voucher.voucherName ?? AppLocalizations.of(context)!.translate('voucher')!,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ))),
                     Expanded(
@@ -135,7 +136,7 @@ class _ServicePageState extends State<ServicePage>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("Chosen service"),
+                              Text("${AppLocalizations.of(context)!.translate('chosenService')!}"),
                               Text(chosenService?.name ?? "")
                             ],
                           ))),
@@ -147,7 +148,7 @@ class _ServicePageState extends State<ServicePage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text("Total"),
+                          Text("${AppLocalizations.of(context)!.translate('total')!}"),
                           if (voucher.id == null)
                             Text(CurrencyConfig.convertTo(
                                     price: chosenService.price ?? 0)
@@ -381,7 +382,7 @@ class _ServicePageState extends State<ServicePage>
                                   widget.chosenService.update(ServiceModel.fromJson(service));
                                 });
                               },
-                              child: Text("choose"))),
+                              child: Text("${AppLocalizations.of(context)!.translate('choose')!}"))),
                     )
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/widgets/custom_textfield.dart';
 import 'package:mobilefinalhcmus/widgets/password_textfield.dart';
@@ -108,23 +109,23 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             CustomTextField(
                                 validator: (value) =>
-                                    provider.usernameValidator(value),
+                                    provider.usernameValidator(value, context),
                                 controller: usernameController,
-                                hintText: "Username"),
+                                hintText: AppLocalizations.of(context)!.translate('username')!),
                             const SizedBox(
                               height: 10,
                             ),
                             CustomTextField(
                                 validator: (value) =>
-                                    provider.emailValidator(value),
+                                    provider.emailValidator(value, context),
                                 controller: emailController,
                                 hintText: "Email"),
                             const SizedBox(
                               height: 10,
                             ),
                             PasswordFielddWidget(
-                              validator: (value) =>
-                                  provider.passwordValidator(value),
+                              validator: (value) => 
+                                  provider.passwordValidator(value, context),
                               controller: passwordController,
                             ),
                             const SizedBox(
@@ -152,14 +153,14 @@ class _RegisterPageState extends State<RegisterPage> {
                               selectorConfig: const SelectorConfig(
                                 selectorType: PhoneInputSelectorType.DROPDOWN,
                               ),
-                              hintText: "Phone number",
+                              hintText: AppLocalizations.of(context)!.translate('phoneNumber')!,
                             ),
                             Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                   onTap: () {},
-                                  child: const Text(
-                                    "Forgot Password?",
+                                  child: Text(
+                                    AppLocalizations.of(context)!.translate('forgotPassword')!,
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   )),
@@ -244,8 +245,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                           .httpResponseFlutter
                                           .isLoading!
                                       ? const CircularProgressIndicator()
-                                      : const Text(
-                                          "Register",
+                                      : Text(
+                                          AppLocalizations.of(context)!.translate('register')!,
                                           style: TextStyle(color: Colors.white),
                                         )),
                             ),

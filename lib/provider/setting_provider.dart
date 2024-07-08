@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 
 class SettingsProvider extends ChangeNotifier{
 
@@ -42,11 +43,11 @@ class SettingsProvider extends ChangeNotifier{
    */
 
   //Password validator | Strong password
-  passwordValidator(String value){
+  passwordValidator(String value, BuildContext context){
     if(value.isEmpty){
-      return "Password is required";
+      return AppLocalizations.of(context)!.translate('requiredFillPassword')!;
     }else if(!strongPassword.hasMatch(value)){
-    return "Password is not strong enough";
+    return AppLocalizations.of(context)!.translate('checkStrongPassword')!;
     }else{
       return null;
     }
@@ -65,18 +66,19 @@ class SettingsProvider extends ChangeNotifier{
 
   //Note | If you don't want any text field as required | remove the value.isEmpty condition
   //Email validator
-  emailValidator(String value){
+  emailValidator(String value, BuildContext context){
     if(value.isEmpty){
-      return "Email is required";
+      return AppLocalizations.of(context)!.translate('requiredFillEmail')!;
     }else if(!emailRequirement.hasMatch(value)){
-      return "Email is not valid";
+      return AppLocalizations.of(context)!.translate('checkValidEmail')!;
     }else{
       return null;
     }
   }
-  usernameValidator(String value){
+
+  usernameValidator(String value, BuildContext context){
     if(value.isEmpty){
-      return "please enter username";
+      return AppLocalizations.of(context)!.translate('requiredFillUsername')!;
     }else{
       return null;
     }

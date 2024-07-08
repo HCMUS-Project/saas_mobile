@@ -14,6 +14,7 @@ import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/show_all_product.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -91,13 +92,13 @@ class _ProductPageState extends State<ProductPage> {
                       ShowCategoryOfProduct(
                         funct: context.read<ShopProvider>().findProductRecommend(
                             domain: context.read<AuthenticateProvider>().domain!),
-                        titleCategory: "Top Recommend",
+                        titleCategory: AppLocalizations.of(context)!.translate('topRecommend')!,
                         widthContainer: widthContainer,
                       ),
                       ShowCategoryOfProduct(
                         funct: context.read<ShopProvider>().findProductTopSeller(
                             domain: context.read<AuthenticateProvider>().domain!),
-                        titleCategory: "Top Seller",
+                        titleCategory: AppLocalizations.of(context)!.translate('topSeller')!,
                         widthContainer: widthContainer,
                       ),
                       Padding(
@@ -334,7 +335,7 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                               : null,
                                                       child: product.quantity! > 0
                                                           ? Text(
-                                                              "Add to cart",
+                                                              AppLocalizations.of(context)!.translate('addToCart')!,
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme
