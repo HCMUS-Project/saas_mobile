@@ -14,6 +14,7 @@ import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/show_all_product.dart';
+import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
@@ -290,8 +291,10 @@ class ShowCategoryOfProduct extends StatelessWidget {
                                                                                           Expanded(
                                                                                             flex: 8,
                                                                                             child: Container(
-                                                                                              child: const Image(
-                                                                                                image: AssetImage("assets/images/logo_0.png"),
+                                                                                              child: Image(
+                                                                                                height: 32,
+                                                                                                width: 32,
+                                                                                                image: NetworkImage((context.read<ThemeProvider>().tenant?.tenantProfile?.logo)!),
                                                                                               ),
                                                                                             ),
                                                                                           ),

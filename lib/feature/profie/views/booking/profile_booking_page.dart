@@ -440,7 +440,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
         widget.pagingController.appendPage(bookings, nextPageKey);
       }
     } catch (e) {
-      if (mounted){
+      if (mounted) {
         widget.pagingController.error = e;
       }
     }
@@ -526,7 +526,14 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                         bookingDetail: booking,
                       );
                     },
-                  ))
+                  )).then((value) {
+                    print("refresh: $value");
+                    if (value != null) {
+                      if (value == true) {
+                        widget.pagingController.refresh();
+                      }
+                    }
+                  })
                 },
                 child: Column(
                   children: [
@@ -762,6 +769,5 @@ class _showBookingHistoryState extends State<showBookingHistory> {
             },
           )),
     );
-    
   }
 }

@@ -9,7 +9,7 @@ enum ButtonType{
 
 class FeatureOfProfile extends StatelessWidget{
   String titleOfFeature;
-  void Function(String? token)? callback;
+  void Function({String? token})? callback;
   ButtonType? type = ButtonType.NORMAL;
   BuildContext context;
   FeatureOfProfile(
@@ -33,7 +33,10 @@ class FeatureOfProfile extends StatelessWidget{
         onTap: (){
           if (type == ButtonType.VALIDATE_TOKEN){
             final token = context.read<AuthenticateProvider>().token;
-            callback!(token);
+            callback!(token:token);
+          }
+          if (type == ButtonType.NORMAL){
+            callback!();
           }
         },
         title: Text(titleOfFeature,style: Theme.of(context).textTheme.bodyMedium,),

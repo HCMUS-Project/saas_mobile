@@ -10,6 +10,7 @@ import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/views/detail_service.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -106,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                       : SliverToBoxAdapter(
                           child: ServiceCategory(
                             services: services,
-                            serviceName: "Top Service",
+                            serviceName: AppLocalizations.of(context)!.translate('topService')!,
                             image_path: "assets/images/image_214.png",
                           ),
                         ),

@@ -1,5 +1,6 @@
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobilefinalhcmus/config/custom_theme.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -19,9 +20,11 @@ import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
+import 'package:mobilefinalhcmus/provider/app_language_provider.dart';
 import 'package:mobilefinalhcmus/provider/setting_provider.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
-import 'package:mobilefinalhcmus/test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +35,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
+  AppLanguageProvider appLanguage = AppLanguageProvider();
+  await appLanguage.fetchLocale();
   runApp(const MyApp());
 }
 
@@ -69,7 +74,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AppLanguageProvider(),
+        ),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
@@ -88,23 +96,39 @@ class MyApp extends StatelessWidget {
                 theme = ThemeConfig.fromJson(rs);
                 value.setRoute = "/home";
               }
-              
-              return MaterialApp(
-                title: 'Flutter Demo',
-                debugShowCheckedModeBanner: false,
-                theme: rs != null ? theme?.theme : customTheme,
-                initialRoute: '/',
-                routes: {
-                  '/': (context) => IntroPage(),
-                  '/auth/login': (context) => LoginPage(),
-                  '/auth/signup': (context) => const RegisterPage(),
-                  '/home': (context) => const MainPage(),
-                  '/forgetpassword': (context) => ForgetPasswordPage(),
-                  '/shop/search_page': (context) => SearchPage(),
-                  '/forgetpassword/verify': (context) => VerifyPasswordPage(),
-                  '/forgetpassword/createpassword': (context) =>
-                      CreatePasswordPage(),
-                  '/profile/orders': (context) => const OrderPage(),
+
+              return Consumer<AppLanguageProvider>(
+                builder: (context, model, child) {
+                  return MaterialApp(
+                    title: 'Flutter Demo',
+                    debugShowCheckedModeBanner: false,
+                    theme: rs != null ? theme?.theme : customTheme,
+                    initialRoute: '/',
+                    routes: {
+                      '/': (context) => IntroPage(),
+                      '/auth/login': (context) => LoginPage(),
+                      '/auth/signup': (context) => const RegisterPage(),
+                      '/home': (context) => const MainPage(),
+                      '/forgetpassword': (context) => ForgetPasswordPage(),
+                      '/shop/search_page': (context) => SearchPage(),
+                      '/forgetpassword/verify': (context) =>
+                          VerifyPasswordPage(),
+                      '/forgetpassword/createpassword': (context) =>
+                          CreatePasswordPage(),
+                      '/profile/orders': (context) => const OrderPage(),
+                    },
+                    locale: model.appLocale,
+                    supportedLocales: const [
+                      Locale('en', 'US'),
+                      Locale('vi', 'VN')
+                    ],
+                    localizationsDelegates: const [
+                      AppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                  );
                 },
               );
             },

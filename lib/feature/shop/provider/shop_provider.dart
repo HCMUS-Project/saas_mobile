@@ -361,4 +361,5 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
+  
 }

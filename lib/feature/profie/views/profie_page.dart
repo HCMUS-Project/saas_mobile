@@ -6,6 +6,7 @@ import 'package:mobilefinalhcmus/feature/profie/views/booking/profile_booking_pa
 import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profile_inf/profile_inf.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/settings/setting_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/shipping_address/shipping_address_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/widgets/feature_profile.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/widgets/sign_out_profile.dart';
@@ -30,7 +31,7 @@ class ProfiePage extends StatelessWidget {
                 type: ButtonType.VALIDATE_TOKEN,
                 context: context,
                 titleOfFeature: "Profile",
-                callback:(token) {
+                callback:({token}) {
                   print(token);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
@@ -51,7 +52,7 @@ class ProfiePage extends StatelessWidget {
                 context: context,
                 type: ButtonType.VALIDATE_TOKEN,
                 titleOfFeature: "My orders",
-                callback: (token) {
+                callback: ({token}) {
                   if (token == null) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) {
@@ -73,7 +74,7 @@ class ProfiePage extends StatelessWidget {
               FeatureOfProfile(
                 type: ButtonType.VALIDATE_TOKEN,
                 context: context,
-                callback: (token) {
+                callback: ({token}) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
                       if (token == null) {
@@ -93,7 +94,7 @@ class ProfiePage extends StatelessWidget {
               FeatureOfProfile(
                 type: ButtonType.VALIDATE_TOKEN,
                 context: context,
-                callback: (token) {
+                callback: ({token}) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
                       if (token == null) {
@@ -112,7 +113,12 @@ class ProfiePage extends StatelessWidget {
               ),
               FeatureOfProfile(
                 context: context,
-                callback: (token) {},
+                type: ButtonType.NORMAL,
+                callback: ({token}) {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return SettingPage();
+                  },));
+                },
                 titleOfFeature: "Settings",
               ),
               const Divider(

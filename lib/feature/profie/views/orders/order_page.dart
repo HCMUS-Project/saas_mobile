@@ -14,7 +14,6 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         scrolledUnderElevation: 0,
         title: Text(
@@ -106,14 +105,7 @@ class ShowOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<ProfileProvider>().state;
-    // var orderList = context.read<ProfileProvider>().orderList;
     print(state);
-    // orderList = orderList
-    //     .where(
-    //       (element) => element.stateOrder == state,
-    //     )
-    //     .toList();
-    // print(orderList);
     return FutureBuilder(
       future: context.read<ProfileProvider>().getAllOrder(
           token: context.read<AuthenticateProvider>().token!, stage: state),
@@ -138,14 +130,14 @@ class ShowOrders extends StatelessWidget {
           final orderB = OrderModel.toJson(b);
           return orderB.date!.compareTo(orderA.date!);
         },);
-
+        
         return Container(
             // decoration: BoxDecoration(color: Colors.grey.shade100),
             child: ListView.builder(
               itemCount: orderList.length,
               itemBuilder: (context, index) {
                 OrderModel order = OrderModel.toJson(orderList[index]);
-             
+                print(orderList[index]);
                 return OrderWidget(
                   orderModel: order,
                 );

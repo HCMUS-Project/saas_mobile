@@ -7,8 +7,10 @@ import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/widgets/cancle_widget.dart';
 import 'package:mobilefinalhcmus/widgets/review_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 class OrderDetail extends StatefulWidget {
   OrderModel order;
@@ -32,6 +34,8 @@ class _OrderDetailState extends State<OrderDetail> {
     final address = widget.order.address;
     // final phone = widget.order.phone;
     final voucherId = widget.order.voucherId;
+    final total = widget.order.total;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -39,25 +43,63 @@ class _OrderDetailState extends State<OrderDetail> {
             style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
       ),
-      bottomNavigationBar: Container(
-        height: 56,
-        alignment: Alignment.bottomCenter,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child:
-                  ElevatedButton(onPressed: () {}, child: const Text("Cancel")),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-                child: ElevatedButton(
-                    onPressed: () {}, child: const Text("Reorder")))
-          ],
-        ),
-      ),
+      bottomNavigationBar: stateOfOrder == "pending"
+          ? Container(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              height: 56,
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        style: Theme.of(context)
+                            .elevatedButtonTheme
+                            .style
+                            ?.copyWith(
+                                shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5)))),
+                        onPressed: () async {
+                          final noteTextController = TextEditingController();
+                          final rs = await cancelWidget(
+                              context: context,
+                              orderId: orderId,
+                              textEditingController: noteTextController);
+                          if (rs) {
+                            await QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.success,
+                                text: "cancel successfully",
+                                autoCloseDuration: Duration(seconds: 1));
+                            await context
+                                .read<ProfileProvider>()
+                                .GetOrder(state: OrderState.pending.name);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: const Text("Cancel")),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: ElevatedButton(
+                          style: Theme.of(context)
+                              .elevatedButtonTheme
+                              .style
+                              ?.copyWith(
+                                  shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)))),
+                          onPressed: () {},
+                          child: const Text("Reorder")))
+                ],
+              ),
+            )
+          : null,
       body: LayoutBuilder(
         builder: (context, constraints) => Container(
           child: SingleChildScrollView(
@@ -151,6 +193,14 @@ class _OrderDetailState extends State<OrderDetail> {
                 ),
 
                 Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+      
+                      border: Border.all(
+                          width: 1,
+                          color:
+                              Theme.of(context).textTheme.bodyMedium!.color!)),
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: Column(
                     children: [
@@ -164,45 +214,84 @@ class _OrderDetailState extends State<OrderDetail> {
                           Expanded(
                               child: Container(
                                   alignment: Alignment.topLeft,
-                                  child: Text(address.toString()))),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Row(
-                        children: [
-                          Expanded(child: Text("Payment method: ")),
-                          Expanded(child: Text("On cash"))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Row(
-                        children: [
-                          Expanded(child: Text("Delivery method: ")),
-                          Expanded(child: Text("Xe om"))
+                                  child: Text(
+                                    address.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(fontWeight: FontWeight.w600),
+                                  ))),
                         ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Expanded(child: Text("Discount: ")),
-                          Expanded(child: Text(voucherId.toString()))
+                          Expanded(child: Text("Payment method: ")),
+                          Expanded(
+                              child: Text(
+                            "On cash",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ))
                         ],
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const Row(
+                      Row(
+                        children: [
+                          Expanded(child: Text("Delivery method: ")),
+                          Expanded(
+                              child: Text(
+                            "Xe om",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ))
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      if (voucherId != null)
+                        Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Expanded(child: Text("Discount: ")),
+                                Expanded(
+                                    child: Text(
+                                  voucherId.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.w600),
+                                ))
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(child: Text("Total Amount: ")),
-                          Expanded(child: Text(""))
+                          Expanded(
+                              child: Text(
+                            CurrencyConfig.convertTo(price: total!).toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ))
                         ],
                       ),
                     ],

@@ -45,7 +45,7 @@ android {
         applicationId "com.example.mobilefinalhcmus"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         // versionCode System.getenv('APPCENTER_BUILD_ID').toInteger()
         // versionName flutterVersionName
@@ -57,16 +57,19 @@ android {
 
     signingConfigs {
         release {
-            storeFile rootProject.file("/Users/runner/work/1/s/android/app/android.keystore")
-            storePassword System.getenv("APPCENTER_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("APPCENTER_KEY_ALIAS")
-            keyPassword System.getenv("APPCENTER_KEY_PASSWORD")
+            storeFile file('E:\\Study\\flutter\\code\\upload-keystore.jks')
+            storePassword 'lehoai123'
+            keyAlias 'hcmus'
+            keyPassword 'lehoai123'
         }
     }
     
     buildTypes {
         release {
             signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 }

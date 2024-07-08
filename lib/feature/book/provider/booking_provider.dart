@@ -386,6 +386,45 @@ class BookingProvider extends ChangeNotifier {
           result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
       return httpResponseFlutter;
     }
+
+
   }
 
+
+  Future<void> deleteBookingOrder({
+    required String token,
+    required String bookingId,
+    String? note
+  })async{
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+
+      final uri = Uri.tryParse("${dotenv.env['HTTP_URI']}booking/bookings/delete");
+      Map<String,dynamic> data= Map();
+      data['id'] = bookingId;
+      data['note'] = note;
+      
+      final rs = await http.delete(headers: {
+        HttpHeaders.authorizationHeader:"Bearer $token",
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }, uri!,body: json.encode(data));
+
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+      final result = Map<String, dynamic>.from(body);
+
+      httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
+
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(
+          result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+
+    }
+
+    
+  }
 }

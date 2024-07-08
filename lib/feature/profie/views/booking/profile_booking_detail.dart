@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
+import 'package:mobilefinalhcmus/widgets/cancle_widget.dart';
 import 'package:mobilefinalhcmus/widgets/review_widget.dart';
+import 'package:quickalert/quickalert.dart';
 
 class BookingDetailPage extends StatelessWidget {
   BookingDetailPage({super.key, required this.bookingDetail});
@@ -19,7 +21,7 @@ class BookingDetailPage extends StatelessWidget {
     final textButton = bookingDetail['status'] == "SUCCESS"
         ? "Review"
         : bookingDetail['status'] == "PENDING"
-            ? "Cancle"
+            ? "Cancel"
             : null;
     final buttonColor = bookingDetail['status'] == "SUCCESS"
         ? Colors.green.shade200
@@ -39,9 +41,25 @@ class BookingDetailPage extends StatelessWidget {
                         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
                           backgroundColor: MaterialStatePropertyAll(buttonColor)
                         ),
-                        onPressed: () {
+                        onPressed: () async{
                           if (textButton == "Review" ){
-                            PostReview(context: context, textController: textEditingController, serviceId: bookingDetail['service']['id']);
+                            await PostReview(context: context, textController: textEditingController, serviceId: bookingDetail['service']['id']);
+                          }
+                          if (textButton == "Cancel" ){
+                            final noteController = TextEditingController();
+                            final rs  = await cancelWidget(
+                              context: context, 
+                              bookingId: bookingDetail['id'].toString(),
+                              textEditingController: noteController);
+                            if (rs){
+                              await QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.success,
+                              text: "cancel successfully",
+                              autoCloseDuration: Duration(seconds: 1)
+                              );
+                              Navigator.of(context).pop(true);
+                            }
                           }
                         },
                         child: Text(

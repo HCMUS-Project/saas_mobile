@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/components/custom_search_delegate.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
 import 'package:mobilefinalhcmus/feature/cart/views/cart_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
@@ -109,11 +110,17 @@ class _ShowAllProductState extends State<ShowAllProduct> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return const CartPage();
-                  },
-                ));
+                if (context.read<AuthenticateProvider>().token != null){
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return const CartPage();
+                    },
+                  ));
+                }else{
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return LoginPage();
+                  },));
+                }
               },
               icon: Icon(Icons.shopping_cart_outlined,
                   color: Theme.of(context).iconTheme.color))

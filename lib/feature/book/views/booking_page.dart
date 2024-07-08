@@ -541,7 +541,7 @@ class _BookingPageState extends State<BookingPage> {
                                                         (context, index) {
                                                       final employ =
                                                           employee[index];
-                                                      print(employ);
+
                                                       return GestureDetector(
                                                         onTap: () {
                                                           print(context
@@ -562,6 +562,7 @@ class _BookingPageState extends State<BookingPage> {
                                                           margin:
                                                               const EdgeInsets
                                                                   .symmetric(
+                                                                    vertical: 2,
                                                                   horizontal:
                                                                       2),
                                                           child: Column(
@@ -573,13 +574,12 @@ class _BookingPageState extends State<BookingPage> {
                                                                     const EdgeInsets
                                                                         .all(3),
                                                                 decoration: BoxDecoration(
-                                                                    color: context.watch<BookingProvider>().selectedIndexEmployee ==
+                                                                    border: Border.all(
+                                                                      width: 2,
+                                                                      color: context.watch<BookingProvider>().selectedIndexEmployee ==
                                                                             employ['id']
-                                                                                .toString()
-                                                                        ? Theme.of(context)
-                                                                            .colorScheme
-                                                                            .secondary
-                                                                        : null,
+                                                                                .toString() ? Theme.of(context).colorScheme.secondary:Colors.transparent
+                                                                    ),
                                                                     image: DecorationImage(
                                                                         image: NetworkImage(employ['image'] ??
                                                                             "assets/images/avatar.png")),

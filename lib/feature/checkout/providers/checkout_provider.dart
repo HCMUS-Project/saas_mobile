@@ -100,4 +100,46 @@ class CheckoutProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> cancelOrder(
+      {
+      required String token,
+      required String orderId,
+      String? note
+      }) async {
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      httpResponseFlutter.update(isLoading: true);
+      notifyListeners();
+      Map<String, dynamic> data = {};
+      data['noteCancel'] = note;
+      data['id'] = orderId;
+      data.removeWhere((key, value) => data[key] == null);
+      Uri? uri =
+          Uri.tryParse("${dotenv.env['HTTP_URI']}ecommerce/order/cancel");
+      final rs = await http.put(uri!,
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer $token",
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: json.encode(data));
+
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+
+      final result = Map<String, dynamic>.from(body);
+      httpResponseFlutter.update(result: result, statusCode: rs.statusCode);
+      httpResponseFlutter.update(isLoading: false);
+
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(isLoading: false);
+      httpResponseFlutter.update(
+          errorMessage: e.toJson()['message'],
+          statusCode: e.toJson()['statusCode']);
+    }
+  }
 }
