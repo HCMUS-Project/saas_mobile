@@ -4,7 +4,7 @@ import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/widgets/cancle_widget.dart';
-import 'package:mobilefinalhcmus/widgets/review_widget.dart';
+import 'package:mobilefinalhcmus/widgets/post_widget.dart';
 import 'package:quickalert/quickalert.dart';
 
 class BookingDetailPage extends StatelessWidget {

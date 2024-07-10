@@ -6,12 +6,17 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/review/model/review_model.dart';
-import 'package:mobilefinalhcmus/widgets/review_widget.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/widgets/review_widget.dart';
+import 'package:mobilefinalhcmus/widgets/post_widget.dart';
 import 'package:provider/provider.dart';
 
 class ReviewPage extends StatefulWidget {
   ReviewPage(
-      {super.key,  this.productId, this.numberOfRating, this.rating,this.serviceId});
+      {super.key,
+      this.productId,
+      this.numberOfRating,
+      this.rating,
+      this.serviceId});
   String? productId;
   String? serviceId;
   int? numberOfRating;
@@ -49,7 +54,6 @@ class _ReviewPageState extends State<ReviewPage> {
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
-      
                       child: Text(
                         "Rating&Reviews",
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -115,7 +119,6 @@ class _ReviewPageState extends State<ReviewPage> {
           ),
         ),
       ),
-      
     );
   }
 }
@@ -152,18 +155,17 @@ class _ListReviewState extends State<ListReview> {
   Widget build(BuildContext context) {
     print(widget.reviewId);
     return FutureBuilder(
-      future:widget.productId != null ?  
-          context.read<ShopProvider>().reviewOfProduct(
-          domain: context.read<AuthenticateProvider>().domain,
-          page: page,
-          pageSize: 5,
-          productId: widget.productId) 
+      future: widget.productId != null
+          ? context.read<ShopProvider>().reviewOfProduct(
+              domain: context.read<AuthenticateProvider>().domain,
+              page: page,
+              pageSize: 5,
+              productId: widget.productId)
           : context.read<BookingProvider>().reviewOfService(
-            domain: context.read<AuthenticateProvider>().domain!,
-            serviceId: widget.reviewId!,
-            page: page,
-            pageSize:  5
-          ),
+              domain: context.read<AuthenticateProvider>().domain!,
+              serviceId: widget.reviewId!,
+              page: page,
+              pageSize: 5),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -177,114 +179,115 @@ class _ListReviewState extends State<ListReview> {
         print(result);
         final reviews = List<Map<String, dynamic>>.from(result?['reviews']);
         print(reviews);
-        return reviews.length == 0 ?Expanded(
-          flex: 8,
-          child: Center(child: Text("No comments yet", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.bold
-          ),),),
-        ): Expanded(
-            flex: 8,
-            child: ListView.builder(
-              itemCount: reviews.length + 1,
-              itemBuilder: (context, index) {
-                if (index >= reviews.length) {
-                  return const Padding(
-                    padding: EdgeInsets.zero,
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (reviews.isNotEmpty) {
-                  final review = ReviewModel.fromJson(reviews[index]);
+        return reviews.length == 0
+            ? Expanded(
+                flex: 8,
+                child: Center(
+                  child: Text(
+                    "No comments yet",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            : Expanded(
+                flex: 8,
+                child: ListView.builder(
+                  itemCount: reviews.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index >= reviews.length) {
+                      return const Padding(
+                        padding: EdgeInsets.zero,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    } else if (reviews.isNotEmpty) {
+                      final review = ReviewModel.fromJson(reviews[index]);
 
-                  return LayoutBuilder(
-                    builder: (context, constraints) => Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(
-                              top: 8,
-                            ),
-                            margin: const EdgeInsets.only(top: 5),
-                            width: constraints.maxWidth,
-                            child: Material(
-                              elevation: 2,
-                              borderRadius: BorderRadius.circular(10),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 9,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(review.user!)),
-                                        ),
-                                        if (review.user?.toLowerCase() == context.read<AuthenticateProvider>().profile?['email'].toString().toLowerCase())
-                                        Expanded(
-                                          flex: 1,
-                                          child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: IconButton(onPressed: () {
-                                              showModalBottomSheet(context: context, 
-                                              builder: (context) {                                     
-                                                return Container(
-                                                  width: double.infinity,
-                                                  height: 100,
-                                                  child: Column(
-                                                    children: [
-                                                      Expanded(child: TextButton(onPressed: ()async{
-                                                        textController.text = review.review!;
-                                                        final check = await PostReview(context: context, textController: textController, serviceId: widget.reviewId,productId: widget.productId, reviewRating: review.rating!);
-                                                        if(check){
-                                                          setState(() {
-                                                            
-                                                          });
-                                                        }
-                                                      }, child: Text("Edit",style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                                        fontWeight: FontWeight.bold
-                                                      ),))),
-                                                      Expanded(child: TextButton(onPressed: (){}, child: Text("Remove",style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                                        fontWeight: FontWeight.bold
-                                                      )))),
-                                                    ],
-                                                  ),
-                                                );
-                                              },);
-                                            }, icon: Icon(Icons.more_horiz)),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(review.review!),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: SizedBox(
-                              height: 35,
-                              child: CircleAvatar(
-                                child: Image(
-                                    image:
-                                        AssetImage("assets/images/avatar.png")),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }
-                return null;
-              },
-            ));
+                      return LayoutBuilder(
+                        builder: (context, constraints) => Container(
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(children: [
+                            Expanded(child: ReviewWidget(context, review)),
+                            if (review.user?.toLowerCase() ==
+                                context
+                                    .read<AuthenticateProvider>()
+                                    .profile?['email']
+                                    .toString()
+                                    .toLowerCase())
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return Container(
+                                            width: double.infinity,
+                                            height: 100,
+                                            child: Column(
+                                              children: [
+                                                Expanded(
+                                                    child: TextButton(
+                                                        onPressed: () async {
+                                                          textController
+                                                                  .text =
+                                                              review.review!;
+                                                          final check = await PostReview(
+                                                              context:
+                                                                  context,
+                                                              textController:
+                                                                  textController,
+                                                              serviceId: widget
+                                                                  .reviewId,
+                                                              productId: widget
+                                                                  .productId,
+                                                              reviewRating:
+                                                                  review
+                                                                      .rating!);
+                                                          if (check) {
+                                                            setState(() {});
+                                                          }
+                                                        },
+                                                        child: Text(
+                                                          "Edit",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyMedium
+                                                              ?.copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        ))),
+                                                Expanded(
+                                                    child: TextButton(
+                                                        onPressed: () {},
+                                                        child: Text("Remove",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)))),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(Icons.more_horiz)),
+                              )
+                          ]),
+                        ),
+                      );
+                    }
+                    return null;
+                  },
+                ));
       },
     );
   }
@@ -328,9 +331,8 @@ class RatingHeader extends StatelessWidget {
                 initialRating: 0,
                 ratingWidget: RatingWidget(
                   full: Image.asset('assets/images/star_full.png'),
-                            half: Image.asset('assets/images/star_half.png'),
-                            empty:
-                                Image.asset('assets/images/star_border.png'),
+                  half: Image.asset('assets/images/star_half.png'),
+                  empty: Image.asset('assets/images/star_border.png'),
                 ),
                 onRatingUpdate: (value) {},
               ),

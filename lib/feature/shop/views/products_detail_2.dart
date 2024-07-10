@@ -66,6 +66,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                                 height: 32,
                                 width: 32,
                                 child: Image(
+                                  color:   Color(0xFFFFC107),
                                     image:
                                         AssetImage("assets/images/star.png"))),
                             Text("${product.rating} (${product.numberRating})")
@@ -573,10 +574,10 @@ class _ShowReviewState extends State<ShowReview> {
         List<ReviewModel> reviews = List<Map<String, dynamic>>.from(rs?['reviews']).map((e) => ReviewModel.fromJson(e)).toList();
 
         return Container(
+          padding: EdgeInsets.all(8),
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -598,7 +599,11 @@ class _ShowReviewState extends State<ShowReview> {
                                     productId: widget.product.id!,
                                   );
                                 },
-                              ));
+                              )).then((value) {
+                                setState(() {
+                                  
+                                });
+                              });
                             },
                             icon:
                                 const Icon(Icons.arrow_forward_ios, size: 12)))
@@ -622,23 +627,30 @@ class _ShowReviewState extends State<ShowReview> {
     for (int i = 0; i < reviews.length; i++){
       final review = reviews[i];
       data.add(Container(
-                height: 150,
+                
                 child: Row(
                   children: [
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.loose,
                         flex: 2,
-                        child: CircleAvatar(
-                          backgroundImage:
-                              AssetImage("assets/images/man.png"),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: CircleAvatar(
+                            backgroundImage:
+                                AssetImage("assets/images/man.png"),
+                          ),
                         )),
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.loose,
                         flex: 8,
-                        child: Container(
+                        child: Container(  
                           child: Column(
-                       
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Expanded(
+                              Flexible(
+                                flex: 2,
                                 child: Container(
+                                  
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
@@ -667,8 +679,10 @@ class _ShowReviewState extends State<ShowReview> {
                                   ),
                                 ),
                               ),
-                              Expanded(
+                              Flexible(
+                                flex: 9,
                                 child: Container(
+                                  
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     review.review!,
@@ -787,3 +801,4 @@ class _ShowListImageOfProductState extends State<ShowListImageOfProduct> {
     );
   }
 }
+
