@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 
@@ -13,6 +15,8 @@ import 'package:mobilefinalhcmus/feature/cart/models/cart_model.dart';
 import 'package:mobilefinalhcmus/feature/cart/provider/cart_provider.dart';
 import 'package:mobilefinalhcmus/feature/checkout/views/checkout_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
+import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/review/model/review_model.dart';
 
 import 'package:mobilefinalhcmus/feature/shop/views/review/review_page.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
@@ -62,7 +66,6 @@ class _ProductDetail2State extends State<ProductDetail2>
                                 height: 32,
                                 width: 32,
                                 child: Image(
-                                    color: Color(0xFFFFD03E),
                                     image:
                                         AssetImage("assets/images/star.png"))),
                             Text("${product.rating} (${product.numberRating})")
@@ -98,10 +101,13 @@ class _ProductDetail2State extends State<ProductDetail2>
                       children: [
                         Text(
                           product.name!,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "In stock: ${product.quantity! > 0 ? 'in stock' : "sold out"}",
+                          product.category?[0]['name'],
                           style: Theme.of(context).textTheme.bodyMedium,
                         )
                       ],
@@ -115,7 +121,8 @@ class _ProductDetail2State extends State<ProductDetail2>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.translate('description')!,
+                          AppLocalizations.of(context)!
+                              .translate('description')!,
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium
@@ -143,37 +150,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${AppLocalizations.of(context)!.translate('review')!} (${product.numberRating})",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                            child: IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) {
-                                      return ReviewPage(
-                                        numberOfRating: product.numberRating,
-                                        rating: product.rating,
-                                        productId: product.id!,
-                                      );
-                                    },
-                                  ));
-                                },
-                                icon: const Icon(Icons.arrow_forward_ios, size: 12)))
-                      ],
-                    ),
-                  ),
-                ),
+                SliverToBoxAdapter(child: ShowReview(product: product)),
               ],
             ),
           ),
@@ -338,95 +315,101 @@ class _ProductDetail2State extends State<ProductDetail2>
                                                   width: double.infinity,
                                                   child: ElevatedButton(
                                                       onPressed: () async {
-                                                        if (context.read<AuthenticateProvider>().token == null){
-                                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                                            return LoginPage();
-                                                          },));
-                                                        }else{
+                                                        if (context
+                                                                .read<
+                                                                    AuthenticateProvider>()
+                                                                .token ==
+                                                            null) {
+                                                          Navigator.of(context)
+                                                              .push(
+                                                                  MaterialPageRoute(
+                                                            builder: (context) {
+                                                              return LoginPage();
+                                                            },
+                                                          ));
+                                                        } else {
                                                           await context
-                                                            .read<
-                                                                CartProvider>()
-                                                            .addToCart(
-                                                                product:
-                                                                    product,
-                                                                quantity:
-                                                                    counter,
-                                                                token: context
-                                                                    .read<
-                                                                        AuthenticateProvider>()
-                                                                    .token!);
-                                                        final result = context
-                                                            .read<
-                                                                CartProvider>()
-                                                            .httpResponseFlutter
-                                                            .result;
-                                                        if (result != null) {
-                                                          final renderBox =
-                                                              context.findRenderObject()
-                                                                  as RenderBox;
-                                                          final size =
-                                                              renderBox.size;
-                                                          print(size.height);
-                                                          print(size.width);
-                                                          final controller =
-                                                              showOverlay(
-                                                                  context:
-                                                                      context,
-                                                                  child:
-                                                                      Container(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration:
-                                                                        const BoxDecoration(
-                                                                            color:
-                                                                                Colors.transparent),
+                                                              .read<
+                                                                  CartProvider>()
+                                                              .addToCart(
+                                                                  product:
+                                                                      product,
+                                                                  quantity:
+                                                                      counter,
+                                                                  token: context
+                                                                      .read<
+                                                                          AuthenticateProvider>()
+                                                                      .token!);
+                                                          final result = context
+                                                              .read<
+                                                                  CartProvider>()
+                                                              .httpResponseFlutter
+                                                              .result;
+                                                          if (result != null) {
+                                                            final renderBox =
+                                                                context.findRenderObject()
+                                                                    as RenderBox;
+                                                            final size =
+                                                                renderBox.size;
+                                                            print(size.height);
+                                                            print(size.width);
+                                                            final controller =
+                                                                showOverlay(
+                                                                    context:
+                                                                        context,
                                                                     child:
-                                                                        SizedBox(
-                                                                      height:
-                                                                          size.height *
-                                                                              0.5,
-                                                                      width: size
-                                                                              .width *
-                                                                          0.5,
-                                                                      child: Material(
-                                                                          borderRadius: BorderRadius.circular(15),
-                                                                          elevation: 1,
-                                                                          color: Theme.of(context).colorScheme.primary.withAlpha(150),
-                                                                          child: Column(
-                                                                            children: [
-                                                                              Expanded(
-                                                                                flex: 8,
-                                                                                child: Container(
-                                                                                  child: const Image(
-                                                                                    image: AssetImage("assets/images/logo_0.png"),
+                                                                        Container(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      decoration:
+                                                                          const BoxDecoration(
+                                                                              color: Colors.transparent),
+                                                                      child:
+                                                                          SizedBox(
+                                                                        height: size.height *
+                                                                            0.5,
+                                                                        width: size.width *
+                                                                            0.5,
+                                                                        child: Material(
+                                                                            borderRadius: BorderRadius.circular(15),
+                                                                            elevation: 1,
+                                                                            color: Theme.of(context).colorScheme.primary.withAlpha(150),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                Expanded(
+                                                                                  flex: 8,
+                                                                                  child: Container(
+                                                                                    child: const Image(
+                                                                                      image: AssetImage("assets/images/logo_0.png"),
+                                                                                    ),
                                                                                   ),
                                                                                 ),
-                                                                              ),
-                                                                              Expanded(
-                                                                                flex: 2,
-                                                                                child: Container(
-                                                                                  child: Text(
-                                                                                    "Add success",
-                                                                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                                                                Expanded(
+                                                                                  flex: 2,
+                                                                                  child: Container(
+                                                                                    child: Text(
+                                                                                      "Add success",
+                                                                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                                                                    ),
                                                                                   ),
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          )),
-                                                                    ),
-                                                                  ));
-                                                          controller["show"]();
-                                                          await Future.delayed(
-                                                              const Duration(
-                                                                  seconds: 1));
-                                                          controller['hide']();
+                                                                                )
+                                                                              ],
+                                                                            )),
+                                                                      ),
+                                                                    ));
+                                                            controller[
+                                                                "show"]();
+                                                            await Future.delayed(
+                                                                const Duration(
+                                                                    seconds:
+                                                                        1));
+                                                            controller[
+                                                                'hide']();
+                                                          }
+                                                          Navigator.of(context)
+                                                              .pop();
                                                         }
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        }
-                                                        
-                                                        
                                                       },
                                                       child: Text(
                                                         "Add to cart",
@@ -477,34 +460,39 @@ class _ProductDetail2State extends State<ProductDetail2>
                                           borderRadius:
                                               BorderRadius.circular(15))),
                                   onPressed: () async {
-                                    if (context.read<AuthenticateProvider>().token == null){
-                                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                                                            return LoginPage();
-                                                          },));
-                                    }else{
+                                    if (context
+                                            .read<AuthenticateProvider>()
+                                            .token ==
+                                        null) {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) {
+                                          return LoginPage();
+                                        },
+                                      ));
+                                    } else {
                                       await context
-                                        .read<CartProvider>()
-                                        .addToCart(
-                                            product: product,
-                                            quantity: 1,
-                                            token: context
-                                                .read<AuthenticateProvider>()
-                                                .token!);
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) {
-                                        List<CartModel> products = [];
+                                          .read<CartProvider>()
+                                          .addToCart(
+                                              product: product,
+                                              quantity: 1,
+                                              token: context
+                                                  .read<AuthenticateProvider>()
+                                                  .token!);
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) {
+                                          List<CartModel> products = [];
 
-                                        products.add(CartModel(
-                                            product: product, quantity: 1));
-                                        return CheckOutPage(
-                                          total: product.price!,
-                                          products: products,
-                                        );
-                                      },
-                                    ));
+                                          products.add(CartModel(
+                                              product: product, quantity: 1));
+                                          return CheckOutPage(
+                                            total: product.price!,
+                                            products: products,
+                                          );
+                                        },
+                                      ));
                                     }
-                                    
                                   },
                                   child: Column(
                                     crossAxisAlignment:
@@ -551,6 +539,153 @@ class _ProductDetail2State extends State<ProductDetail2>
         ],
       ),
     );
+  }
+}
+
+class ShowReview extends StatefulWidget {
+  const ShowReview({
+    super.key,
+    required this.product,
+  });
+
+  final ProductModel product;
+
+  @override
+  State<ShowReview> createState() => _ShowReviewState();
+}
+
+class _ShowReviewState extends State<ShowReview> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: context.read<ShopProvider>().reviewOfProduct(
+          domain: context.read<AuthenticateProvider>().domain,
+          page: 1,
+          pageSize: 5,
+          productId: widget.product.id),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+                      child: CircularProgressIndicator(),
+                    );
+        }
+        final rs = snapshot.data?.result;
+        List<ReviewModel> reviews = List<Map<String, dynamic>>.from(rs?['reviews']).map((e) => ReviewModel.fromJson(e)).toList();
+
+        return Container(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${AppLocalizations.of(context)!.translate('review')!} (${reviews.length})",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return ReviewPage(
+                                    numberOfRating: widget.product.numberRating,
+                                    rating: widget.product.rating,
+                                    productId: widget.product.id!,
+                                  );
+                                },
+                              ));
+                            },
+                            icon:
+                                const Icon(Icons.arrow_forward_ios, size: 12)))
+                  ],
+                ),
+              ),
+              Container(
+                child: Column(
+                  children:convertToReview(reviews),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> convertToReview(List<ReviewModel> reviews){
+    List<Widget> data =[];
+    for (int i = 0; i < reviews.length; i++){
+      final review = reviews[i];
+      data.add(Container(
+                height: 150,
+                child: Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/man.png"),
+                        )),
+                    Expanded(
+                        flex: 8,
+                        child: Container(
+                          child: Column(
+                       
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        review.user!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight:
+                                                    FontWeight.bold),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Image(
+                                            height: 32,
+                                            width: 32,
+                                            image: AssetImage(
+                                                'assets/images/star.png'),
+                                            color: Color(0xFFFFC107),
+                                          ),
+                                          Text(review.rating.toString())
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    review.review!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+              ));
+    }
+    return data;
   }
 }
 

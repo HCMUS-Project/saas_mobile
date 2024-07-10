@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mobilefinalhcmus/config/currency_config.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/widgets/cancle_widget.dart';
 import 'package:mobilefinalhcmus/widgets/review_widget.dart';
 import 'package:quickalert/quickalert.dart';
@@ -28,6 +29,7 @@ class BookingDetailPage extends StatelessWidget {
         : bookingDetail['status'] == "PENDING"
             ? Colors.red
             : null;
+    
     return Scaffold(
       bottomNavigationBar: SizedBox(
         height: 56,
@@ -77,7 +79,7 @@ class BookingDetailPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
-          "Booking detail",
+          ((AppLocalizations.of(context)!.translate('userBookings')!)['bookingDetail']),
           style: Theme.of(context)
               .textTheme
               .titleMedium
@@ -116,7 +118,7 @@ class BookingDetailPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Total price",
+                                    ((AppLocalizations.of(context)!.translate('total')!)),
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
@@ -135,7 +137,7 @@ class BookingDetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Status"),
+                        Text(((AppLocalizations.of(context)!.translate('status')!))),
                         Container(
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
@@ -143,7 +145,7 @@ class BookingDetailPage extends StatelessWidget {
                               shape: BoxShape.rectangle,
                               color: StatusBooking[bookingDetail['status']]),
                           child: Text(
-                            bookingDetail['status'],
+                            (((AppLocalizations.of(context)!.translate('userBookings')!)['status'])[bookingDetail['status'].toString().toLowerCase()]) ,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -159,7 +161,7 @@ class BookingDetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Time"),
+                        Text((AppLocalizations.of(context)!.translate('datetime')!)),
                         Container(
                           child: Text(date,
                               style: Theme.of(context)
@@ -179,7 +181,7 @@ class BookingDetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Id"),
+                        Text((AppLocalizations.of(context)!.translate('userBookings')!)['id']),
                         Container(
                           child: Text(
                               bookingDetail['id'].toString().split("-")[4],
@@ -197,7 +199,7 @@ class BookingDetailPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Employee"),
+                        Text((AppLocalizations.of(context)!.translate('employee')!)),
                         Container(
                           child: Text(employee,
                               style: Theme.of(context)
@@ -228,7 +230,7 @@ class BookingDetailPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Note",
+                            Text((AppLocalizations.of(context)!.translate('note')!),
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium

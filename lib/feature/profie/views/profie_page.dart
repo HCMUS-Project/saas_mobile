@@ -31,7 +31,7 @@ class ProfiePage extends StatelessWidget {
               FeatureOfProfile(
                 type: ButtonType.VALIDATE_TOKEN,
                 context: context,
-                titleOfFeature: AppLocalizations.of(context)!.translate('profile')!,
+                titleOfFeature: (AppLocalizations.of(context)!.translate('userProfile')!)['profile'],
                 callback:({token}) {
                   print(token);
                   Navigator.of(context).push(MaterialPageRoute(
@@ -52,7 +52,7 @@ class ProfiePage extends StatelessWidget {
               FeatureOfProfile(
                 context: context,
                 type: ButtonType.VALIDATE_TOKEN,
-                titleOfFeature: AppLocalizations.of(context)!.translate('myOrders')!,
+                titleOfFeature: (AppLocalizations.of(context)!.translate('userProfile')!)['myOrders'],
                 callback: ({token}) {
                   if (token == null) {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -86,7 +86,7 @@ class ProfiePage extends StatelessWidget {
                     },
                   ));
                 },
-                titleOfFeature: AppLocalizations.of(context)!.translate('myBookings')!,
+                titleOfFeature: (AppLocalizations.of(context)!.translate('userProfile')!)['myBookings'],
               ),
               // const Divider(
               //   color: Colors.grey,
@@ -120,7 +120,7 @@ class ProfiePage extends StatelessWidget {
                     return SettingPage();
                   },));
                 },
-                titleOfFeature: AppLocalizations.of(context)!.translate('settings')!,
+                titleOfFeature: (AppLocalizations.of(context)!.translate('userProfile')!)['settings'],
               ),
               const Divider(
                 color: Colors.grey,
@@ -142,7 +142,7 @@ class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       
       title: Text(
-        AppLocalizations.of(context)!.translate('profile')!,
+        (AppLocalizations.of(context)!.translate('userProfile')!)['profile'],
         style: Theme.of(context).textTheme.titleLarge,
       ),
     );

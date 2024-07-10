@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -21,12 +23,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
     super.didUpdateWidget(oldWidget);
     print("dsadsadasdsd");
   }
+
   @override
   Widget build(BuildContext context) {
     print("home build");
@@ -78,11 +79,8 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBarHomePage(),
             body: RefreshIndicator(
               color: Theme.of(context).colorScheme.secondary,
-              onRefresh: () async{
-                setState(() {
-                  
-                });
-           
+              onRefresh: () async {
+                setState(() {});
               },
               child: CustomScrollView(
                 slivers: [
@@ -107,7 +105,8 @@ class _HomePageState extends State<HomePage> {
                       : SliverToBoxAdapter(
                           child: ServiceCategory(
                             services: services,
-                            serviceName: AppLocalizations.of(context)!.translate('topService')!,
+                            serviceName: AppLocalizations.of(context)!
+                                .translate('topService')!,
                             image_path: "assets/images/image_214.png",
                           ),
                         ),
@@ -116,21 +115,21 @@ class _HomePageState extends State<HomePage> {
                       SliverPadding(
                         padding: EdgeInsets.all(8),
                         sliver: SliverToBoxAdapter(
-                          child: Text(AppLocalizations.of(context)!.translate('topSeller')!,
+                          child: Text(
+                              AppLocalizations.of(context)!
+                                  .translate('topSeller')!,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                         ),
                       ),
-
                       result_2 == null
                           ? SliverGrid(
-
                               gridDelegate: SliverQuiltedGridDelegate(
-                              
                                 crossAxisCount: 3,
                                 mainAxisSpacing: 4,
                                 crossAxisSpacing: 4,
-                                repeatPattern: QuiltedGridRepeatPattern.inverted,
+                                repeatPattern:
+                                    QuiltedGridRepeatPattern.inverted,
                                 pattern: [
                                   const QuiltedGridTile(2, 2),
                                   const QuiltedGridTile(1, 1),
@@ -143,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )
                           : SliverPadding(
-                              padding: const EdgeInsets.fromLTRB(8,0,8,8),
+                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                               sliver: SliverGrid(
                                 gridDelegate: SliverQuiltedGridDelegate(
                                   crossAxisCount: 3,
@@ -169,8 +168,8 @@ class _HomePageState extends State<HomePage> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(15),
                                         child: Image(
-                                          
-                                            image: NetworkImage(product.image![0]),
+                                            image:
+                                                NetworkImage(product.image![0]),
                                             fit: BoxFit.fill),
                                       ),
                                     );
@@ -272,7 +271,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
                             image: NetworkImage(banner['image']),
                             fit: BoxFit.fill),
                         color: Colors.blue,
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(10)),
                   ),
                 ),
               );
@@ -346,8 +345,9 @@ class _ServiceCategoryState extends State<ServiceCategory> {
             Container(
               // decoration: BoxDecoration(color: Colors.amber),
               alignment: Alignment.topCenter,
-              height:
-                  (constraints.maxWidth * 3) / 8 * widget.services.length / 2,
+              height: (constraints.maxWidth * 3) /
+                  8 *
+                  (widget.services.length / 2).ceil(),
               width: double.infinity,
               child: GridView.builder(
                 padding: EdgeInsets.zero,
@@ -369,73 +369,43 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                       ));
                     },
                     child: Container(
-                      child: Material(
-                        borderRadius: BorderRadius.circular(15),
-                        elevation: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                                flex: 8,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 8,
+                            child: Material(
+                                borderRadius: BorderRadius.circular(15),
+                                elevation: 1,
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15),
-                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
                                     child: Image(
                                         fit: BoxFit.cover,
-                                        image:
-                                            NetworkImage(service.images![0])),
+                                        image: NetworkImage(service.images![0])),
                                   ),
                                 )),
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          bottomLeft: Radius.circular(15),
-                                          bottomRight: Radius.circular(15),
-                                        ),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          flex: 9,
-                                          child: Container(
-                                            padding:
-                                                const EdgeInsets.only(left: 8),
-                                            child: Text(
-                                              service.name!,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                        const Expanded(
-                                          flex: 1,
-                                          child: Align(
-                                            child: Icon(
-                                              Icons.arrow_forward,
-                                              size: 16,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )))
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  service.name!,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   );

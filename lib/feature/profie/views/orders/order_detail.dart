@@ -7,6 +7,7 @@ import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/widgets/cancle_widget.dart';
 import 'package:mobilefinalhcmus/widgets/review_widget.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class _OrderDetailState extends State<OrderDetail> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Order Details",
+        title: Text(((AppLocalizations.of(context)!.translate('userOrders')!)['orderDetail']),
             style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
       ),
@@ -79,7 +80,7 @@ class _OrderDetailState extends State<OrderDetail> {
                             Navigator.of(context).pop();
                           }
                         },
-                        child: const Text("Cancel")),
+                        child: Text('${((AppLocalizations.of(context)!.translate('cancel')!))}')),
                   ),
                   const SizedBox(
                     width: 10,
@@ -95,7 +96,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                           borderRadius:
                                               BorderRadius.circular(5)))),
                           onPressed: () {},
-                          child: const Text("Reorder")))
+                          child:  Text("${(AppLocalizations.of(context)!.translate('userOrders')!)['reorder']}")))
                 ],
               ),
             )
@@ -107,33 +108,41 @@ class _OrderDetailState extends State<OrderDetail> {
             child: Column(
               children: [
                 SizedBox(
-                  height: constraints.maxHeight * 0.1,
                   child: Column(
                     children: [
                       Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+
                           children: [
-                            Flexible(
-                                flex: 8,
-                                child: Container(
-                                    child: Text("OrderId: $orderId"))),
-                            Flexible(
-                                flex: 2,
-                                child: Container(
-                                  height: constraints.maxHeight * 0.05,
-                                  decoration: const BoxDecoration(),
-                                  child: Text(
-                                      "${dateOfOrder?.day}/${dateOfOrder?.month}/${dateOfOrder?.year}"),
-                                ))
+                            Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("${((AppLocalizations.of(context)!.translate('userOrders')!)['order'])}",style: Theme.of(context).textTheme.bodyMedium),
+                                    Text(orderId.toString().split('-')[4].toUpperCase(),style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),),
+                                  ],
+                                )),
+                            Container(
+                              height: constraints.maxHeight * 0.05,
+                              decoration: const BoxDecoration(),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Date",style: Theme.of(context).textTheme.bodyMedium),
+                                  Text(
+                                      "${dateOfOrder?.day}/${dateOfOrder?.month}/${dateOfOrder?.year}",style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            stateOfOrder!,
+                            ((AppLocalizations.of(context)!.translate('userOrders')!)['status'])[stateOfOrder!] ,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -184,7 +193,7 @@ class _OrderDetailState extends State<OrderDetail> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "Order information",
+                    ((AppLocalizations.of(context)!.translate('userOrders')!)['orderInformation']),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
@@ -210,7 +219,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           Expanded(
                               child: Container(
                                   alignment: Alignment.topLeft,
-                                  child: const Text("Shipping address: "))),
+                                  child: Text("${((AppLocalizations.of(context)!.translate('shippingAddress')!))}: "))),
                           Expanded(
                               child: Container(
                                   alignment: Alignment.topLeft,
@@ -228,7 +237,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       ),
                       Row(
                         children: [
-                          Expanded(child: Text("Payment method: ")),
+                          Expanded(child: Text("${((AppLocalizations.of(context)!.translate('paymentMethod')!))}: ")),
                           Expanded(
                               child: Text(
                             "On cash",
@@ -244,7 +253,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       ),
                       Row(
                         children: [
-                          Expanded(child: Text("Delivery method: ")),
+                          Expanded(child: Text("${((AppLocalizations.of(context)!.translate('deliveryMethod')!))}: ")),
                           Expanded(
                               child: Text(
                             "Xe om",
@@ -283,7 +292,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(child: Text("Total Amount: ")),
+                          Expanded(child: Text("${(AppLocalizations.of(context)!.translate('total')!)}: ")),
                           Expanded(
                               child: Text(
                             CurrencyConfig.convertTo(price: total!).toString(),

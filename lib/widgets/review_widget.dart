@@ -37,10 +37,9 @@ Future<bool> PostReview ({required BuildContext context, required TextEditingCon
                           ignoreGestures: false,
                           initialRating: reviewRating,
                           ratingWidget: RatingWidget(
-                            full: Image.asset('assets/images/star_full.png',color: Theme.of(context).colorScheme.secondary,),
-                            half: Image.asset('assets/images/star_half.png',color: Theme.of(context).colorScheme.secondary),
-                            empty:
-                                Image.asset('assets/images/star_border.png',color: Theme.of(context).colorScheme.secondary),
+                            full: Image.asset('assets/images/star_full.png'),
+                            half: Image.asset('assets/images/star_half.png'),
+                            empty: Image.asset('assets/images/star_border.png'),
                           ),
                           onRatingUpdate: (value) {
                             print(value);

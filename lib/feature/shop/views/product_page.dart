@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/components/skeleton_widget.dart';
@@ -515,14 +517,17 @@ class _ShowProductState extends State<ShowProduct> {
                 Column(
                   children: convertToArrayProduct(productData),
                 ),
-                SizedBox(
-                  width: size.width / 3,
+                Container(
+                  alignment: Alignment.center,
+                  width: size.width / 4,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(),
-                          backgroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
+                          backgroundColor: Theme.of(context).colorScheme.secondary,
                           elevation: 0,
-                          side: const BorderSide(color: Colors.black)),
+                      ),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
@@ -533,7 +538,7 @@ class _ShowProductState extends State<ShowProduct> {
                         ));
                       },
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "More",
@@ -541,10 +546,6 @@ class _ShowProductState extends State<ShowProduct> {
                                 .textTheme
                                 .bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const Icon(
-                            Icons.arrow_forward,
-                            color: Colors.black,
                           ),
                         ],
                       )),
@@ -624,10 +625,9 @@ class _ShowProductState extends State<ShowProduct> {
                           itemCount: 5,
                           initialRating: product.rating!,
                           ratingWidget: RatingWidget(
-                            full: Image.asset('assets/images/star_full.png'),
-                            half: Image.asset('assets/images/star_half.png'),
-                            empty:
-                                Image.asset('assets/images/star_border.png'),
+                            full: Image.asset('assets/images/star_full.png', height: 32,width: 32,),
+                            half: Image.asset('assets/images/star_half.png', height: 32,width: 32,),
+                            empty: Image.asset('assets/images/star_border.png', height: 32,width: 32,),
                           ),
                           onRatingUpdate: (value) {},
                         ),

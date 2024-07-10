@@ -38,7 +38,7 @@ class _IntroPageState extends State<IntroPage> {
     if (initRoute != themeProvider.initialRoute) {
       WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) async {
-          if (context.read<AuthenticateProvider>().token != null) {
+          if (context.read<AuthenticateProvider>().token != null && context.read<AuthenticateProvider>().refreshToken != null) {
             print(context.read<AuthenticateProvider>().token);
             print(context.read<AuthenticateProvider>().refreshToken);
             await checkToken(context);

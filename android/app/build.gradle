@@ -55,19 +55,19 @@ android {
         versionName flutterVersionName
     }
 
-    // signingConfigs {
-    //     release {
-    //         storeFile file('E:\\Study\\flutter\\code\\upload-keystore.jks')
-    //         storePassword 'lehoai123'
-    //         keyAlias 'hcmus'
-    //         keyPassword 'lehoai123'
-    //     }
-    // }
+    signingConfigs {
+        release {
+            storeFile file('E:\\Study\\flutter\\code\\upload-keystore.jks')
+            storePassword 'lehoai123'
+            keyAlias 'hcmus'
+            keyPassword 'lehoai123'
+        }
+    }
     
     buildTypes {
-        // release {
-        //     signingConfig signingConfigs.release
-        // }
+        release {
+            signingConfig signingConfigs.release
+        }
         debug {
             signingConfig signingConfigs.debug
         }

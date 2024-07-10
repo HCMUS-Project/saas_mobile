@@ -9,6 +9,7 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/booking/profile_booking_detail.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/booking_status.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class ProfileBooking extends StatefulWidget {
@@ -97,7 +98,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                     },
                                     icon: const Icon(Icons.arrow_back)),
                                 Text(
-                                  "Let's find your booking!",
+                                  ((AppLocalizations.of(context)!.translate('userBookings')!)['header']),
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge
@@ -181,7 +182,7 @@ class _EndDrawerState extends State<EndDrawer> {
               children: [
                 Container(
                   child: Text(
-                    "Filter",
+                    (AppLocalizations.of(context)!.translate('filter')!),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -198,7 +199,7 @@ class _EndDrawerState extends State<EndDrawer> {
                         Container(
                             // alignment: Alignment.bottomLeft,
                             child: Text(
-                          "Services",
+                          (AppLocalizations.of(context)!.translate('service')!),
                           style: Theme.of(context).textTheme.titleMedium,
                         )),
                         Expanded(
@@ -283,7 +284,7 @@ class _EndDrawerState extends State<EndDrawer> {
                         Container(
                             // alignment: Alignment.bottomLeft,
                             child: Text(
-                          "Status",
+                          ((AppLocalizations.of(context)!.translate('status')!)),
                           style: Theme.of(context).textTheme.titleMedium,
                         )),
                         Expanded(
@@ -324,7 +325,7 @@ class _EndDrawerState extends State<EndDrawer> {
                                             Border.all(color: Colors.black)),
                                     child: Row(
                                       children: [
-                                        Expanded(child: Text(bookingStatus)),
+                                        Expanded(child: Text('${((AppLocalizations.of(context)!.translate('userBookings')!)['status'])[bookingStatus.toLowerCase()]} ')),
                                         if (widget.selectedStatusFilter
                                             .contains(bookingStatus))
                                           const Expanded(
@@ -517,7 +518,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                   dateTitle?.add({createdAt: index});
                 }
               }
-
+              print(booking['status'].toString().toLowerCase());
               return GestureDetector(
                 onTap: () => {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -647,7 +648,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        "id: ",
+                                                        "${((AppLocalizations.of(context)!.translate('userBookings')!)['id'])}: ",
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodyMedium
@@ -670,7 +671,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                       Icons.info_outline),
                                                   Container(
                                                     child: Text(
-                                                      "service: ",
+                                                      "${((AppLocalizations.of(context)!.translate('service')!))}: ",
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyMedium
@@ -705,7 +706,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        "status: ",
+                                                        "${((AppLocalizations.of(context)!.translate('status')!))}: ",
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodyMedium
@@ -714,7 +715,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                                     FontWeight
                                                                         .bold),
                                                       ),
-                                                      Text(booking['status']),
+                                                      Text( ((AppLocalizations.of(context)!.translate('userBookings')!)['status'])[booking['status'].toString().toLowerCase()] ),
                                                     ],
                                                   )
                                                 ],
@@ -728,7 +729,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "employee: ",
+                                                          "${((AppLocalizations.of(context)!.translate('employee')!))}: ",
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme

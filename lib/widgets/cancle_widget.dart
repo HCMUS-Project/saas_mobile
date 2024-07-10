@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/checkout/providers/checkout_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -35,7 +36,7 @@ Future<bool> cancelWidget({
                             image: AssetImage("assets/gif/sad.gif"),
                           ),
                           Text(
-                            "Are you sure to want to cancel ?",
+                            AppLocalizations.of(context)!.translate('areYouSureToCancel')!,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -76,8 +77,10 @@ Future<bool> cancelWidget({
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           5)))),
-                                  onPressed: () async {},
-                                  child: Text("Cancel"))),
+                                  onPressed: () async {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  child: Text("${(AppLocalizations.of(context)!.translate('no')!)}"))),
                           SizedBox(
                             width: 10,
                           ),
@@ -122,7 +125,7 @@ Future<bool> cancelWidget({
                                           .httpResponseFlutter
                                           .errorMessage;
                                     }
-
+                
                                     if (errorMessage != null) {
                                       await QuickAlert.show(
                                           context: context,
@@ -132,7 +135,7 @@ Future<bool> cancelWidget({
                                       Navigator.of(context).pop(true);
                                     }
                                   },
-                                  child: Text("Yes"))),
+                                  child: Text("${((AppLocalizations.of(context)!.translate('yes')!))}"))),
                         ],
                       ),
                     )

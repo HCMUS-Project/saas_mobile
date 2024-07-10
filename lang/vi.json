@@ -21,12 +21,46 @@
     "buy": "Mua",
     "username": "Tên đăng nhập",
     "loginPassword": "Mật khẩu",
-    "profile":"Hồ sơ",
-    "myOrders": "Đơn mua",
-    "myBookings":"Lịch hẹn",
-    "settings":"Cài đặt",
 
+    "userProfile":{
+        "profile":"Hồ sơ",
+        "myOrders": "Đơn mua",
+        "myBookings":"Lịch hẹn",
+        "settings":"Cài đặt"
+    },
+    
+    "userSettings":{
+        "notification":"Thông báo",
+        "country":"Quốc gia",
+        "language":"Ngôn ngữ",
+        "changePassword": "Đổi mật khẩu"
+    },
+
+    "userOrders":{
+        "status":{"pending":"đang chờ","shipping":"đang giao","completed":"hoàn thành", "cancelled":"đã hủy"},
+        "order":"Mã đơn",
+        "price":"Giá",
+        "orderInformation":"Thông tin đơn hàng",
+        "orderDetail":"Chi tiết đơn hàng",
+        "reorder": "Đặt lại"
+    },
+
+    "userBookings":{
+        "status":{"pending":"đang chờ","success":"hoàn thành", "cancel":"đã hủy"},
+        "id":"Mã đơn",
+        "bookingDetail": "Chi tiết lịch hẹn",
+        "header":"Hãy tìm lịch hẹn của bạn!"
+    },
+    "areYouSureToCancel":"Bạn có chắc là muốn hủy không ?",
+    "cancel":"Hủy",
+    "filter":"Lọc",
+    "note":"Ghi chú",
+    "status":"Trạng thái",
+    "shippingAddress":"Địa chỉ giao hàng",
+    "paymentMethod":"Phương thức thanh toán",
+    "deliveryMethod":"Phương thức giao hàng",
     "checkout": "Thanh toán",
+    "item":"Sản phẩm",
     "total": "Tổng",
     "choose":"Chọn",
     "chosen": "Đã chọn",
@@ -40,5 +74,8 @@
     "notSelected":"Bạn chưa chọn",
     "thatyoulike":"mà bạn thích",
     "done":"Xong",
-    "voucher":"Mã giảm giá"
+    "voucher":"Mã giảm giá",
+    "logout": "Đăng xuất",
+    "yes": "Có",
+    "no":"Không"
 }

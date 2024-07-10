@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/intro/views/intro.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class SignOutProfile extends StatelessWidget {
@@ -36,7 +37,7 @@ class SignOutProfile extends StatelessWidget {
           }
         },
         title: Text(
-          "Log out",
+          (AppLocalizations.of(context)!.translate('logout')!),
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         trailing: const Icon(Icons.logout),

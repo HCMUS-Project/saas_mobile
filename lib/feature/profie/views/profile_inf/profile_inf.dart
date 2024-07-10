@@ -23,7 +23,7 @@ class _ProfileInforState extends State<ProfileInfor> {
     // TODO: implement build
 
     final profile = context.watch<AuthenticateProvider>().profile;
-    usernameController.text = profile?['username'];
+    usernameController.text = profile?['name'];
     addressController.text = profile?['address'];
     emailController.text = profile?['email'];
     phoneController.text = profile?['phone'];
@@ -111,7 +111,7 @@ class _ProfileInforState extends State<ProfileInfor> {
                                                 .bodyMedium,
                                           ),
                                           Text(
-                                            profile?['username'],
+                                            profile?['name'],
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge

@@ -19,102 +19,112 @@ class SettingPage extends StatelessWidget {
           child: Material(
             borderRadius: BorderRadius.circular(15),
             elevation: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            flex: 1,
-                            child: Icon(Icons.notifications_none_outlined)),
-                        Expanded(flex: 7, child: Text(AppLocalizations.of(context)!.translate('notification')!)),
-                        Expanded(
-                            flex: 2,
-                            child: Container(
-                              child: Switch(
-                                value: false,
-                                onChanged: (value) {},
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(flex: 1, child: Icon(Icons.language)),
-                        Expanded(
-                            flex: 7,
-                            child: Text(
-                              "Country",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            )),
-                        Expanded(flex: 2, child: Container())
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () async {
-                      await displayMultiLanguage(context);
-                    },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
                     child: Container(
+                      alignment: Alignment.center,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(flex: 1, child: Icon(Icons.translate)),
                           Expanded(
-                              flex: 7,
-                              child: Text("Language",
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium)),
+                              flex: 1,
+                              child: Icon(Icons.notifications_none_outlined)),
+                          Expanded(flex: 7, child: Text(AppLocalizations.of(context)!.translate('notification')!)),
                           Expanded(
                               flex: 2,
                               child: Container(
-                                padding: EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(color: Colors.black)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("English"),
-                                  ],
+                                child: Switch(
+                                  value: false,
+                                  onChanged: (value) {},
                                 ),
                               ))
                         ],
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            flex: 1, child: Icon(Icons.lock_outline_sharp)),
-                        Expanded(
-                            flex: 7,
-                            child: Text("Change password",
-                                style: Theme.of(context).textTheme.bodyMedium)),
-                        Expanded(
-                            flex: 2,
-                            child: Icon(Icons.arrow_forward_ios_rounded))
-                      ],
+                  Expanded(
+                    child: Container(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(flex: 1, child: Icon(Icons.language)),
+                          Expanded(
+                              flex: 7,
+                              child: Text(
+                                (AppLocalizations.of(context)!.translate('userSettings')!)['country'],
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              )),
+                          Expanded(flex: 2, child: Container())
+                        ],
+                      ),
                     ),
                   ),
-                )
-              ],
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        await displayMultiLanguage(context);
+                      },
+                      child: Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(flex: 1, child: Icon(Icons.translate)),
+                            Expanded(
+                                flex: 7,
+                                child: Text((AppLocalizations.of(context)!.translate('userSettings')!)['language'],
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium)),
+                            Expanded(
+                                flex: 2,
+                                child: Container(
+                                  padding: EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(color: Colors.black)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Builder(
+                                        builder: (context) {
+                                          final language = context.select((AppLanguageProvider value) {
+                                            return value.appLocale;
+                                          },);
+                                          return Text(language.languageCode);
+                                        }
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              flex: 1, child: Icon(Icons.lock_outline_sharp)),
+                          Expanded(
+                              flex: 7,
+                              child: Text((AppLocalizations.of(context)!.translate('userSettings')!)['changePassword'],
+                                  style: Theme.of(context).textTheme.bodyMedium)),
+                          Expanded(
+                              flex: 2,
+                              child: Icon(Icons.arrow_forward_ios_rounded))
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

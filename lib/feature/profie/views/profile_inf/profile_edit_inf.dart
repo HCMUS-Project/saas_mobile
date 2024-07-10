@@ -21,7 +21,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<AuthenticateProvider>().profile;
-    usernameController.text = profile?['username'];
+    usernameController.text = profile?['name'];
     addressController.text = profile?['address'];
     emailController.text = profile?['email'];
     phoneController.text = profile?['phone'];
@@ -119,9 +119,9 @@ class _EditProfileState extends State<EditProfile> {
                       await context.read<AuthenticateProvider>().updateProfile(
                           token: context.read<AuthenticateProvider>().token!,
                           address: addressController.text,
-                          username: usernameController.text,
+                          
                           age: int.parse(ageController.text),
-                          name: " ",
+                          name: usernameController.text,
                           gender: " ",
                           phone: phoneController.text);
                       controller['hide']();

@@ -8,7 +8,7 @@ class AppLocalizations{
   final Locale locale;
   AppLocalizations(this.locale);
 
-  Map<String,String> _localizedStrings = {};
+  Map<String,dynamic> _localizedStrings = {};
 
   static const LocalizationsDelegate<AppLocalizations> delegate = AppLocalizationDelegate();
   static AppLocalizations? of (BuildContext context){
@@ -18,13 +18,13 @@ class AppLocalizations{
     String jsonString = await rootBundle.loadString('lang/${locale.languageCode}.json');
     Map<String,dynamic> jsonMap = json.decode(jsonString);
 
-    _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value.toString()));
+    _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value));
 
     return true;
 
   }
 
-  String? translate (String key){
+  dynamic translate (String key){
     return _localizedStrings[key];
   }
 } 

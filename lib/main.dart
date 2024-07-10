@@ -19,7 +19,6 @@ import 'package:mobilefinalhcmus/feature/profie/views/orders/order_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
-import 'package:mobilefinalhcmus/feature/tenant/views/tenant_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/provider/app_language_provider.dart';
@@ -78,23 +77,23 @@ class MyApp extends StatelessWidget {
           create: (context) => AppLanguageProvider(),
         ),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, value, child) {
+      child: Builder(
+        builder: (context) {
           return FutureBuilder(
             future: Future.wait([
               context.read<AppLanguageProvider>().fetchLocale(),
-              value.getTheme(
+              context.read<ThemeProvider>().getTheme(
                   domain: context.read<AuthenticateProvider>().domain!),
-              value.getTenantProfile(
+              context.read<ThemeProvider>().getTenantProfile(
                   domain: context.read<AuthenticateProvider>().domain!)
             ]),
             builder: (context, snapshot) {
-              final rs = value.httpResponseFlutter.result?['themeConfig'];
+              final rs = context.read<ThemeProvider>().httpResponseFlutter.result?['themeConfig'];
               ThemeConfig? theme;
 
               if (rs != null) {
                 theme = ThemeConfig.fromJson(rs);
-                value.setRoute = "/home";
+                context.read<ThemeProvider>().setRoute = "/home";
               }
 
               return Consumer<AppLanguageProvider>(
@@ -134,8 +133,7 @@ class MyApp extends StatelessWidget {
               );
             },
           );
-        },
-      ),
+        },),
     );
   }
 }

@@ -21,11 +21,43 @@
     "username": "Username",
     "loginPassword": "Password",
     "forgotPassword":"Forgot Password?",
-    "profile":"Profile",
-    "myOrders": "My Orders",
-    "myBookings":"My Bookings",
-    "settings":"Settings",
+    "userProfile":{
+        "profile":"Profile",
+        "myOrders": "Orders",
+        "myBookings":"Bookings",
+        "settings":"Settings"
+    },
+    
+    "userSettings":{
+        "notification":"Notification",
+        "country":"Country",
+        "language":"Language",
+        "changePassword": "Change password"
+    },
 
+    "userOrders":{
+        "status":{"pending":"pending","shipping":"shipping","completed":"completed", "cancelled":"cancelled"},
+        "order":"Order",
+        "price":"Price",
+        "orderInformation":"Order information",
+        "orderDetail":"Order Details",
+        "reorder": "Reorder"
+    },
+
+    "userBookings":{
+        "status":{"pending":"Pending","success":"Success", "cancel":"Cancelled"},
+        "id":"Id",
+        "bookingDetail": "Booking Detail",
+        "header":"Let's find your booking!"
+    },
+    "areYouSureToCancel":"Are you sure to want to cancel ?",
+    "filter":"Filter",
+    "note":"Note",
+    "status":"Status",
+    "shippingAddress":"Shipping Address",
+    "paymentMethod":"Payment method",
+    "deliveryMethod":"Delivery method",
+    "item":"Item",
     "checkout": "Checkout",
     "total":"Total",
     "choose":"Choose",
@@ -40,5 +72,10 @@
     "chosenService":"Chosen service",
     "chosen":"Chosen",
     "done":"Done",
-    "voucher": "Voucher"
+    "voucher": "Voucher",
+    "logout": "Logout   ",
+    "cancel":"Cancel",
+    "country":"Country",
+    "yes": "Yes",
+    "no":"No"
 }

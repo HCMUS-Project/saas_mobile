@@ -6,6 +6,7 @@ import 'package:mobilefinalhcmus/feature/profie/models/order_model.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/constants/state_of_orders.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/orders/order_detail.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/provider/profile_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class OrderPage extends StatelessWidget {
@@ -76,7 +77,7 @@ class _StateOfOrdersState extends State<StateOfOrders> {
                 });
               },
               child: Text(
-                state.name,
+                ((AppLocalizations.of(context)!.translate('userOrders')!)['status'])[state.name] ,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color:
                         _selectedStateIndex == index ? Colors.white : Colors.black),
@@ -182,7 +183,7 @@ class OrderWidget extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                              Text(orderModel.stateOrder!, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              Text(((AppLocalizations.of(context)!.translate('userOrders')!)['status'])[orderModel.stateOrder!] , style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: Colors.blue
                               ),),
                               Text(DateFormat("dd MM yyyy").format(orderModel.date!),style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -218,7 +219,7 @@ class OrderWidget extends StatelessWidget {
                             child:  Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Order", style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              Text((AppLocalizations.of(context)!.translate('userOrders')!)['order'], style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: Colors.grey.shade400,
                                 fontWeight: FontWeight.w600
                               ),),
@@ -242,7 +243,7 @@ class OrderWidget extends StatelessWidget {
                             child:  Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Price", style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              Text((AppLocalizations.of(context)!.translate('userOrders')!)['price'], style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 color: Colors.grey.shade400,
                                 fontWeight: FontWeight.w600
                               ),),
