@@ -18,90 +18,51 @@ class FilterWidget extends StatefulWidget {
 class _FilterWidgetState extends State<FilterWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.categoryList.length,
-                itemBuilder: (context, index) {
-                  String? category = widget.categoryList[index];
-                  return Container(
-                    padding: const EdgeInsets.all(8),
-                    child: ElevatedButton(
-                      onPressed: (){
-                        context.read<ShopProvider>().filterByCategory(categoryId: index);
-                        setState(() {
-                          widget.selectedCategory = index;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 1,
-                        backgroundColor:widget.selectedCategory == index ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary
-                      ),
-                      child: Text(
-                        category!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: widget.selectedCategory == index ? Colors.white : Colors.black),
-                    )
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          
-          Expanded(
-            flex: 1,
-            child: Container(
-              decoration: const BoxDecoration(
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/filter.svg"),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text("Filter")
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/incr_decr.svg"),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text("Price: lowest to high")
-                      ],
-                    ),
-                  ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          fit: FlexFit.loose,
+          child: Container(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.categoryList.length,
+              itemBuilder: (context, index) {
+                String? category = widget.categoryList[index];
+                return Container(
                   
-                  Container(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/grid.svg"),
-                      ],
+                  padding: const EdgeInsets.all(8),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      context.read<ShopProvider>().filterByCategory(categoryId: index);
+                      setState(() {
+                        widget.selectedCategory = index;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)
+                      ),
+                      elevation: 1,
+                      backgroundColor:widget.selectedCategory == index ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary
                     ),
+                    child: Text(
+                      category!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: widget.selectedCategory == index ? Colors.white : Colors.black),
+                  )
                   ),
-                ],
-              ),
+                );
+              },
             ),
           ),
-        ],
-      ),
+        ),
+        
+        
+      ],
     );
   }
 }

@@ -10,17 +10,21 @@ import "package:http/http.dart" as http;
 
 class ShopProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
-  List<ProductModel>? productList;
-  List<String?> get categoryList => productList!
+  List<ProductModel>? productList = [];
+  List<String> get categoryList => productList!
       .map((e) => (e.category?[0]['name']).toString())
       .toList()
       .toSet()
       .toList();
   List<ProductModel>? _filterProductList = [];
   List<ProductModel>? get filterProductList => _filterProductList;
+  String? selectedCategory = "";
+   
+  
   set setProductList(List<ProductModel> productList) {
-    _filterProductList = productList;
-    this.productList = _filterProductList;
+    print(productList);
+    this.productList = productList;
+    notifyListeners();
   }
 
   Future<HttpResponseFlutter> findProduct(
@@ -68,16 +72,21 @@ class ShopProvider extends ChangeNotifier {
       int? maxPrice,
       int? rating}) async {
     try {
+      
       httpResponseFlutter = HttpResponseFlutter.unknown();
+      httpResponseFlutter.update(
+        isLoading: true
+      );
+
       Map<String, dynamic> queryParameters = {
         "domain": domain,
         "name": name,
         "category": category,
-        "minPrice": minPrice,
-        "maxPrice": maxPrice,
-        "rating": rating
-      };
-      queryParameters.removeWhere((key, value) => value == null);
+        "minPrice": minPrice.toString(),
+        "maxPrice": maxPrice.toString(),
+        "rating": rating.toString()
+      }; 
+      queryParameters.removeWhere((key, value) => value == null || value == "null");
       final uri =
           Uri.tryParse("${dotenv.env['HTTP_URI']}ecommerce/product/search/")
               ?.replace(queryParameters: queryParameters);
@@ -92,10 +101,10 @@ class ShopProvider extends ChangeNotifier {
       }
 
       final result = Map<String, dynamic>.from(body);
-      print(result);
+
       httpResponseFlutter.update(
-          result: result['data'], statusCode: rs.statusCode);
-      return httpResponseFlutter;
+          result: result['data'], statusCode: rs.statusCode, isLoading: false);
+      return httpResponseFlutter; 
     } on FlutterException catch (e) {
       print(e);
       httpResponseFlutter.update(
@@ -121,11 +130,11 @@ class ShopProvider extends ChangeNotifier {
         throw FlutterException(body['message'], rs.statusCode);
       }
 
-      final products =
-          List<Map<String, dynamic>>.from(body['data']['products']);
-      _filterProductList =
-          products.map<ProductModel>((e) => ProductModel.fromJson(e)).toList();
-      productList = _filterProductList;
+      // final products =
+      //     List<Map<String, dynamic>>.from(body['data']['products']);
+      // _filterProductList =
+      //     products.map<ProductModel>((e) => ProductModel.fromJson(e)).toList();
+      // productList = _filterProductList;
       final result = Map<String, dynamic>.from(body['data']);
       httpResponseFlutter.update(result: result, statusCode: rs.statusCode);
     } on FlutterException catch (e) {
@@ -138,17 +147,13 @@ class ShopProvider extends ChangeNotifier {
     int? categoryId,
   }) {
     int indexCategory = categoryId!;
+    print(indexCategory);
     if (indexCategory > 0) {
-      _filterProductList = productList?.where(
-        (element) {
-          return (element.category?[0]['name'] == categoryList[categoryId - 1]);
-        },
-      ).toList();
-
+      selectedCategory = categoryList[indexCategory - 1];
       notifyListeners();
       return;
     }
-    _filterProductList = productList;
+    selectedCategory = "";
     notifyListeners();
   }
 

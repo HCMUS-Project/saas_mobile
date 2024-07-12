@@ -11,6 +11,7 @@ import 'package:mobilefinalhcmus/feature/tenant/models/tenants_model.dart';
 class ThemeProvider extends ChangeNotifier {
   HttpResponseFlutter httpResponseFlutter = HttpResponseFlutter.unknown();
   String initialRoute = '/';
+  ThemeConfig? theme;
   TenantModel? tenant;
   set setRoute(String route){
     initialRoute = route;
@@ -66,7 +67,7 @@ class ThemeProvider extends ChangeNotifier {
       }
 
       final result = Map<String, dynamic>.from(body);
-      
+      theme = ThemeConfig.fromJson(result['data']['themeConfig']) ;
       httpResponseFlutter.update(
           result: result['data'], statusCode: rs.statusCode);
     } on FlutterException catch (e) {

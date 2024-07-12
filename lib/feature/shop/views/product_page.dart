@@ -490,9 +490,10 @@ class _ShowProductState extends State<ShowProduct> {
               return Container(
                 margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0.5,
-                      backgroundColor: backgroundColor,
+                    style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
+                      elevation:  MaterialStatePropertyAll(0.5),
+                      backgroundColor: MaterialStatePropertyAll(backgroundColor),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))
                     ),
                     onPressed: () {
                       widget.showProductStream?.add(category);

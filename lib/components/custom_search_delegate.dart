@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/feature/shop/views/search/search_page.dart';
 import 'package:provider/provider.dart';
 
 class CustomSearchDeligate<T> extends SearchDelegate<T> {
@@ -71,6 +72,7 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
       icon: const Icon(Icons.arrow_back),
       onPressed: () {
         Navigator.of(context).pop();
+      
       },
       // Exit from the search screen.
     );
@@ -81,24 +83,27 @@ class CustomSearchDeligate<T> extends SearchDelegate<T> {
     // TODO: implement showResults
     super.showResults(context);
 
-    final result = await context.read<ShopProvider>().searchProduct(
-        domain: context.read<AuthenticateProvider>().domain!, name: query);
+    // final result = await context.read<ShopProvider>().searchProduct(
+    //     domain: context.read<AuthenticateProvider>().domain!, name: query);
 
-    final products =
-        List<Map<String, dynamic>>.from(result.result?['products']);
-    final convertToProductModel =
-        products.map((e) => ProductModel.fromJson(e)).toList();
-    final searchResults = convertToProductModel
-        .where((element) => element.name!.toLowerCase().trim().contains(query.toLowerCase().trim()))
-        .toList();
+    // final products =
+    //     List<Map<String, dynamic>>.from(result.result?['products']);
+    // final convertToProductModel =
+    //     products.map((e) => ProductModel.fromJson(e)).toList();
+    // final searchResults = convertToProductModel
+    //     .where((element) => element.name!.toLowerCase().trim().contains(query.toLowerCase().trim()))
+    //     .toList();
 
     if (route != null) {
-      Navigator.of(context).popUntil(ModalRoute.withName(route!));
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
     }
-
-    Navigator.pushNamed(context, "/shop/search_page",
-        arguments: {"searchResults": searchResults, "query": query});
+    
+    Navigator.of(context).push(MaterialPageRoute(builder:(context) {
+      return SearchPage(
+        query: query,
+      );
+    },));
   }
 
   @override

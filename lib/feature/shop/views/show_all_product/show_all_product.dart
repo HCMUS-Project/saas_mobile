@@ -36,16 +36,10 @@ class _ShowAllProductState extends State<ShowAllProduct> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
 
-    List<String?> categoryList = [];
-    categoryList.add("All");
-    categoryList.addAll(context.read<ShopProvider>().categoryList);
-
-    print(categoryList);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-     
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -54,55 +48,55 @@ class _ShowAllProductState extends State<ShowAllProduct> {
             },
             icon: const Icon(
               Icons.arrow_back,
-             
             )),
         actions: [
           IconButton(
               onPressed: () async {
                 final searchProduct = await showSearch(
                     context: context,
-                    delegate: CustomSearchDeligate(
-                        callback: (data) {
-                          return FutureBuilder(
+                    delegate: CustomSearchDeligate( 
+                      callback: (data) {
+                        return FutureBuilder(
                             future: context.read<ShopProvider>().searchProduct(
-                              domain: context.read<AuthenticateProvider>().domain!,
-                              name: data
-                            ),
-                            builder:(context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting){
+                                domain: context
+                                    .read<AuthenticateProvider>()
+                                    .domain!,
+                                name: data),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
                                 return Container(
                                   decoration: const BoxDecoration(
-                                    color: Colors.transparent
-                                  ),
+                                      color: Colors.transparent),
                                 );
                               }
                               final result = snapshot.data?.result;
-                              final products = List<Map<String,dynamic>>.from(result?['products']);
+                              final products = List<Map<String, dynamic>>.from(
+                                  result?['products']);
                               return ListView.builder(
-                              itemCount: products.length,
-                              itemBuilder: (context, index) {
-                                final product =ProductModel.fromJson(products[index]);
-                                return Container(
-                                  child: ListTile(
-                                    onTap: () {},
-                                    leading: Image(
-                                      width: 64,
-                                      height: 64,
-                                      image: NetworkImage(product.image![0]),
+                                itemCount: products.length,
+                                itemBuilder: (context, index) {
+                                  final product =
+                                      ProductModel.fromJson(products[index]);
+                                  return Container(
+                                    child: ListTile(
+                                      onTap: () {},
+                                      leading: Image(
+                                        width: 64,
+                                        height: 64,
+                                        image: NetworkImage(product.image![0]),
+                                      ),
+                                      subtitle: Text(CurrencyConfig.convertTo(
+                                              price: product.price!)
+                                          .toString()),
+                                      title: Text(product.name!),
                                     ),
-                                    subtitle: Text(CurrencyConfig.convertTo(
-                                            price: product.price!)
-                                        .toString()),
-                                    title: Text(product.name!),
-                                  ),
-                                );
-                              },
-                            );
-                            } 
-                          );
-                        },
-                        ));
-                
+                                  );
+                                },
+                              );
+                            });
+                      },
+                    ));
               },
               icon: Icon(
                 Icons.search,
@@ -110,70 +104,91 @@ class _ShowAllProductState extends State<ShowAllProduct> {
               )),
           IconButton(
               onPressed: () {
-                if (context.read<AuthenticateProvider>().token != null){
+                if (context.read<AuthenticateProvider>().token != null) {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
                       return const CartPage();
                     },
                   ));
-                }else{
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                    return LoginPage();
-                  },));
+                } else {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return LoginPage();
+                    },
+                  ));
                 }
               },
               icon: Icon(Icons.shopping_cart_outlined,
                   color: Theme.of(context).iconTheme.color))
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-        child: Column(
-          children: [
-            //filter component
-            Container(
-              child: FilterWidget(categoryList: categoryList),
-            ),
-            //all products
-            Expanded(
-                flex: 20,
-                child: Consumer<ShopProvider>(
-                  builder: (context, value, child) {
-                    return GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.5,
-                        mainAxisSpacing: 5,
-                        crossAxisSpacing: 5,
-                      ),
-                      itemCount: value.filterProductList?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        final product = value.filterProductList?[index];
-                        if (product == null) {
-                          return  Container(
-                            child: const Center(
-                              child: Text("There is no product"),
-                            ),
-                          );
-                        }
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return ProductDetail2(product: product);
-                              },
-                            ));
-                          },
-                          child: ProductWidget(
-                            product: product,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                )),
-          ],
-        ),
+      body: FutureBuilder(
+        future: context.read<ShopProvider>().getAllProduct(
+            domain: context.read<AuthenticateProvider>().domain!),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            );
+          }
+          final result = context.read<ShopProvider>().httpResponseFlutter;
+          final products =
+              List<Map<String, dynamic>>.from(result.result?['products'])
+                  .map((e) => ProductModel.fromJson(e))
+                  .toList();
+          return products.length == 0
+              ? Container(
+                  child: const Center(
+                    child: Text("There is no product"),
+                  ),
+                )
+              : Container(
+                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                  child: Column(
+                    children: [
+                      //filter component
+                     
+                      //all products
+                      Expanded(
+                          flex: 20,
+                          child: Consumer<ShopProvider>(
+                            builder: (context, value, child) {
+                              return GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.5,
+                                  mainAxisSpacing: 5,
+                                  crossAxisSpacing: 5,
+                                ),
+                                itemCount: products.length,
+                                itemBuilder: (context, index) {
+                                  final product = products[index];
+
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) {
+                                          return ProductDetail2(
+                                              product: product);
+                                        },
+                                      ));
+                                    },
+                                    child: ProductWidget(
+                                      product: product,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          )),
+                    ],
+                  ),
+                );
+        },
       ),
     );
   }

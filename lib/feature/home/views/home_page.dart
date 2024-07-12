@@ -436,14 +436,16 @@ class AppBarHomePage extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   Text(
                     "have a nice day",
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).appBarTheme.titleTextStyle?.color
+                    ),
                   ),
                   Text(
                     username,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                        ?.copyWith(fontWeight: FontWeight.w600,color: Theme.of(context).appBarTheme.titleTextStyle?.color),
                   ),
                 ],
               )

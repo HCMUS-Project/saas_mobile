@@ -106,6 +106,7 @@ class MyApp extends StatelessWidget {
                     initialRoute: '/',
                     routes: {
                       '/': (context) => IntroPage(),
+                      
                       '/auth/login': (context) => LoginPage(),
                       '/auth/signup': (context) => const RegisterPage(),
                       '/home': (context) => const MainPage(),
