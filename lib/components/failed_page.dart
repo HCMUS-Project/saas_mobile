@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
-class SuccessPage extends StatelessWidget {
-  const SuccessPage({super.key});
+class FailedPage extends StatelessWidget {
+  const FailedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class SuccessPage extends StatelessWidget {
                 ),
                 height: 128,
                 width: 128,
-                child: Image.asset("assets/gif/success.gif"),
+                child: Image.asset("assets/gif/failed.gif"),
               ),
             ),
             Text(
@@ -30,10 +30,10 @@ class SuccessPage extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green),
+                  ),
             ),
             Text(
-              "Order successfully",
+              "Order Failed",
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

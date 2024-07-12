@@ -37,7 +37,7 @@ class _ServiceVoucherState extends State<ServiceVoucher> {
                   },
                   child: Text(
                     AppLocalizations.of(context)!.translate('done')!,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,
                   )),
             )
           : null,
@@ -216,7 +216,7 @@ class _ShowVoucherState extends State<ShowVoucher> {
                       },
                       child: Text(
                         isChoose ? AppLocalizations.of(context)!.translate('applied')! :AppLocalizations.of(context)!.translate('apply')!,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: isChoose ? Theme.of(context).textTheme.bodyMedium : Theme.of(context).elevatedButtonTheme.style?.textStyle?.resolve({}),
                       ))),
             ],
           ),

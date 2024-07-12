@@ -132,7 +132,7 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: BorderSide.none),
-                                    fillColor: Colors.white,
+                                    fillColor: Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
                                     filled: true,
                                     isDense: true,
                                     contentPadding: const EdgeInsets.fromLTRB(
@@ -545,7 +545,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary,
+                              color: Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(15)),
                           child: Text(
@@ -553,7 +553,7 @@ class _showBookingHistoryState extends State<showBookingHistory> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                                ?.copyWith(fontWeight: FontWeight.bold,color: Theme.of(context).elevatedButtonTheme.style?.textStyle?.resolve({})?.color),
                           ),
                         ),
                       ),

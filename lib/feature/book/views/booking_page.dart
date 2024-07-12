@@ -181,7 +181,6 @@ class _BookingPageState extends State<BookingPage> {
         centerTitle: true,
         title: Text(
           "Booking",
-          style: Theme.of(context).textTheme.titleLarge,
         ),
         scrolledUnderElevation: 0,
       ),
@@ -392,7 +391,7 @@ class _BookingPageState extends State<BookingPage> {
                                               MainAxisAlignment.spaceBetween,
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            const Icon(Icons.home),
+                                            const Icon(Icons.access_time_outlined),
                                             Container(
                                               child: Expanded(
                                                 child: Text(
@@ -902,7 +901,7 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
                           ? selectedTime == index
                               ? Colors.amber
                               : null
-                          : Theme.of(context).colorScheme.secondary,
+                          : Theme.of(context).textTheme.titleMedium?.color,
                       border: Border.all(
                           color: Theme.of(context).colorScheme.secondary),
                       borderRadius: BorderRadius.circular(15)),

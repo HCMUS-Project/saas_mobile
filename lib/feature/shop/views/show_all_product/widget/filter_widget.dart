@@ -45,14 +45,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                         borderRadius: BorderRadius.circular(5)
                       ),
                       elevation: 1,
-                      backgroundColor:widget.selectedCategory == index ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.primary
+                      backgroundColor:widget.selectedCategory == index ? Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}) : Theme.of(context).colorScheme.primary
                     ),
                     child: Text(
                       category!,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
-                          ?.copyWith(color: widget.selectedCategory == index ? Colors.white : Colors.black),
+                          ?.copyWith(color: widget.selectedCategory == index ? Theme.of(context).colorScheme.primary : Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({})),
                   )
                   ),
                 );

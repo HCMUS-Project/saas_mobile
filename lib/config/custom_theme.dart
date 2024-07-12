@@ -106,8 +106,10 @@ class ThemeConfig {
       appBarTheme: AppBarTheme(
           scrolledUnderElevation: 0,
           color: headerColor,
+          
           titleTextStyle: TextStyle(
-            color: headerTextColor
+            color: headerTextColor,
+            fontSize: 23
           ),
           iconTheme: IconThemeData(color: headerTextColor)),
       colorScheme: ColorScheme.fromSeed(

@@ -143,7 +143,7 @@ class HeaderOfProfile extends StatelessWidget implements PreferredSizeWidget {
       
       title: Text(
         (AppLocalizations.of(context)!.translate('userProfile')!)['profile'],
-        style: Theme.of(context).textTheme.titleLarge,
+   
       ),
     );
   }

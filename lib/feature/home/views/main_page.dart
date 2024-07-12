@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:mobilefinalhcmus/components/failed_page.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/components/success_page.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
@@ -56,15 +57,22 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         appLinks.uriLinkStream.listen((uri) {
           // Do something (navigation, ...)
           Map<String, dynamic> params = uri.queryParameters;
-          if (params['message'].toString().toLowerCase() == "success") {
+          print(params['status'].toString().toLowerCase());
+          if (params['status'].toString().toLowerCase() == "success") {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) {
                 return const SuccessPage();
               },
             ));
+          }else{
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return const FailedPage();
+              },
+            ));
           }
         });
-        print("troi oi la dsadasdasdasdsadasd");
+       
         print(authenticateProvider.httpResponseFlutter.errorMessage);
         // after intro, check error when refresh token
         if (authenticateProvider.httpResponseFlutter.errorMessage != null) {

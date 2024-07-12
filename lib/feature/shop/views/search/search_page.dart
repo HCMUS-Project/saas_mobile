@@ -102,15 +102,20 @@ class _SearchPageState extends State<SearchPage> {
                       },
                     ));
               },
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
+              style: Theme.of(context).textTheme.bodyLarge,
+
               decoration: InputDecoration(
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(color: Colors.white)
+                ),
                 hintText: widget.query,
-                focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    borderSide: BorderSide(color: Colors.black)),
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    borderSide: BorderSide(color: Colors.black)),
+                hintStyle: Theme.of(context).textTheme.titleMedium,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(color: (Theme.of(context).appBarTheme.titleTextStyle?.color) ?? Colors.black)
+                ),
+                
               ),
             ),
           ),
@@ -149,10 +154,9 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             children: [
               Builder(builder: (context) {
+                // this line is 
                 context.select((ShopProvider value) => value.productList);
-                print("REBUILD CATEGORY");
-                print(
-                    "AFTER REBUILD: ${context.read<ShopProvider>().categoryList}");
+                //
                 categoryList.addAll(context.read<ShopProvider>().categoryList);
                 return Flexible(
                     fit: FlexFit.loose,

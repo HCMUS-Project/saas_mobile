@@ -392,9 +392,7 @@ class ProductPageAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         "Saas Product",
-        style: Theme.of(context)
-            .textTheme
-            .titleLarge
+        style: Theme.of(context).appBarTheme.titleTextStyle
       ),
       centerTitle: true,
       actions: [
@@ -482,11 +480,11 @@ class _ShowProductState extends State<ShowProduct> {
             itemBuilder: (context, index) {
               String category = categoryList[index];
               Color backgroundColor = widget.selectedCategory == index
-                  ? Theme.of(context).colorScheme.secondary
+                  ? Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}) ?? Colors.blue
                   : Theme.of(context).colorScheme.primary;
               Color textColor = widget.selectedCategory == index
                   ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.secondary;
+                  : Theme.of(context).textTheme.bodyMedium!.color!;
               return Container(
                 margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
@@ -503,7 +501,9 @@ class _ShowProductState extends State<ShowProduct> {
                     },
                     child: Text(
                       category,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: textColor
+                      ),
                     )),
               );
             },
@@ -526,7 +526,7 @@ class _ShowProductState extends State<ShowProduct> {
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5))
                           ),
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          backgroundColor: context.read<ThemeProvider>().theme?.buttonColor,
                           elevation: 0,
                       ),
                       onPressed: () {
@@ -546,7 +546,7 @@ class _ShowProductState extends State<ShowProduct> {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                                ?.copyWith(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.primary),
                           ),
                         ],
                       )),

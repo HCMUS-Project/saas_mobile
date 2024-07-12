@@ -95,7 +95,7 @@ class _FilterPageState extends State<FilterPage> {
                           ),
                           Radio(
                             activeColor:
-                                Theme.of(context).colorScheme.secondary,
+                                Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
                             value: index + 1,
                             groupValue: widget.selectedOption,
                             onChanged: (value) {
@@ -161,7 +161,7 @@ class _FilterPageState extends State<FilterPage> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                        ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).elevatedButtonTheme.style?.textStyle?.resolve({})?.color),
                   )),
             ),
           ],

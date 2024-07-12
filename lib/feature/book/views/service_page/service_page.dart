@@ -88,7 +88,7 @@ class _ServicePageState extends State<ServicePage>
                             alignment: Alignment.centerLeft,
                             child: Text(
                               voucher.voucherName ?? AppLocalizations.of(context)!.translate('voucher')!,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style:Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,
                             ))),
                     Expanded(
                         flex: 2,
@@ -137,7 +137,7 @@ class _ServicePageState extends State<ServicePage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text("${AppLocalizations.of(context)!.translate('chosenService')!}"),
-                              Text(chosenService?.name ?? "")
+                              Text(chosenService.name ?? "",style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,)
                             ],
                           ))),
                   Expanded(
@@ -148,11 +148,11 @@ class _ServicePageState extends State<ServicePage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text("${AppLocalizations.of(context)!.translate('total')!}"),
+                          Text("${AppLocalizations.of(context)!.translate('total')!}",style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,),
                           if (voucher.id == null)
                             Text(CurrencyConfig.convertTo(
                                     price: chosenService.price ?? 0)
-                                .toString())
+                                .toString(),style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,)
                           else
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,7 +171,7 @@ class _ServicePageState extends State<ServicePage>
                                     CurrencyConfig.convertTo(
                                             price: afterDiscountPrice)
                                         .toString(),
-                                    textAlign: TextAlign.end,
+                                    textAlign: TextAlign.end,style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,
                                   ),
                                 ),
                               ],

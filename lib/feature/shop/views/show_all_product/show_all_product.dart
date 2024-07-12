@@ -10,6 +10,7 @@ import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/filter_widget.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/show_all_product/widget/product.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ShowAllProduct extends StatefulWidget {
   ShowAllProduct({this.products, super.key});
@@ -127,11 +128,37 @@ class _ShowAllProductState extends State<ShowAllProduct> {
             domain: context.read<AuthenticateProvider>().domain!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            );
+            return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.5,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+            ),
+            itemBuilder: (context, index) {
+              // fake data to display skeleton
+              final product = ProductModel(
+                  category: [
+                    {"name": ""}
+                  ],
+                  description: "",
+                  id: "",
+                  image: [
+                    "https://dpbostudfzvnyulolxqg.supabase.co/storage/v1/object/public/datn.serviceBooking/service/ca956d2f-de3b-48e2-8ce2-e8da3a2dfc46"
+                  ],
+                  name: "",
+                  numberRating: 0,
+                  price: 0,
+                  quantity: 0,
+                  rating: 0);
+              return Skeletonizer(
+                enabled: true,
+                child: ProductWidget(
+                  product: product,
+                ),
+              );
+            },
+          );
           }
           final result = context.read<ShopProvider>().httpResponseFlutter;
           final products =

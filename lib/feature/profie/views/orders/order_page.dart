@@ -67,8 +67,8 @@ class _StateOfOrdersState extends State<StateOfOrders> {
               style: ElevatedButton.styleFrom(
                 elevation: 0,
                 backgroundColor: _selectedStateIndex == index
-                    ? Theme.of(context).colorScheme.secondary
-                    : Colors.white,
+                    ? Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({})
+                    : Colors.transparent,
               ),
               onPressed: () async {
                 await context.read<ProfileProvider>().GetOrder(state: state.name);
@@ -80,7 +80,7 @@ class _StateOfOrdersState extends State<StateOfOrders> {
                 ((AppLocalizations.of(context)!.translate('userOrders')!)['status'])[state.name] ,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color:
-                        _selectedStateIndex == index ? Colors.white : Colors.black),
+                        _selectedStateIndex == index ? Theme.of(context).elevatedButtonTheme.style?.textStyle?.resolve({})?.color : Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({})),
               )),
           SizedBox(
             width: 10,

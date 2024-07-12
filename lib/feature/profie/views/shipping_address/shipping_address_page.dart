@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
+import 'package:mobilefinalhcmus/components/success_page.dart';
 
 class ShippingAdderssPage extends StatelessWidget {
   const ShippingAdderssPage({super.key});
@@ -63,58 +64,61 @@ class ShippingAdderssPage extends StatelessWidget {
                 minimumSize: const Size(56, 56),
                 shape: const BeveledRectangleBorder()),
             onPressed: () async {
-              final renderBox = context.findRenderObject() as RenderBox;
-              final size = renderBox.size;
-              print(size.height);
-              print(size.width);
-              final controller = showOverlay(
-                  context: context,
-                  child: Material(
-                      borderRadius: BorderRadius.circular(15),
-                      elevation: 1,
-                      color: Colors.black.withAlpha(150),
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          height: size.height *0.2,
-                          width: size.width*0.5,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: CircularProgressIndicator(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Add success",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )));
-              controller["show"]();
-              await Future.delayed(Duration(seconds: 1));
-              controller['hide']();
+              // final renderBox = context.findRenderObject() as RenderBox;
+              // final size = renderBox.size;
+              // print(size.height);
+              // print(size.width);
+              // final controller = showOverlay(
+              //     context: context,
+              //     child: Material(
+              //         borderRadius: BorderRadius.circular(15),
+              //         elevation: 1,
+              //         color: Colors.black.withAlpha(150),
+              //         child: Center(
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //               color: Colors.white,
+              //               borderRadius: BorderRadius.circular(10.0),
+              //             ),
+              //             height: size.height *0.2,
+              //             width: size.width*0.5,
+              //             child: Column(
+              //               mainAxisSize: MainAxisSize.min,
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 Expanded(
+              //                   flex: 7,
+              //                   child: Container(
+              //                     alignment: Alignment.center,
+              //                     child: CircularProgressIndicator(
+              //                       color:
+              //                           Theme.of(context).colorScheme.secondary,
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 Expanded(
+              //                   flex: 3,
+              //                   child: Container(
+              //                     alignment: Alignment.center,
+              //                     child: Text(
+              //                       "Add success",
+              //                       style: Theme.of(context)
+              //                           .textTheme
+              //                           .bodyMedium
+              //                           ?.copyWith(fontWeight: FontWeight.bold),
+              //                     ),
+              //                   ),
+              //                 )
+              //               ],
+              //             ),
+              //           ),
+              //         )));
+              // controller["show"]();
+              // await Future.delayed(Duration(seconds: 1));
+              // controller['hide']();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return SuccessPage();
+              },));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

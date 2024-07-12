@@ -169,7 +169,6 @@ class _CartPageState extends State<CartPage> {
                                 ? () {
                                     final selectedListTemp =
                                         context.read<CartProvider>().cartList;
-
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) {
@@ -190,7 +189,7 @@ class _CartPageState extends State<CartPage> {
                                     (CartProvider value) =>
                                         value.cartList.isNotEmpty,
                                   )
-                                      ? Theme.of(context).colorScheme.secondary
+                                      ? Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({})
                                       : Colors.grey),
                               child: Text(
                                 AppLocalizations.of(context)!.translate('checkout')!.toUpperCase(),
@@ -198,6 +197,7 @@ class _CartPageState extends State<CartPage> {
                                     .textTheme
                                     .bodyLarge
                                     ?.copyWith(
+                                      color: Theme.of(context).elevatedButtonTheme.style?.textStyle?.resolve({})?.color
                                         ),
                               ),
                             ),

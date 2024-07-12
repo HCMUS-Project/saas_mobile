@@ -89,7 +89,7 @@ class _StepProcessWidgetState extends State<StepProcessWidget> {
                       height: 10,
                       width: 10,
                       decoration:BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
                         shape: BoxShape.circle
                       ),
                     ),
@@ -101,7 +101,7 @@ class _StepProcessWidgetState extends State<StepProcessWidget> {
                           width: 20,
                           height: 20,
                           decoration:_show ? BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
                             shape: BoxShape.circle
                           ):const BoxDecoration(
                             color: Colors.transparent,
