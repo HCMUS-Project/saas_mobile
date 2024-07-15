@@ -198,9 +198,11 @@ class _ListReviewState extends State<ListReview> {
                   itemCount: reviews.length + 1,
                   itemBuilder: (context, index) {
                     if (index >= reviews.length) {
-                      return const Padding(
+                      return  Padding(
                         padding: EdgeInsets.zero,
-                        child: Center(child: CircularProgressIndicator()),
+                        child: Center(child: CircularProgressIndicator(
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                        )),
                       );
                     } else if (reviews.isNotEmpty) {
                       final review = ReviewModel.fromJson(reviews[index]);

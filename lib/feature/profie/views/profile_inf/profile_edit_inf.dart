@@ -94,7 +94,7 @@ class _EditProfileState extends State<EditProfile> {
                                         child: Container(
                                           alignment: Alignment.center,
                                           child: CircularProgressIndicator(
-                                            color: Theme.of(context).colorScheme.secondary,
+                                            color: Theme.of(context).textTheme.bodyMedium?.color,
                                           ),
                                         ),
                                       ),

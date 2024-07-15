@@ -121,9 +121,7 @@ class _IntroPageState extends State<IntroPage> {
                                           MainAxisAlignment.center,
                                       children: [
                                         CircularProgressIndicator(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          color: Theme.of(context).scaffoldBackgroundColor,
                                         ),
                                         Text(
                                           "Please wait...",

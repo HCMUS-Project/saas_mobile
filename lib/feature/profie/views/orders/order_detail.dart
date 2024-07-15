@@ -176,7 +176,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       return Container(
                         child: Center(
                           child: CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
                           ),
                         ),
                       );

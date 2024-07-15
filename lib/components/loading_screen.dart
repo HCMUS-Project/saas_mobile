@@ -63,7 +63,7 @@ class LoadingScreen{
                     children: [
                       const SizedBox(height: 10),
                       CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                       const SizedBox(height: 20),
                       StreamBuilder(

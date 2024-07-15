@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobilefinalhcmus/components/failed_page.dart';
 import 'package:mobilefinalhcmus/components/show_overlay.dart';
 import 'package:mobilefinalhcmus/components/success_page.dart';
@@ -9,7 +10,9 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/views/booking_page.dart';
 import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/home/views/home_page.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/booking/profile_booking_page.dart';
 import 'package:mobilefinalhcmus/feature/profie/views/profie_page.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/shipping_address/shipping_address_page.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/product_page.dart';
 import 'package:mobilefinalhcmus/main.dart';
 import 'package:mobilefinalhcmus/provider/theme_provider.dart';
@@ -53,6 +56,21 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     homeProvider = context.read<HomeProvider>();
     final token = authenticateProvider.token;
     if (token != null) {
+      MyApp.platform.setMethodCallHandler((call) async {
+        switch (call.method) {
+          case 'navigateTo':
+            print(call.arguments);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return ProfileBooking();
+              },
+            ));
+            break;
+          default:
+            throw MissingPluginException();
+        }
+      });
+
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         appLinks.uriLinkStream.listen((uri) {
           // Do something (navigation, ...)
@@ -64,7 +82,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                 return const SuccessPage();
               },
             ));
-          }else{
+          } else {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) {
                 return const FailedPage();
@@ -72,7 +90,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             ));
           }
         });
-       
+
         print(authenticateProvider.httpResponseFlutter.errorMessage);
         // after intro, check error when refresh token
         if (authenticateProvider.httpResponseFlutter.errorMessage != null) {
@@ -123,7 +141,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       print(loadingController);
-      if (loadingController == null && authenticateProvider.token!=null) {
+      if (loadingController == null && authenticateProvider.token != null) {
         loadingController = LoadingWidget(context);
         loadingController?['show']();
         await context
@@ -146,8 +164,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       ),
       bottomNavigationBar: FlashyTabBar(
         height: 56,
-        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-        
+        backgroundColor:
+            Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+
         animationCurve: Curves.linear,
         selectedIndex: context.read<HomeProvider>().seletedIndex!,
         iconSize: 30,
@@ -160,17 +179,26 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
         items: [
           FlashyTabBarItem(
-            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
+            activeColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!,
             icon: const Icon(Icons.home_outlined),
             title: const Text('Home'),
           ),
           FlashyTabBarItem(
-            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
+            activeColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!,
             icon: const Icon(Icons.shopping_cart_outlined),
             title: const Text('Shop'),
           ),
           FlashyTabBarItem(
-            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
+            activeColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!,
             icon: const Icon(Icons.shopping_bag_outlined),
             title: const Text('Book'),
           ),
@@ -179,7 +207,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           //   title: Text('Service'),
           // ),
           FlashyTabBarItem(
-            activeColor: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle!.color!,
+            activeColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!,
             icon: const Icon(Icons.person_4_outlined),
             title: const Text('Profile'),
           ),

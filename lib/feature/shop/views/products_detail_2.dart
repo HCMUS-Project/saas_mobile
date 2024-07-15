@@ -567,7 +567,9 @@ class _ShowReviewState extends State<ShowReview> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
                     );
         }
         final rs = snapshot.data?.result;

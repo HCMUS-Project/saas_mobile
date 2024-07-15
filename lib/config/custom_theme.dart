@@ -94,6 +94,7 @@ class ThemeConfig {
 
   ThemeData get theme => ThemeData(
       datePickerTheme: DatePickerThemeData(
+        
         backgroundColor: headerColor,
         cancelButtonStyle: ElevatedButton.styleFrom(
         ),
@@ -102,6 +103,7 @@ class ThemeConfig {
         elevation: 0,
 
       ),
+ 
       
       appBarTheme: AppBarTheme(
           scrolledUnderElevation: 0,

@@ -29,7 +29,7 @@ Map<String, dynamic> LoadingWidget(BuildContext context) {
                     child: Container(
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
                   ),

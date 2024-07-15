@@ -80,6 +80,7 @@ class _ServicePageState extends State<ServicePage>
                         child: Container(
                             alignment: Alignment.centerLeft,
                             child: Image(
+                              color: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle?.color,
                                 image:
                                     AssetImage('assets/images/coupon.png')))),
                     Expanded(
@@ -112,6 +113,7 @@ class _ServicePageState extends State<ServicePage>
                               });
                             },
                             child: Icon(
+                              color: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle?.color,
                               Icons.arrow_forward,
                               size: 12,
                             ),
@@ -136,7 +138,7 @@ class _ServicePageState extends State<ServicePage>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("${AppLocalizations.of(context)!.translate('chosenService')!}"),
+                              Text("${AppLocalizations.of(context)!.translate('chosenService')!}", style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,),
                               Text(chosenService.name ?? "",style: Theme.of(context).bottomNavigationBarTheme.unselectedLabelStyle,)
                             ],
                           ))),

@@ -113,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
                 hintStyle: Theme.of(context).textTheme.titleMedium,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(color: (Theme.of(context).appBarTheme.titleTextStyle?.color) ?? Colors.black)
+                  borderSide: BorderSide(color: Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}) ?? Colors.black)
                 ),
                 
               ),

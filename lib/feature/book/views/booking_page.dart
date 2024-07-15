@@ -354,8 +354,12 @@ class _BookingPageState extends State<BookingPage> {
                                     onTap: () async {
                                       if (chosenService.name == null) {
                                         setState(() {
-                                          catchErro1 =
-                                              AppLocalizations.of(context)!.translate('notSelected')! + " " + AppLocalizations.of(context)!.translate('service')!;
+                                          catchErro1 = AppLocalizations.of(
+                                                      context)!
+                                                  .translate('notSelected')! +
+                                              " " +
+                                              AppLocalizations.of(context)!
+                                                  .translate('service')!;
                                         });
                                       } else {
                                         final startDate = DateTime.now();
@@ -364,7 +368,24 @@ class _BookingPageState extends State<BookingPage> {
                                         chosenDate = await showDatePicker(
                                             builder: (context, child) {
                                               return Theme(
-                                                  data: Theme.of(context),
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                    textButtonTheme:
+                                                        TextButtonThemeData(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        foregroundColor: Theme.of(context).textTheme.bodyMedium?.color
+                                                            , // button text color
+                                                      ),
+                                                    ),
+                                                    colorScheme:
+                                                         ColorScheme.light(
+                                                      primary: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5), // header background color
+                                                      onPrimary: Colors
+                                                          .black, // header text color
+                                                      onSurface: Theme.of(context).textTheme.bodyMedium!.color!, // body text color
+                                                    ),
+                                                  ),
                                                   child: child!);
                                             },
                                             context: context,
@@ -391,12 +412,21 @@ class _BookingPageState extends State<BookingPage> {
                                               MainAxisAlignment.spaceBetween,
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            const Icon(Icons.access_time_outlined),
+                                            const Icon(
+                                                Icons.access_time_outlined),
                                             Container(
                                               child: Expanded(
                                                 child: Text(
                                                   chosenDate == null
-                                                      ? AppLocalizations.of(context)!.translate('choose')! + " " + AppLocalizations.of(context)!.translate('datetime')!
+                                                      ? AppLocalizations.of(
+                                                                  context)!
+                                                              .translate(
+                                                                  'choose')! +
+                                                          " " +
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .translate(
+                                                                  'datetime')!
                                                       : DateFormat(
                                                               'EEEE, d MMM, yyyy')
                                                           .format(chosenDate!),
@@ -456,13 +486,21 @@ class _BookingPageState extends State<BookingPage> {
                                     onTap: () async {
                                       if (chosenService.id == null) {
                                         setState(() {
-                                          catchErro1 =
-                                              AppLocalizations.of(context)!.translate('notSelected')! + " " + AppLocalizations.of(context)!.translate('service')!;
+                                          catchErro1 = AppLocalizations.of(
+                                                      context)!
+                                                  .translate('notSelected')! +
+                                              " " +
+                                              AppLocalizations.of(context)!
+                                                  .translate('service')!;
                                         });
                                       } else if (chosenDate == null) {
                                         setState(() {
-                                          catchErro2 =
-                                              AppLocalizations.of(context)!.translate('notSelected')! + " " + AppLocalizations.of(context)!.translate('datetime')!;
+                                          catchErro2 = AppLocalizations.of(
+                                                      context)!
+                                                  .translate('notSelected')! +
+                                              " " +
+                                              AppLocalizations.of(context)!
+                                                  .translate('datetime')!;
                                         });
                                       } else {
                                         await context
@@ -578,9 +616,7 @@ class _BookingPageState extends State<BookingPage> {
                                                                         width:
                                                                             2,
                                                                         color: context.watch<BookingProvider>().selectedIndexEmployee == employ['id'].toString()
-                                                                            ? Theme.of(context)
-                                                                                .colorScheme
-                                                                                .secondary
+                                                                            ? Theme.of(context).elevatedButtonTheme.style!.backgroundColor!.resolve({})!
                                                                             : Colors
                                                                                 .transparent),
                                                                     image: DecorationImage(
@@ -627,7 +663,7 @@ class _BookingPageState extends State<BookingPage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
-                                        child:  Row(
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -666,8 +702,9 @@ class _BookingPageState extends State<BookingPage> {
                                         child: Center(
                                           child: CircularProgressIndicator(
                                             color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.color,
                                           ),
                                         ),
                                       );
@@ -725,8 +762,9 @@ class _BookingPageState extends State<BookingPage> {
                                                                   CircularProgressIndicator(
                                                                 color: Theme.of(
                                                                         context)
-                                                                    .colorScheme
-                                                                    .secondary,
+                                                                    .textTheme
+                                                                    .bodyMedium
+                                                                    ?.color,
                                                               ),
                                                             ),
                                                           ),
@@ -901,7 +939,7 @@ class _ShowTimeForBookingState extends State<ShowTimeForBooking> {
                           ? selectedTime == index
                               ? Colors.amber
                               : null
-                          : Theme.of(context).textTheme.titleMedium?.color,
+                          : Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
                       border: Border.all(
                           color: Theme.of(context).colorScheme.secondary),
                       borderRadius: BorderRadius.circular(15)),

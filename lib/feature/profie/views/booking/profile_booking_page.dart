@@ -65,9 +65,9 @@ class _ProfileBookingState extends State<ProfileBooking> {
                 selectedStatusFilter: selectedStatusFilter,
                 services: services),
             body: snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
+                ?  Center(
                     child: CircularProgressIndicator(
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),
                   )
                 : Builder(builder: (context) {
@@ -115,20 +115,23 @@ class _ProfileBookingState extends State<ProfileBooking> {
                                 decoration: const BoxDecoration(),
                                 padding: const EdgeInsets.all(20),
                                 child: TextField(
+                                  cursorColor: Theme.of(context).scaffoldBackgroundColor,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
-                                      ?.copyWith(fontSize: 18),
+                                      ?.copyWith(fontSize: 18,color: Theme.of(context).scaffoldBackgroundColor),
                                   decoration: InputDecoration(
                                     prefixIconConstraints: const BoxConstraints(
                                         minWidth: 32, minHeight: 32),
-                                    prefixIcon: const Padding(
+                                    prefixIcon:  Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
+                                        color: Theme.of(context).scaffoldBackgroundColor,
                                         Icons.search,
                                         size: 24,
                                       ),
                                     ),
+                                    focusColor: Colors.amber,
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: BorderSide.none),
@@ -484,9 +487,9 @@ class _showBookingHistoryState extends State<showBookingHistory> {
             },
             newPageProgressIndicatorBuilder: (context) {
               return Container(
-                child: const Center(
+                child:  Center(
                   child: CircularProgressIndicator(
-                    color: Colors.black,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
               );

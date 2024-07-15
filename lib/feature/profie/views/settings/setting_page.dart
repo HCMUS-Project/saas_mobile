@@ -2,11 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
+import 'package:mobilefinalhcmus/main.dart';
 import 'package:mobilefinalhcmus/provider/app_language_provider.dart';
 import 'package:provider/provider.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
+
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (prefs.getBool("notiSwitch") == null) {
+      prefs.setBool("notiSwitch", false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +49,40 @@ class SettingPage extends StatelessWidget {
                           Expanded(
                               flex: 1,
                               child: Icon(Icons.notifications_none_outlined)),
-                          Expanded(flex: 7, child: Text(AppLocalizations.of(context)!.translate('notification')!)),
+                          Expanded(
+                              flex: 7,
+                              child: Text(AppLocalizations.of(context)!
+                                  .translate('notification')!)),
                           Expanded(
                               flex: 2,
                               child: Container(
                                 child: Switch(
-                                  value: false,
-                                  onChanged: (value) {},
+                                  activeColor: Theme.of(context)
+                                      .elevatedButtonTheme
+                                      .style
+                                      ?.backgroundColor
+                                      ?.resolve({}),
+                                  value: prefs.getBool("notiSwitch")!,
+                                  onChanged: (value) async {
+                                    print(prefs.getBool("notiSwitch")!);
+                                    final notiSwitch =prefs.getBool("notiSwitch");
+                                    try {
+                                      if (!(notiSwitch!)) {
+                                        await MyApp.platform
+                                            .invokeMethod("startSocketService");
+                                      } else {
+                                        await MyApp.platform
+                                            .invokeMethod("stopSocketService");
+                                        print("aaaaa");
+                                      }
+
+                                      await prefs.setBool("notiSwitch",
+                                          !(prefs.getBool("notiSwitch")!));
+                                      setState(() {});
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  },
                                 ),
                               ))
                         ],
@@ -56,7 +98,8 @@ class SettingPage extends StatelessWidget {
                           Expanded(
                               flex: 7,
                               child: Text(
-                                (AppLocalizations.of(context)!.translate('userSettings')!)['country'],
+                                (AppLocalizations.of(context)!
+                                    .translate('userSettings')!)['country'],
                                 style: Theme.of(context).textTheme.bodyMedium,
                               )),
                           Expanded(flex: 2, child: Container())
@@ -76,9 +119,12 @@ class SettingPage extends StatelessWidget {
                             Expanded(flex: 1, child: Icon(Icons.translate)),
                             Expanded(
                                 flex: 7,
-                                child: Text((AppLocalizations.of(context)!.translate('userSettings')!)['language'],
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium)),
+                                child: Text(
+                                    (AppLocalizations.of(context)!.translate(
+                                        'userSettings')!)['language'],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium)),
                             Expanded(
                                 flex: 2,
                                 child: Container(
@@ -89,14 +135,14 @@ class SettingPage extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Builder(
-                                        builder: (context) {
-                                          final language = context.select((AppLanguageProvider value) {
+                                      Builder(builder: (context) {
+                                        final language = context.select(
+                                          (AppLanguageProvider value) {
                                             return value.appLocale;
-                                          },);
-                                          return Text(language.languageCode);
-                                        }
-                                      ),
+                                          },
+                                        );
+                                        return Text(language.languageCode);
+                                      }),
                                     ],
                                   ),
                                 ))
@@ -114,8 +160,11 @@ class SettingPage extends StatelessWidget {
                               flex: 1, child: Icon(Icons.lock_outline_sharp)),
                           Expanded(
                               flex: 7,
-                              child: Text((AppLocalizations.of(context)!.translate('userSettings')!)['changePassword'],
-                                  style: Theme.of(context).textTheme.bodyMedium)),
+                              child: Text(
+                                  (AppLocalizations.of(context)!.translate(
+                                      'userSettings')!)['changePassword'],
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium)),
                           Expanded(
                               flex: 2,
                               child: Icon(Icons.arrow_forward_ios_rounded))
@@ -174,7 +223,8 @@ class SettingPage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: AssetImage("assets/images/united-kingdom.png"),
+                      backgroundImage:
+                          AssetImage("assets/images/united-kingdom.png"),
                     ),
                     Expanded(
                         child: Align(
@@ -183,8 +233,8 @@ class SettingPage extends StatelessWidget {
                           style: TextButton.styleFrom(
                               alignment: Alignment.centerLeft),
                           onPressed: () {
-                             appLanguage.changeLanguage(const Locale('en'));
-                               Navigator.of(context).pop();
+                            appLanguage.changeLanguage(const Locale('en'));
+                            Navigator.of(context).pop();
                           },
                           child: Text(
                             "English",
