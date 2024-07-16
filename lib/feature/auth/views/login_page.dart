@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context)!.translate('register')!,
                 style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    TextStyle(fontWeight: FontWeight.bold, color: context.read<ThemeProvider>().theme?.headerTextColor,),
               ),
             ),
           )

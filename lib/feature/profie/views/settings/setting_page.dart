@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/main.dart';
 import 'package:mobilefinalhcmus/provider/app_language_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
@@ -65,22 +68,41 @@ class _SettingPageState extends State<SettingPage> {
                                   value: prefs.getBool("notiSwitch")!,
                                   onChanged: (value) async {
                                     print(prefs.getBool("notiSwitch")!);
-                                    final notiSwitch =prefs.getBool("notiSwitch");
-                                    try {
-                                      if (!(notiSwitch!)) {
-                                        await MyApp.platform
-                                            .invokeMethod("startSocketService");
-                                      } else {
-                                        await MyApp.platform
-                                            .invokeMethod("stopSocketService");
-                                        print("aaaaa");
-                                      }
+                                    final notiSwitch =
+                                        prefs.getBool("notiSwitch");
 
-                                      await prefs.setBool("notiSwitch",
-                                          !(prefs.getBool("notiSwitch")!));
-                                      setState(() {});
-                                    } catch (e) {
-                                      print(e);
+                                    PermissionStatus notiPermissionStatus =
+                                        await Permission.notification.status;
+                                    print(notiPermissionStatus);
+                                    if (!notiPermissionStatus.isGranted) {
+                                      print("Notification");
+                                      if (notiPermissionStatus ==
+                                          PermissionStatus.permanentlyDenied) {
+                                        Fluttertoast.showToast(
+                                            msg: "Turn on notification in setting",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            
+                                            fontSize: 16.0);
+                                      }
+                                      await Permission.notification.request();
+                                    } else {
+                                      try {
+                                        if (!(notiSwitch!)) {
+                                          await MyApp.platform.invokeMethod(
+                                              "startSocketService");
+                                        } else {
+                                          await MyApp.platform.invokeMethod(
+                                              "stopSocketService");
+                                        }
+
+                                        await prefs.setBool("notiSwitch",
+                                            !(prefs.getBool("notiSwitch")!));
+                                        setState(() {});
+                                      } catch (e) {
+                                        print(e);
+                                      }
                                     }
                                   },
                                 ),

@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -23,19 +24,20 @@ import java.io.IOException
 class SocketBackgroundServce:Service() {
 
     private lateinit var socket: Socket
-    private  val CHANNEL_ID = "SocketChannel"
+    private  val CHANNEL_ID = "SocketChannel123"
     private  val CHANNEL_NAME = "Socket Notifications"
     private  val CHANNEL_DESCRIPTION = "Socket Notification Channel"
-    private val notificationId = 1
-
+    private val notificationId = 2
+    private val domain = com.example.mobilefinalhcmus.BuildConfig.DOMAIN
     override fun equals(other: Any?): Boolean {
         return super.equals(other)
+
     }
 
     override fun onCreate() {
 
         super.onCreate()
-
+        println(com.example.mobilefinalhcmus.BuildConfig.DOMAIN)
         createNotificationChannel()
         startForeground(notificationId, createNotification("Service is running"))
         initializeSocket()
@@ -43,11 +45,12 @@ class SocketBackgroundServce:Service() {
 
     private fun initializeSocket (){
         try {
+            println("booking-notify/${domain}")
             socket = IO.socket("https://notify.nvukhoi.id.vn/")
             socket.on(Socket.EVENT_CONNECT, Emitter.Listener {
                 Log.d("SocketIOService", "Socket connected")
                 updateNotification("Socket connected")
-            }).on("events", Emitter.Listener {
+            }).on("booking-notify/${domain}", Emitter.Listener {
                 println(it.size)
                 Log.d("SocketIOService", it.size.toString())
                 updateNotification(it.get(0).toString())
@@ -98,7 +101,7 @@ class SocketBackgroundServce:Service() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("navigateTo", "specificPage")
         }
-
+        
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Socket IO Service")

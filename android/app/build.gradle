@@ -22,9 +22,19 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def loadEnv() {
+    Properties properties = new Properties()
+    file('../../.env').withInputStream { stream ->
+        properties.load(stream)
+    }
+    return properties
+}
+
+def env = loadEnv()
+
 android {
     namespace "com.example.mobilefinalhcmus"
-    compileSdkVersion 34
+    compileSdk 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -40,19 +50,24 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.mobilefinalhcmus"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 24
+        targetSdkVersion 34
         // versionCode System.getenv('APPCENTER_BUILD_ID').toInteger()
         // versionName flutterVersionName
-        // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //  testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        buildConfigField "String", "DOMAIN", "${env['DOMAIN']}"
     }
 
     signingConfigs {
@@ -64,20 +79,42 @@ android {
         }
     }
     
+    
     buildTypes {
         release {
             signingConfig signingConfigs.release
         }
         debug {
             signingConfig signingConfigs.debug
+
         }
     }
+
+    // flavorDimensions += "app"
+
+    // productFlavors {
+    //     cookie {
+    //         dimension "app"
+    //         resValue "string", "domain", "30shine.com"
+    //         applicationId "com.example.mobilefinalhcmus.cookie"
+    //         versionCode 1
+    //         versionName "1.0"
+    //         buildConfigField "String", "DOMAIN", "${env['DOMAIN']}"
+    //     }
+
+    //     coffee {
+    //         dimension "app"
+    //         applicationId "com.example.mobilefinalhcmus.coffee"
+    //         versionCode 1
+    //         versionName "1.0"
+    //     }
+    // }
 }
-configurations {
-    all {
-        exclude group: 'org.json', module: 'json'
-    }
-}
+ configurations {
+     all {
+         exclude group: 'org.json', module: 'json'
+     }
+ }
 flutter {
     source '../..'
 }

@@ -50,6 +50,14 @@
         "bookingDetail": "Booking Detail",
         "header":"Let's find your booking!"
     },
+
+    "bookingPage": {
+        "use": "use",
+        "booking": "booking"
+        
+    },
+    "to": "to",
+    "must": "You must",
     "areYouSureToCancel":"Are you sure to want to cancel ?",
     "filter":"Filter",
     "note":"Note",

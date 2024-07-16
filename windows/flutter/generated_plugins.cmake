@@ -6,7 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   flutter_localization
   geolocator_windows
-  smart_auth
+  permission_handler_windows
   url_launcher_windows
 )
 

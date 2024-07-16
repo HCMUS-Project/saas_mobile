@@ -51,6 +51,13 @@
         "bookingDetail": "Chi tiết lịch hẹn",
         "header":"Hãy tìm lịch hẹn của bạn!"
     },
+
+    "bookingPage": {
+        "use": "sử dụng",
+         "booking": "lên lịch"
+    },
+    "to": "để",
+    "must": "Bạn phải",
     "areYouSureToCancel":"Bạn có chắc là muốn hủy không ?",
     "cancel":"Hủy",
     "filter":"Lọc",

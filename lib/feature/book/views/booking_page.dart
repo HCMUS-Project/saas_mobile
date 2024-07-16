@@ -16,6 +16,7 @@ import 'package:mobilefinalhcmus/feature/shop/models/voucher_model.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/helper/cal_discount.dart';
 import 'package:mobilefinalhcmus/helper/time_slot.dart';
+import 'package:mobilefinalhcmus/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -64,14 +65,17 @@ class _BookingPageState extends State<BookingPage> {
                   height: size.height * 0.2,
                   width: size.width * 0.5,
                   child: Material(
+                    elevation: 1,
                     borderRadius: BorderRadius.circular(15),
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: context.read<ThemeProvider>().theme?.buttonColor?.withOpacity(0.5),
                     child: Column(
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 6,
                           child: Image(
-                            image: AssetImage("assets/images/logo_0.png"),
+                            height: 64,
+                            width: 64,
+                            image: NetworkImage(context.read<ThemeProvider>().tenant?.tenantProfile?.logo ?? ""),
                           ),
                         ),
                         Expanded(
@@ -79,11 +83,12 @@ class _BookingPageState extends State<BookingPage> {
                           child: Container(
                             alignment: Alignment.topCenter,
                             child: Text(
-                              "Login to use app",
+                              "${AppLocalizations.of(context)!.translate('login')!}  ${AppLocalizations.of(context)!.translate('to')! } ${(AppLocalizations.of(context)!.translate('bookingPage')!)['use']}",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
+                                    color: context.read<ThemeProvider>().theme?.buttonTextColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),
@@ -186,8 +191,8 @@ class _BookingPageState extends State<BookingPage> {
       ),
       body: authenticateProvider.token == null
           ? Container(
-              child: const Center(
-                child: Text("You must login to booking"),
+              child:  Center(
+                child: Text("${AppLocalizations.of(context)!.translate('login')!}  ${AppLocalizations.of(context)!.translate('to')! } ${(AppLocalizations.of(context)!.translate('bookingPage')!)['booking']}"),
               ),
             )
           : Container(
