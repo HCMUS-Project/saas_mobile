@@ -104,7 +104,7 @@ class AuthenticateProvider extends ChangeNotifier {
       httpResponseFlutter.update(isLoading: true);
       notifyListeners();
       Map<String, dynamic> data = {};
-      data['device'] = "mobile";
+
       data['username'] = username;
       data['phone'] = phone;
       data['domain'] = domain;

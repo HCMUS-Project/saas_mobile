@@ -179,6 +179,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
         items: [
           FlashyTabBarItem(
+            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!
@@ -187,6 +188,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             title: const Text('Home'),
           ),
           FlashyTabBarItem(
+            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!
@@ -195,6 +197,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             title: const Text('Shop'),
           ),
           FlashyTabBarItem(
+            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!
@@ -207,6 +210,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           //   title: Text('Service'),
           // ),
           FlashyTabBarItem(
+            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!

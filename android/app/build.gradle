@@ -90,25 +90,23 @@ android {
         }
     }
 
-    // flavorDimensions += "app"
+    flavorDimensions += "app"
 
-    // productFlavors {
-    //     cookie {
-    //         dimension "app"
-    //         resValue "string", "domain", "30shine.com"
-    //         applicationId "com.example.mobilefinalhcmus.cookie"
-    //         versionCode 1
-    //         versionName "1.0"
-    //         buildConfigField "String", "DOMAIN", "${env['DOMAIN']}"
-    //     }
+    productFlavors {
+        cookie {
+            dimension "app"
+            applicationId "com.example.mobilefinalhcmus.cookie"
+            versionCode 1
+            versionName "1.0"
+        }
 
-    //     coffee {
-    //         dimension "app"
-    //         applicationId "com.example.mobilefinalhcmus.coffee"
-    //         versionCode 1
-    //         versionName "1.0"
-    //     }
-    // }
+        coffee {
+            dimension "app"
+            applicationId "com.example.mobilefinalhcmus.coffee"
+            versionCode 1
+            versionName "1.0"
+        }
+    }
 }
  configurations {
      all {
@@ -121,4 +119,5 @@ flutter {
 
 dependencies {
     implementation ('io.socket:socket.io-client:2.0.0')
+    implementation("com.google.code.gson:gson:2.8.9")
 }

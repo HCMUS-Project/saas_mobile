@@ -97,8 +97,8 @@ class ProductWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(child: Text(product.category![0]['name'])),
-                      Expanded(child: Text(product.name!)),
+                      Text(product.category![0]['name']),
+                      Text(product.name!, maxLines: 2, overflow: TextOverflow.ellipsis,),
                       Expanded(
                         child: Align(
                           alignment: Alignment.center,

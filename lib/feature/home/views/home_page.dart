@@ -232,8 +232,7 @@ class _CarosselWidgetState extends State<CarosselWidget> {
   @override
   Widget build(BuildContext context) {
     print("build carrosel");
-    final banners =
-        context.select((HomeProvider homeProvider) => homeProvider.banners);
+    final banners = context.select((HomeProvider homeProvider) => homeProvider.banners);
 
     return Column(
       children: [

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/main.dart';
 import 'package:mobilefinalhcmus/provider/app_language_provider.dart';
@@ -79,29 +80,47 @@ class _SettingPageState extends State<SettingPage> {
                                       if (notiPermissionStatus ==
                                           PermissionStatus.permanentlyDenied) {
                                         Fluttertoast.showToast(
-                                            msg: "Turn on notification in setting",
+                                            msg:
+                                                "Turn on notification in setting",
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 1,
-                                            
                                             fontSize: 16.0);
                                       }
                                       await Permission.notification.request();
                                     } else {
-                                      try {
-                                        if (!(notiSwitch!)) {
-                                          await MyApp.platform.invokeMethod(
-                                              "startSocketService");
-                                        } else {
-                                          await MyApp.platform.invokeMethod(
-                                              "stopSocketService");
-                                        }
+                                      final token = context
+                                          .read<AuthenticateProvider>()
+                                          .token;
+                                      Map<String, dynamic>? profile;
+                                      if (token != null) {
+                                        profile = context
+                                            .read<AuthenticateProvider>()
+                                            .profile;
 
-                                        await prefs.setBool("notiSwitch",
-                                            !(prefs.getBool("notiSwitch")!));
-                                        setState(() {});
-                                      } catch (e) {
-                                        print(e);
+                                        try {
+                                          if (!(notiSwitch!)) {
+                                            await MyApp.platform.invokeMethod(
+                                                "startSocketService",
+                                                {'email': profile?['email']});
+                                          } else {
+                                            await MyApp.platform.invokeMethod(
+                                                "stopSocketService");
+                                          }
+
+                                          await prefs.setBool("notiSwitch",
+                                              !(prefs.getBool("notiSwitch")!));
+                                          setState(() {});
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      }else{
+                                        Fluttertoast.showToast(
+                                            msg: "You must login to turn on notification",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            fontSize: 16.0);
                                       }
                                     }
                                   },

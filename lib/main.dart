@@ -31,7 +31,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 late SharedPreferences prefs;
 final appLinks = AppLinks();
 
-void main() async {
+void mainCommon() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

@@ -14,21 +14,24 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 
 import java.io.IOException
 
-class SocketBackgroundServce:Service() {
+class SocketBackgroundServce : Service() {
 
     private lateinit var socket: Socket
-    private  val CHANNEL_ID = "SocketChannel123"
-    private  val CHANNEL_NAME = "Socket Notifications"
-    private  val CHANNEL_DESCRIPTION = "Socket Notification Channel"
-    private val notificationId = 2
+    private val CHANNEL_ID = "SocketChannel123"
+    private val CHANNEL_NAME = "Socket Notifications"
+    private val CHANNEL_DESCRIPTION = "Socket Notification Channel"
+    private val notificationId = 4
     private val domain = com.example.mobilefinalhcmus.BuildConfig.DOMAIN
+    private var profile: Map<String, Any>? = null
+    var gson = Gson()
     override fun equals(other: Any?): Boolean {
         return super.equals(other)
 
@@ -37,31 +40,46 @@ class SocketBackgroundServce:Service() {
     override fun onCreate() {
 
         super.onCreate()
-        println(com.example.mobilefinalhcmus.BuildConfig.DOMAIN)
+        println(domain)
+        val sharedPrefer = getSharedPreferences("FlutterSharedPreferences", MODE_PRIVATE).all
+        if (sharedPrefer != null) {
+
+            val type = object : TypeToken<Map<String, Any?>>() {}.type
+            val jsonData: Map<String, Any?> = gson.fromJson(sharedPrefer.get("flutter.profile").toString(), type)
+            this.profile = jsonData as Map<String, Any>?
+
+        }
+
         createNotificationChannel()
-        startForeground(notificationId, createNotification("Service is running"))
+        startForeground(notificationId, createNotification("{\"content\": \"Socket is running\"}"))
         initializeSocket()
     }
 
-    private fun initializeSocket (){
+    private fun initializeSocket() {
         try {
             println("booking-notify/${domain}")
             socket = IO.socket("https://notify.nvukhoi.id.vn/")
             socket.on(Socket.EVENT_CONNECT, Emitter.Listener {
-                Log.d("SocketIOService", "Socket connected")
-                updateNotification("Socket connected")
-            }).on("booking-notify/${domain}", Emitter.Listener {
-                println(it.size)
-                Log.d("SocketIOService", it.size.toString())
-                updateNotification(it.get(0).toString())
+                Log.d("SocketIOService", "{\"content\": \"Socket is connected\"}")
+
             })
-        }catch (e: IOException){
+            if (this.profile != null){
+                println("booking-notify/${domain}/${this.profile?.get("email")}")
+                socket.on("booking-notify/${domain}/${this.profile?.get("email")}", Emitter.Listener {
+                    Log.d("SocketIOService", it.size.toString())
+                    updateNotification(it.get(0).toString())
+                })
+            }
+
+        } catch (e: IOException) {
 
         }
     }
+
     private fun connectSocket() {
         socket.connect()
     }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
         when (action) {
@@ -69,15 +87,17 @@ class SocketBackgroundServce:Service() {
                 connectSocket()
 
             }
+
             "STOP_SOCKET" -> disconnectSocket()
         }
 
         return START_STICKY
     }
+
     private fun disconnectSocket() {
-        if (socket != null){
+        if (socket != null) {
             socket.disconnect()
-            updateNotification("Socket disconnected")
+            updateNotification("{\"content\": \"Socket is disconnected\"}")
         }
 
 
@@ -86,32 +106,28 @@ class SocketBackgroundServce:Service() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             println("Create chanel")
-            val serviceChannel = NotificationChannel(
-                    CHANNEL_ID,
-                    "Socket IO Service Channel",
-                    NotificationManager.IMPORTANCE_HIGH
-            )
+            val serviceChannel = NotificationChannel(CHANNEL_ID, "Socket IO Service Channel", NotificationManager.IMPORTANCE_HIGH)
             val manager = NotificationManagerCompat.from(this)
             manager.createNotificationChannel(serviceChannel)
         }
     }
 
     private fun createNotification(content: String): Notification {
+
+        val toJson = gson.toJson(content.toString())
+
+        val type = object : TypeToken<Map<String, Any>>() {}.type
+        val jsonData: Map<String, Any> = gson.fromJson(content, type)
+
+
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("navigateTo", "specificPage")
         }
-        
+
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        return NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Socket IO Service")
-                .setContentText(content)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(content))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setAutoCancel(true)// Make sure this icon exists
+        return NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle(domain).setContentText((jsonData.get("type")
+                ?: jsonData.get("content")) as String).setStyle(NotificationCompat.BigTextStyle().bigText(content)).setSmallIcon(R.mipmap.ic_launcher).setDefaults(Notification.DEFAULT_ALL).setContentIntent(pendingIntent).setPriority(NotificationCompat.PRIORITY_MAX).setAutoCancel(true)// Make sure this icon exists
                 .build()
     }
 
@@ -134,10 +150,11 @@ class SocketBackgroundServce:Service() {
 
         notificationManager.notify(notificationId, notification)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         socket.disconnect()
-        updateNotification("Service destroyed")
+        updateNotification("{\"content\": \"Service is destroyed\"}")
     }
 
     override fun onBind(intent: Intent?): IBinder? {

@@ -24,6 +24,7 @@ class MainActivity: FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger,CHANNEL).setMethodCallHandler { call, result ->
             if(call.method == "startSocketService"){
                 println("start socket")
+
                 startSocketService()
                 result.success(null)
             }else if( call.method == "stopSocketService")

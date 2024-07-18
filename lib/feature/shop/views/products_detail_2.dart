@@ -40,6 +40,9 @@ class _ProductDetail2State extends State<ProductDetail2>
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).appBarTheme.titleTextStyle?.color
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Column(
@@ -131,7 +134,7 @@ class _ProductDetail2State extends State<ProductDetail2>
                         ),
                         ReadMoreText(
                           delimiterStyle:
-                              const TextStyle(overflow: TextOverflow.fade),
+                               TextStyle(overflow: TextOverflow.fade, color: Theme.of(context).textTheme.bodyLarge?.color),
                           product.description!,
                           trimMode: TrimMode.Line,
                           trimLines: 2,

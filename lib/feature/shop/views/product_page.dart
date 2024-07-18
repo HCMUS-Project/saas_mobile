@@ -12,6 +12,7 @@ import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/auth/views/login_page.dart';
 import 'package:mobilefinalhcmus/feature/cart/provider/cart_provider.dart';
 import 'package:mobilefinalhcmus/feature/cart/views/cart_page.dart';
+import 'package:mobilefinalhcmus/feature/home/provider/home_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/models/product_model.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/views/products_detail_2.dart';
@@ -108,9 +109,9 @@ class _ProductPageState extends State<ProductPage> {
                         child: Container(
                           height: widthContainer,
                           decoration: BoxDecoration(
-                              image: const DecorationImage(
+                              image:  DecorationImage(
                                   image: NetworkImage(
-                                      "https://cdn.shopify.com/s/files/1/2384/0833/files/1_Quiff_1024x1024.jpg?v=1668876008"),
+                                      context.read<HomeProvider>().banners[0]['image']),
                                   fit: BoxFit.fill),
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(30)),
@@ -206,167 +207,175 @@ class ShowCategoryOfProduct extends StatelessWidget {
                           ),
                           child: Column(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  width: widthContainer,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: widthContainer,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    product.image![0]),
-                                                fit: BoxFit.fill)),
-                                      ),
-                                      Text(
-                                        product.name!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                              flex: 3,
-                                              child: Container(
-                                                child: Text(
-                                                    CurrencyConfig.convertTo(
-                                                            price: product.price!)
-                                                        .toString()),
-                                              )),
-                                          Expanded(
-                                              flex: 7,
-                                              child: Builder(builder: (context) {
-                                                return Container(
-                                                  child: ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        shape:
-                                                            const RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.all(Radius.circular(5))
-                                                            ),
-                                                      ),
-                                                      onPressed:
-                                                          product.quantity! > 0
-                                                              ? () async {
-                                                                  if (context
-                                                                          .read<
-                                                                              AuthenticateProvider>()
-                                                                          .token !=
-                                                                      null) {
-                                                                    await context.read<CartProvider>().addToCart(
-                                                                        product:
-                                                                            product,
-                                                                        quantity:
-                                                                            1,
-                                                                        token: context
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    width: widthContainer,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: widthContainer,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      product.image![0]),
+                                                  fit: BoxFit.fill)),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            product.name!,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                  flex: 3,
+                                                  child: Container(
+                                                    child: Text(
+                                                        CurrencyConfig.convertTo(
+                                                                price: product.price!)
+                                                            .toString()),
+                                                  )),
+                                              Expanded(
+                                                  flex: 7,
+                                                  child: Builder(builder: (context) {
+                                                    return Container(
+                                                      child: ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            shape:
+                                                                const RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.all(Radius.circular(5))
+                                                                ),
+                                                          ),
+                                                          onPressed:
+                                                              product.quantity! > 0
+                                                                  ? () async {
+                                                                      if (context
+                                                                              .read<
+                                                                                  AuthenticateProvider>()
+                                                                              .token !=
+                                                                          null) {
+                                                                        await context.read<CartProvider>().addToCart(
+                                                                            product:
+                                                                                product,
+                                                                            quantity:
+                                                                                1,
+                                                                            token: context
+                                                                                .read<
+                                                                                    AuthenticateProvider>()
+                                                                                .token!);
+                                                                        final result = context
                                                                             .read<
-                                                                                AuthenticateProvider>()
-                                                                            .token!);
-                                                                    final result = context
-                                                                        .read<
-                                                                            CartProvider>()
-                                                                        .httpResponseFlutter
-                                                                        .result;
-                          
-                                                                    if (result !=
-                                                                        null) {
-                                                                      final controller =
-                                                                          showOverlay(
-                                                                              context:
-                                                                                  context,
-                                                                              child:
-                                                                                  Container(
-                                                                                alignment: Alignment.center,
-                                                                                child: SizedBox(
-                                                                                  height: size.height * 0.2,
-                                                                                  width: size.width * 0.5,
-                                                                                  child: Material(
-                                                                                      borderRadius: BorderRadius.circular(15),
-                                                                                      elevation: 1,
-                                                                                      color: Theme.of(context).colorScheme.secondary.withAlpha(150),
-                                                                                      child: Column(
-                                                                                        children: [
-                                                                                          Expanded(
-                                                                                            flex: 8,
-                                                                                            child: Container(
-                                                                                              child: Image(
-                                                                                                height: 32,
-                                                                                                width: 32,
-                                                                                                image: NetworkImage((context.read<ThemeProvider>().tenant?.tenantProfile?.logo)!),
+                                                                                CartProvider>()
+                                                                            .httpResponseFlutter
+                                                                            .result;
+                                                              
+                                                                        if (result !=
+                                                                            null) {
+                                                                          final controller =
+                                                                              showOverlay(
+                                                                                  context:
+                                                                                      context,
+                                                                                  child:
+                                                                                      Container(
+                                                                                    alignment: Alignment.center,
+                                                                                    child: SizedBox(
+                                                                                      height: size.height * 0.2,
+                                                                                      width: size.width * 0.5,
+                                                                                      child: Material(
+                                                                                          borderRadius: BorderRadius.circular(15),
+                                                                                          elevation: 1,
+                                                                                          color: Theme.of(context).colorScheme.secondary.withAlpha(150),
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              Expanded(
+                                                                                                flex: 8,
+                                                                                                child: Container(
+                                                                                                  child: Image(
+                                                                                                    height: 32,
+                                                                                                    width: 32,
+                                                                                                    image: NetworkImage((context.read<ThemeProvider>().tenant?.tenantProfile?.logo)!),
+                                                                                                  ),
+                                                                                                ),
                                                                                               ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Expanded(
-                                                                                            flex: 2,
-                                                                                            child: Container(
-                                                                                              child: Text(
-                                                                                                "Add success",
-                                                                                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-                                                                                              ),
-                                                                                            ),
-                                                                                          )
-                                                                                        ],
-                                                                                      )),
-                                                                                ),
-                                                                              ));
-                                                                      controller[
-                                                                          "show"]();
-                                                                      await Future.delayed(const Duration(
-                                                                          seconds:
-                                                                              1));
-                                                                      controller[
-                                                                          'hide']();
+                                                                                              Expanded(
+                                                                                                flex: 2,
+                                                                                                child: Container(
+                                                                                                  child: Text(
+                                                                                                    "Add success",
+                                                                                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              )
+                                                                                            ],
+                                                                                          )),
+                                                                                    ),
+                                                                                  ));
+                                                                          controller[
+                                                                              "show"]();
+                                                                          await Future.delayed(const Duration(
+                                                                              seconds:
+                                                                                  1));
+                                                                          controller[
+                                                                              'hide']();
+                                                                        }
+                                                                      } else {
+                                                                        Navigator.of(
+                                                                                context)
+                                                                            .push(
+                                                                                MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) {
+                                                                            return LoginPage();
+                                                                          },
+                                                                        ));
+                                                                      }
                                                                     }
-                                                                  } else {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .push(
-                                                                            MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) {
-                                                                        return LoginPage();
-                                                                      },
-                                                                    ));
-                                                                  }
-                                                                }
-                                                              : null,
-                                                      child: product.quantity! > 0
-                                                          ? Text(
-                                                              AppLocalizations.of(context)!.translate('addToCart')!,
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyMedium
-                                                                  ?.copyWith(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .white),
-                                                            )
-                                                          : Text(
-                                                              "Sold out",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyMedium
-                                                                  ?.copyWith(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .white),
-                                                            )),
-                                                );
-                                              })),
-                                        ],
-                                      )
-                                    ],
+                                                                  : null,
+                                                          child: product.quantity! > 0
+                                                              ? Text(
+                                                                  AppLocalizations.of(context)!.translate('addToCart')!,
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium
+                                                                      ?.copyWith(
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .bold,
+                                                                          color: Colors
+                                                                              .white),
+                                                                )
+                                                              : Text(
+                                                                  "Sold out",
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium
+                                                                      ?.copyWith(
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .bold,
+                                                                          color: Colors
+                                                                              .white),
+                                                                )),
+                                                    );
+                                                  })),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -605,35 +614,46 @@ class _ShowProductState extends State<ShowProduct> {
                       children: [
                         Text(
                           product.name!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(
+                                
+                                fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          product.description!,
-                          maxLines: 1,
-                          textAlign: TextAlign.start,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        RatingBar(
-                          ignoreGestures: true,
-                          itemPadding: const EdgeInsets.all(2),
-                          itemSize: 18.0,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          initialRating: product.rating!,
-                          ratingWidget: RatingWidget(
-                            full: Image.asset('assets/images/star_full.png', height: 32,width: 32,),
-                            half: Image.asset('assets/images/star_half.png', height: 32,width: 32,),
-                            empty: Image.asset('assets/images/star_border.png', height: 32,width: 32,),
+                        Expanded(
+                          child: Text(
+                            product.description!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          onRatingUpdate: (value) {},
                         ),
-                        Text(CurrencyConfig.convertTo(price: product.price!)
-                            .toString())
+                        Expanded(
+                          child: RatingBar(
+                            ignoreGestures: true,
+                            itemPadding: const EdgeInsets.all(2),
+                            itemSize: 18.0,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            initialRating: product.rating!,
+                            ratingWidget: RatingWidget(
+                              full: Image.asset('assets/images/star_full.png', height: 32,width: 32,),
+                              half: Image.asset('assets/images/star_half.png', height: 32,width: 32,),
+                              empty: Image.asset('assets/images/star_border.png', height: 32,width: 32,),
+                            ),
+                            onRatingUpdate: (value) {},
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(CurrencyConfig.convertTo(price: product.price!)
+                              .toString()),
+                        )
                       ],
                     ),
                   ),
