@@ -39,12 +39,14 @@ class PinWidget extends StatelessWidget {
   String? Function()? validator;
   String? validateValue;
   String? email;
+  String? password;
   PinWidget(
     {
       super.key,
       this.validator,
       this.validateValue,
-      this.email
+      this.email,
+      this.password
     }
   );
 
@@ -60,7 +62,14 @@ class PinWidget extends StatelessWidget {
       //   return value == validateValue ? "correct" : "opt is invalid";
       // },
       onCompleted: (value) async{
-        await context.read<AuthenticateProvider>().verifyOtp(domain: context.read<AuthenticateProvider>().domain!, email: email!, otp: value);
+        print(value);
+        print(password);
+        if (password == null){
+          await context.read<AuthenticateProvider>().verifyOtp(domain: context.read<AuthenticateProvider>().domain!, email: email!, otp: value);
+        }else{
+          await context.read<AuthenticateProvider>().verifyForgotPasswordOtp(domain: context.read<AuthenticateProvider>().domain!, email: email!,password: password!, otp: value);
+        }
+
         final errorMessage = context.read<AuthenticateProvider>().httpResponseFlutter.errorMessage;
         if (errorMessage != null){
           ScaffoldMessenger.of(context).showSnackBar(
@@ -72,9 +81,8 @@ class PinWidget extends StatelessWidget {
         }else{
           validateValue = context.read<AuthenticateProvider>().httpResponseFlutter.result?['result'];
           // validator!();
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
-            return LoginPage();
-          },), (route) => false);
+          Navigator.of(context).popUntil(ModalRoute.withName("/home"));
+          
         }
       },
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,

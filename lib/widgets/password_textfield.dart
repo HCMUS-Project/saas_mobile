@@ -5,9 +5,11 @@ class PasswordFielddWidget extends StatefulWidget {
    PasswordFielddWidget({
     super.key,
     this.controller,
-    this.validator
+    this.validator,
+    this.hintText
   });
   TextEditingController? controller;
+  String ? hintText;
   final FormFieldValidator? validator;
   @override
   State<PasswordFielddWidget> createState() => _PasswordFielddWidgetState();
@@ -25,7 +27,7 @@ class _PasswordFielddWidgetState extends State<PasswordFielddWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: Theme.of(context).colorScheme.secondary,
+      cursorColor: Theme.of(context).textTheme.bodyMedium?.color,
       validator: widget.validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: widget.controller,
@@ -39,7 +41,7 @@ class _PasswordFielddWidgetState extends State<PasswordFielddWidget> {
           border: const OutlineInputBorder(
             borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(30))),
-          hintText: AppLocalizations.of(context)!.translate('loginPassword')!,
+          hintText: widget.hintText ?? AppLocalizations.of(context)!.translate('loginPassword')!,
           filled: true,
           fillColor: Colors.grey.shade200,
           suffixIcon: IconButton(

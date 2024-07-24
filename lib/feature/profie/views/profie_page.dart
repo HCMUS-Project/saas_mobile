@@ -230,11 +230,7 @@ class ShowProfile extends StatelessWidget {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return LoginPage();
-                              },
-                            ));
+                            Navigator.of(context).pushNamed("/auth/login");
                           },
                           child: Text(
                             AppLocalizations.of(context)!.translate('login')!,

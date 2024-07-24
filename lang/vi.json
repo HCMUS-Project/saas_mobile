@@ -56,6 +56,11 @@
         "use": "sử dụng",
          "booking": "lên lịch"
     },
+    "confirmPassword": "xác nhận mật khẩu",
+    "password": "mật khẩu",
+    "newPassword":"mật khẩu mới",
+    "currentPassword": "mật khẩu hiện tại",
+    "enter": "nhập" ,
     "to": "để",
     "must": "Bạn phải",
     "areYouSureToCancel":"Bạn có chắc là muốn hủy không ?",
@@ -84,5 +89,7 @@
     "voucher":"Mã giảm giá",
     "logout": "Đăng xuất",
     "yes": "Có",
-    "no":"Không"
+    "no":"Không",
+    "new": "mới",
+    "email":"Email"
 }

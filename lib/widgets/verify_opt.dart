@@ -6,12 +6,13 @@ class VerifyOtp extends StatefulWidget {
     {
       super.key,
       required this.email,
-      required this.style
+      required this.style,
+      this.password
     }
   );
   String email;
   String style;
-
+  String ? password;
   @override
   State<VerifyOtp> createState() => _VerifyOtpState();
 }
@@ -69,6 +70,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 ),
                 PinWidget(
                   email: widget.email,
+                  password: widget.password,
                   validator: () {
                     setState(() {
                       checkValidate = true;
@@ -106,6 +108,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         ),)
                         ,onPressed: (){
                           if (widget.style == "sign-up"){
+                            
+                          }
+                          else if (widget.style == "change-password"){
                             
                           }
                           else{

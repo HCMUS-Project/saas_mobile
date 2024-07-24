@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
+import 'package:mobilefinalhcmus/feature/profie/views/change_password/views/change_password.dart';
 import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:mobilefinalhcmus/main.dart';
 import 'package:mobilefinalhcmus/provider/app_language_provider.dart';
@@ -193,23 +194,30 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              flex: 1, child: Icon(Icons.lock_outline_sharp)),
-                          Expanded(
-                              flex: 7,
-                              child: Text(
-                                  (AppLocalizations.of(context)!.translate(
-                                      'userSettings')!)['changePassword'],
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium)),
-                          Expanded(
-                              flex: 2,
-                              child: Icon(Icons.arrow_forward_ios_rounded))
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          return ChangePassword();
+                        },));
+                      },
+                      child: Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                                flex: 1, child: Icon(Icons.lock_outline_sharp)),
+                            Expanded(
+                                flex: 7,
+                                child: Text(
+                                    (AppLocalizations.of(context)!.translate(
+                                        'userSettings')!)['changePassword'],
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium)),
+                            Expanded(
+                                flex: 2,
+                                child: Icon(Icons.arrow_forward_ios_rounded))
+                          ],
+                        ),
                       ),
                     ),
                   )

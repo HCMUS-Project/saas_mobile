@@ -14,7 +14,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: Theme.of(context).colorScheme.secondary,
+      cursorColor: Theme.of(context).textTheme.bodyMedium?.color,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
@@ -22,7 +22,6 @@ class CustomTextField extends StatelessWidget {
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),
           borderSide: BorderSide.none
-          // borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid)
         ),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(30)),

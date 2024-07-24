@@ -93,6 +93,42 @@ class AuthenticateProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> verifyForgotPasswordOtp(
+      {required String domain,
+      required String email,
+      required String password,
+      required String otp}) async {
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      Map<String, dynamic> data = {};
+      data['domain'] = domain;
+      data['email'] = email;
+      data['otp'] = otp;
+      data['newpassword'] = password;
+      final rs = await http.post(
+        Uri.parse("${dotenv.env['HTTP_URI']}auth/forgot-password"),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: json.encode(data),
+      );
+
+      final resBody = json.decode(rs.body);
+      if (resBody['statusCode'] >= 400) {
+        throw FlutterException(resBody['message'], resBody['statusCode']);
+      }
+
+      httpResponseFlutter.update(
+          result: resBody['data'], statusCode: resBody['statusCode']
+          );
+    } on FlutterException catch (e) {
+      httpResponseFlutter.update(
+          statusCode: e.toJson()['statusCode'],
+          errorMessage: e.toJson()['message']);
+    }
+  }
+
   Future<void> registerWithPassword(
       {required String phone,
       required String email,
@@ -143,9 +179,7 @@ class AuthenticateProvider extends ChangeNotifier {
       required String password}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
-      httpResponseFlutter.update(
-        isLoading: true
-      );
+      httpResponseFlutter.update(isLoading: true);
       notifyListeners();
       Map<String, dynamic> data = {};
       data['domain'] = domain;
@@ -169,9 +203,9 @@ class AuthenticateProvider extends ChangeNotifier {
       notifyListeners();
       Map<String, dynamic> decodedToken =
           JwtDecoder.decode(httpResponseFlutter.result?['accessToken']);
-      
+
       await prefs.setString("domain", domain);
-      
+
       await prefs.setString(
           "token", httpResponseFlutter.result?['accessToken']);
       await prefs.setString(
@@ -181,16 +215,13 @@ class AuthenticateProvider extends ChangeNotifier {
 
       await prefs.setString(
           "username", httpResponseFlutter.result?['username']);
-        
     } on FlutterException catch (e) {
       print(e);
       httpResponseFlutter.update(
         errorMessage: e.toJson()['message'],
         statusCode: e.toJson()['statusCode'],
       );
-      httpResponseFlutter.update(
-        isLoading: false
-      );
+      httpResponseFlutter.update(isLoading: false);
       notifyListeners();
     }
   }
@@ -291,6 +322,41 @@ class AuthenticateProvider extends ChangeNotifier {
     }
   }
 
+  Future<HttpResponseFlutter> changePassword(
+      {required String token,
+      required String password,
+      required String newPassword}) async {
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      Map<String, dynamic> data = Map();
+      data['password'] = password;
+      data['newPassword'] = newPassword;
+      
+      final rs = await http.post(
+          body: json.encode(data),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.acceptHeader: 'application/json',
+            HttpHeaders.authorizationHeader: "Bearer $token"
+          },
+          Uri.parse("${dotenv.env['HTTP_URI']}auth/change-password"));
+
+      final bodyRes = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(bodyRes['message'], rs.statusCode);
+      }
+
+      httpResponseFlutter.update(
+          result: bodyRes['data'], statusCode: bodyRes['statusCode']);
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      httpResponseFlutter.update(
+          statusCode: e.toJson()['statusCode'],
+          errorMessage: e.toJson()['message']);
+      return httpResponseFlutter;
+    }
+  }
+
   Future<void> refreshTokenFunc({required String refreshToken}) async {
     try {
       print("hello refresh");
@@ -299,7 +365,6 @@ class AuthenticateProvider extends ChangeNotifier {
       final rs = await http.post(
           headers: {HttpHeaders.authorizationHeader: "Bearer $refreshToken"},
           Uri.parse("${dotenv.env['HTTP_URI']}auth/refresh-token"));
-      
 
       final bodyRes = json.decode(rs.body);
 
@@ -322,6 +387,42 @@ class AuthenticateProvider extends ChangeNotifier {
       httpResponseFlutter.update(
           statusCode: e.toJson()['statusCode'],
           errorMessage: e.toJson()['message']);
+    }
+  }
+
+
+
+  Future<HttpResponseFlutter> sendMailForgotPassword({required String domain, required String email}) async {
+    try {
+
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      Map<String, dynamic> data = Map();
+      data['email'] = email;
+      data['domain'] = domain;
+      final rs = await http.post(
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.acceptHeader: 'application/json',
+          },
+          body: json.encode(data),
+          Uri.parse("${dotenv.env['HTTP_URI']}auth/send-mail-forgot-password"));
+
+      final bodyRes = json.decode(rs.body);
+
+      if (rs.statusCode >= 400) {
+        throw FlutterException(bodyRes['message'], rs.statusCode);
+      }
+
+      httpResponseFlutter.update(
+          result: bodyRes['data'], statusCode: bodyRes['statusCode']);
+
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      print("Error Server $e");
+      httpResponseFlutter.update(
+          statusCode: e.toJson()['statusCode'],
+          errorMessage: e.toJson()['message']);
+      return httpResponseFlutter;
     }
   }
 }

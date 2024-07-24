@@ -54,8 +54,13 @@
     "bookingPage": {
         "use": "use",
         "booking": "booking"
-        
     },
+
+    "confirmPassword": "confirm password",
+    "password":"password",
+    "newPassword":"new password",
+    "currentPassword": "current password",
+    "enter": "enter",
     "to": "to",
     "must": "You must",
     "areYouSureToCancel":"Are you sure to want to cancel ?",
@@ -85,5 +90,7 @@
     "cancel":"Cancel",
     "country":"Country",
     "yes": "Yes",
-    "no":"No"
+    "no":"No",
+    "new": "new",
+    "email":"Email"
 }

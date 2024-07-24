@@ -183,64 +183,64 @@ class LoginPage extends StatelessWidget {
                                   },
                     
                                 )),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.white,
-                                              elevation: 0.5),
-                                          onPressed: () {},
-                                          child: ListTile(
-                                            leading: SvgPicture.asset(
-                                              "assets/images/google.svg",
-                                              height: 24,
-                                              width: 24,
-                                            ),
-                                            title:
-                                                const Text("Continue with Facebook"),
-                                            trailing: const Icon(
-                                                Icons.arrow_forward_outlined),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.white,
-                                              elevation: 0.5),
-                                          onPressed: () {},
-                                          child: ListTile(
-                                            leading: SvgPicture.asset(
-                                              "assets/images/facebook.svg",
-                                              height: 24,
-                                              width: 24,
-                                            ),
-                                            title:
-                                                const Text("Continue with Facebook"),
-                                            trailing: const Icon(
-                                                Icons.arrow_forward_outlined),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
+                            // Expanded(
+                            //   child: Column(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: [
+                            //       Row(
+                            //         mainAxisAlignment: MainAxisAlignment.center,
+                            //         children: [
+                            //           Expanded(
+                            //             child: ElevatedButton(
+                            //               style: ElevatedButton.styleFrom(
+                            //                   backgroundColor: Colors.white,
+                            //                   elevation: 0.5),
+                            //               onPressed: () {},
+                            //               child: ListTile(
+                            //                 leading: SvgPicture.asset(
+                            //                   "assets/images/google.svg",
+                            //                   height: 24,
+                            //                   width: 24,
+                            //                 ),
+                            //                 title:
+                            //                     const Text("Continue with Google"),
+                            //                 trailing: const Icon(
+                            //                     Icons.arrow_forward_outlined),
+                            //               ),
+                            //             ),
+                            //           )
+                            //         ],
+                            //       ),
+                            //       const SizedBox(
+                            //         height: 10,
+                            //       ),
+                            //       Row(
+                            //         mainAxisAlignment: MainAxisAlignment.center,
+                            //         children: [
+                            //           Expanded(
+                            //             child: ElevatedButton(
+                            //               style: ElevatedButton.styleFrom(
+                            //                   backgroundColor: Colors.white,
+                            //                   elevation: 0.5),
+                            //               onPressed: () {},
+                            //               child: ListTile(
+                            //                 leading: SvgPicture.asset(
+                            //                   "assets/images/facebook.svg",
+                            //                   height: 24,
+                            //                   width: 24,
+                            //                 ),
+                            //                 title:
+                            //                     const Text("Continue with Facebook"),
+                            //                 trailing: const Icon(
+                            //                     Icons.arrow_forward_outlined),
+                            //               ),
+                            //             ),
+                            //           )
+                            //         ],
+                            //       ),
+                            //     ],
+                            //   ),
+                            // )
                           ],
                         ),
                       ),

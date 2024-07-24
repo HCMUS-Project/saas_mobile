@@ -5,13 +5,16 @@ class VerifyPasswordPage extends StatelessWidget {
   VerifyPasswordPage(
     {
       super.key,
-      this.email
+      this.email,
+      this.password
     });
   String? email;
+  String? password;
   @override
   Widget build(BuildContext context) {
     return VerifyOtp(
       email: email!,
+      password: password,
       style: "forget-password",
     );
   }
