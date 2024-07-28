@@ -117,7 +117,7 @@ class _ProductPageState extends State<ProductPage> {
                               borderRadius: BorderRadius.circular(30)),
                         ),
                       ),
-                      result == null
+                      result == null 
                           ? Container(
                               child: Column(
                                   children: List.generate(
@@ -454,11 +454,13 @@ class _ShowProductState extends State<ShowProduct> {
   void initState() {
     // TODO: implement initState
     categoryList.add("All");
-    categoryList = widget.productList
+    categoryList.addAll( widget.productList
         .map<String>((e) =>
             (List<Map<String, dynamic>>.from(e['categories']))[0]['name'])
-        .toList();
+        .toList());
     categoryList = categoryList.toSet().toList();
+    print("Category List:");
+    print(categoryList);
     super.initState();
   }
 
@@ -467,7 +469,7 @@ class _ShowProductState extends State<ShowProduct> {
     Size size = MediaQuery.of(context).size;
 
     List<Map<String, dynamic>> productData = widget.productList;
-
+    
     productData = categoryList[widget.selectedCategory] == "All"
         ? widget.productList
         : widget.productList.where(

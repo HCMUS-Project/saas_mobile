@@ -31,7 +31,7 @@ def loadEnv() {
 }
 
 def env = loadEnv()
-
+def keyStoreFile = rootProject.projectDir.toString() + "/app/upload-keystore.jks"
 android {
     namespace "com.example.mobilefinalhcmus"
     compileSdk 34
@@ -72,10 +72,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('E:\\Study\\flutter\\code\\upload-keystore.jks')
-            storePassword 'lehoai123'
-            keyAlias 'hcmus'
-            keyPassword 'lehoai123'
+            storeFile file(keyStoreFile)
+            storePassword env['KEYSTORE_PASSWORD']
+            keyAlias env['KEY_ALIAS']
+            keyPassword env['KEY_PASSWORD']
         }
     }
     
@@ -93,18 +93,58 @@ android {
     flavorDimensions += "app"
 
     productFlavors {
-        cookie {
+        spa {
             dimension "app"
-            applicationId "com.example.mobilefinalhcmus.cookie"
+            applicationId "com.example.mobilefinalhcmus.spa"
             versionCode 1
             versionName "1.0"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/spa",
+                    appIconRound: "@mipmap/spa_round"
+            ]
         }
 
-        coffee {
+        shine {
             dimension "app"
-            applicationId "com.example.mobilefinalhcmus.coffee"
+            applicationId "com.example.mobilefinalhcmus.shine"
             versionCode 1
             versionName "1.0"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/shine",
+                    appIconRound: "@mipmap/shine_round"
+            ]
+        }
+
+        tailor {
+            dimension "app"
+            applicationId "com.example.mobilefinalhcmus.tailor"
+            versionCode 1
+            versionName "1.0"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/tailor",
+                    appIconRound: "@mipmap/tailor_round"
+            ]
+        }
+        pcstore {
+            dimension "app"
+            applicationId "com.example.mobilefinalhcmus.pcstore"
+            versionCode 1
+            versionName "1.0"
+            manifestPlaceholders = [
+                appIcon: "@mipmap/pcstore",
+                appIconRound: "@mipmap/pcstore_round"
+            ]
+        }
+
+        nail {
+            dimension "app"
+            applicationId "com.example.mobilefinalhcmus.nail"
+            versionCode 1
+            versionName "1.0"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/nail",
+                    appIconRound: "@mipmap/nail_round"
+            ]
         }
     }
 }
