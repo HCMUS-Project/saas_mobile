@@ -179,7 +179,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
         items: [
           FlashyTabBarItem(
-            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
+            inactiveColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!.withOpacity(0.5),
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!
@@ -188,7 +191,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             title: const Text('Home'),
           ),
           FlashyTabBarItem(
-            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
+            inactiveColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!.withOpacity(0.5),
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!
@@ -197,7 +203,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
             title: const Text('Shop'),
           ),
           FlashyTabBarItem(
-            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
+            inactiveColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!.withOpacity(0.5),
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!
@@ -210,7 +219,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           //   title: Text('Service'),
           // ),
           FlashyTabBarItem(
-            inactiveColor: Theme.of(context).textTheme.bodyMedium!.color!,
+            inactiveColor: Theme.of(context)
+                .bottomNavigationBarTheme
+                .unselectedLabelStyle!
+                .color!.withOpacity(0.5),
             activeColor: Theme.of(context)
                 .bottomNavigationBarTheme
                 .unselectedLabelStyle!

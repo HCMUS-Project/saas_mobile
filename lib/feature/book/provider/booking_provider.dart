@@ -14,6 +14,8 @@ class BookingProvider extends ChangeNotifier {
   String? _seletedTimeForBooking;
   String? get selectedTimeForBooking => _seletedTimeForBooking;
   List<Map<String, dynamic>> bookingList = [];
+  List<Map<String, dynamic>> reviews = [];
+ 
   int page = 1;
 
   set setPage(int page) {
@@ -342,6 +344,7 @@ class BookingProvider extends ChangeNotifier {
       }
       final result = Map<String, dynamic>.from(body);
       print(result);
+      reviews = List<Map<String,dynamic>>.from(result['data']['reviews']);
       httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
       return httpResponseFlutter;
     } on FlutterException catch (e) {

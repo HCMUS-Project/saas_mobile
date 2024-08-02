@@ -40,10 +40,10 @@ class _ProductDetail2State extends State<ProductDetail2>
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).appBarTheme.titleTextStyle?.color
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        // iconTheme: IconThemeData(
+        //   color: Theme.of(context).appBarTheme.titleTextStyle?.color
+        // ),
+        // backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Column(
         children: [

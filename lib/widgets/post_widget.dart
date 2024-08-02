@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobilefinalhcmus/feature/auth/providers/auth_provider.dart';
 import 'package:mobilefinalhcmus/feature/book/provider/booking_provider.dart';
 import 'package:mobilefinalhcmus/feature/shop/provider/shop_provider.dart';
+import 'package:mobilefinalhcmus/helper/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -17,12 +18,13 @@ Future<bool> PostReview ({required BuildContext context, required TextEditingCon
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: SizedBox(
-                  height: 500,
+                  height: 400,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Text(
-                          "What is your rate?",
+                          AppLocalizations.of(context)!.translate('whatisyourrate')!,
+                  
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -49,19 +51,13 @@ Future<bool> PostReview ({required BuildContext context, required TextEditingCon
                         Column(
                           children: [
                             Text(
-                              "Please share your opinion",
+                              AppLocalizations.of(context)!.translate('shareopinion')!,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              "about the product",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
+                            
                           ],
                         ),
                         Container(
@@ -87,22 +83,22 @@ Future<bool> PostReview ({required BuildContext context, required TextEditingCon
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Theme.of(context).colorScheme.secondary,
-                                child: const Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Text("Add your photo")
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   padding: const EdgeInsets.all(8),
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Column(
+                        //     children: [
+                        //       CircleAvatar(
+                        //         backgroundColor: Theme.of(context).colorScheme.secondary,
+                        //         child: const Icon(
+                        //           Icons.camera_alt,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //       const Text("Add your photo")
+                        //     ],
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -110,8 +106,7 @@ Future<bool> PostReview ({required BuildContext context, required TextEditingCon
                           padding: const EdgeInsets.all(8),
                           width: double.infinity,
                           child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).colorScheme.secondary),
+                             
                               onPressed: ()async {
                                 print(controller.text);
                                 String? errorMessage;
@@ -142,8 +137,9 @@ Future<bool> PostReview ({required BuildContext context, required TextEditingCon
                                     .textTheme
                                     .bodyMedium
                                     ?.copyWith(
+                                      color: Theme.of(context).scaffoldBackgroundColor,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                                        ),
                               )),
                         )
                       ],

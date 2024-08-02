@@ -303,8 +303,8 @@ class _CartItemWidgetState extends State<CartItemWidget>
               motion: const ScrollMotion(),
               children: [
                 SlidableAction(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  backgroundColor: Theme.of(context).elevatedButtonTheme.style!.backgroundColor!.resolve({})!,
+                  foregroundColor: Theme.of(context).scaffoldBackgroundColor,
                   icon: Icons.delete,
                   onPressed: (context)async {
                     await context.read<CartProvider>().updateCart(

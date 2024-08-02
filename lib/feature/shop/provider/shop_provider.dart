@@ -17,6 +17,7 @@ class ShopProvider extends ChangeNotifier {
       .toSet()
       .toList();
   List<ProductModel>? _filterProductList = [];
+  List<Map<String, dynamic>> reviews = [];
   List<ProductModel>? get filterProductList => _filterProductList;
   String? selectedCategory = "";
    
@@ -183,8 +184,9 @@ class ShopProvider extends ChangeNotifier {
 
       final result = Map<String, dynamic>.from(body);
 
-      httpResponseFlutter.update(
-          result: result['data'], statusCode: rs.statusCode);
+      reviews = List<Map<String, dynamic>>.from(result['data']['reviews']);
+      print(reviews);
+      httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
       return httpResponseFlutter;
     } on FlutterException catch (e) {
       print(e);
@@ -193,6 +195,34 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
+  Future<HttpResponseFlutter> removeReviewProduct(
+    {
+      required String token,
+      required String id
+    }
+  )async{
+    try {
+      httpResponseFlutter = HttpResponseFlutter.unknown();
+      final uri = Uri.parse('${dotenv.env['HTTP_URI']}ecommerce/review/delete/$id');
+      final rs = await http.delete(headers: {
+        HttpHeaders.authorizationHeader:"Bearer $token",
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      }, uri);
+      final body = json.decode(rs.body);
+      if (rs.statusCode >= 400) {
+        throw FlutterException(body['message'], rs.statusCode);
+      }
+
+      final result = Map<String, dynamic>.from(body);
+      httpResponseFlutter.update(result: result['data'], statusCode: rs.statusCode);
+      return httpResponseFlutter;
+    } on FlutterException catch (e) {
+      print(e);
+      httpResponseFlutter.update(result: e.toJson()['message'], statusCode: e.toJson()['statusCode']);
+      return httpResponseFlutter;
+    }
+  }
   Future<HttpResponseFlutter> findProductTopSeller(
       {required String domain}) async {
     try {

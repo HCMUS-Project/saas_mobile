@@ -404,8 +404,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                               child: Icon(
                                                 Icons.comment,
                                                 color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary,
+                                                    .textTheme
+                                                    .bodyMedium?.color,
                                               ),
                                             )
                                           : null,

@@ -95,7 +95,7 @@ class ThemeConfig {
   ThemeData get theme => ThemeData(
       datePickerTheme: DatePickerThemeData(
         
-        backgroundColor: headerColor,
+        backgroundColor: bodyColor,
         cancelButtonStyle: ElevatedButton.styleFrom(
         ),
         confirmButtonStyle: ElevatedButton.styleFrom(

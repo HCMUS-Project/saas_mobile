@@ -373,8 +373,10 @@ class _BookingPageState extends State<BookingPage> {
                                         chosenDate = await showDatePicker(
                                             builder: (context, child) {
                                               return Theme(
+
                                                   data: Theme.of(context)
                                                       .copyWith(
+                                                       
                                                     textButtonTheme:
                                                         TextButtonThemeData(
                                                       style:
@@ -386,8 +388,7 @@ class _BookingPageState extends State<BookingPage> {
                                                     colorScheme:
                                                          ColorScheme.light(
                                                       primary: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5), // header background color
-                                                      onPrimary: Colors
-                                                          .black, // header text color
+                                                      onPrimary: Theme.of(context).textTheme.bodyMedium!.color!, // header text color
                                                       onSurface: Theme.of(context).textTheme.bodyMedium!.color!, // body text color
                                                     ),
                                                   ),

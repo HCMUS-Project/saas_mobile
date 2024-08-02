@@ -55,7 +55,8 @@
         "use": "use",
         "booking": "booking"
     },
-
+    "whatisyourrate": "What is your rate ?",
+    "shareopinion":"Please share your opinion",
     "confirmPassword": "confirm password",
     "password":"password",
     "newPassword":"new password",

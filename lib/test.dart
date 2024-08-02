@@ -653,3 +653,55 @@
 //     );
 //   }
 // }
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class TestPage extends StatefulWidget {
+  const TestPage({super.key});
+
+  @override
+  State<TestPage> createState() => _TestPageState();
+}
+
+
+class _TestPageState extends State<TestPage> {
+  final controller = ScrollController();
+  List<String> item = List.generate(100, (index) => "Item ${index + 1}");
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.addListener(() { 
+      print("dasdasdasd");
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          print('scroll di');
+   
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListView.builder(
+        controller: controller,
+        itemCount: item.length + 1,
+        itemBuilder: (context, index) {
+          if (index >= item.length){
+            return Padding(padding: EdgeInsets.all(8),child: Center(child: CircularProgressIndicator(
+              color: Colors.amber,
+            ),),);
+          }else{
+            return Container(
+              child: Center(child: Text(item[index]),),
+            );
+          }
+        },),
+    );
+  }
+}
