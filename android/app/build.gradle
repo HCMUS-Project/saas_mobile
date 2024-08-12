@@ -31,7 +31,8 @@ def loadEnv() {
 }
 
 def env = loadEnv()
-def keyStoreFile = rootProject.projectDir.toString() + "/app/upload-keystore.jks"
+def keyStoreFile = rootProject.projectDir.toString() + "\\app\\upload-keystore.jks"
+println(keyStoreFile)
 android {
     namespace "com.example.mobilefinalhcmus"
     compileSdk 34
@@ -99,8 +100,9 @@ android {
             versionCode 1
             versionName "1.0"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/spa",
-                    appIconRound: "@mipmap/spa_round"
+                    appIcon     : "@mipmap/spa",
+                    appIconRound: "@mipmap/spa_round",
+                    host        : "40spa.nvukhoi.id.vn"
             ]
         }
 
@@ -111,7 +113,8 @@ android {
             versionName "1.0"
             manifestPlaceholders = [
                     appIcon: "@mipmap/shine",
-                    appIconRound: "@mipmap/shine_round"
+                    appIconRound: "@mipmap/shine_round",
+                    host:"30shine.nvukhoi.id.vn"
             ]
         }
 
@@ -122,9 +125,11 @@ android {
             versionName "1.0"
             manifestPlaceholders = [
                     appIcon: "@mipmap/tailor",
-                    appIconRound: "@mipmap/tailor_round"
+                    appIconRound: "@mipmap/tailor_round",
+                    host        : "33tailor.nvukhoi.id.vn"
             ]
         }
+
         pcstore {
             dimension "app"
             applicationId "com.example.mobilefinalhcmus.pcstore"
@@ -132,7 +137,8 @@ android {
             versionName "1.0"
             manifestPlaceholders = [
                 appIcon: "@mipmap/pcstore",
-                appIconRound: "@mipmap/pcstore_round"
+                appIconRound: "@mipmap/pcstore_round",
+                host        : "49pcstore.nvukhoi.id.vn"
             ]
         }
 
@@ -143,7 +149,8 @@ android {
             versionName "1.0"
             manifestPlaceholders = [
                     appIcon: "@mipmap/nail",
-                    appIconRound: "@mipmap/nail_round"
+                    appIconRound: "@mipmap/nail_round",
+                    host        : "22nailstore.nvukhoi.id.vn"
             ]
         }
     }

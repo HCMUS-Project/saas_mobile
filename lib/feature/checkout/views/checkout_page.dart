@@ -861,6 +861,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             print("PAYMENT METHOD: ");
                             print(paymentMethods[indexPaymentMethod].id);
                             await context.read<CheckoutProvider>().createOrder(
+                              domain: context.read<AuthenticateProvider>().domain!,
                                 paymentMethod:
                                     paymentMethods[indexPaymentMethod].id!,
                                 voucherId: listChosenVoucher.isNotEmpty

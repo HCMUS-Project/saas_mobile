@@ -56,6 +56,7 @@ class CheckoutProvider extends ChangeNotifier {
       required List<int> quantities,
       required String phone,
       required String address,
+      required String domain,
       String? voucherId}) async {
     try {
       httpResponseFlutter = HttpResponseFlutter.unknown();
@@ -69,7 +70,7 @@ class CheckoutProvider extends ChangeNotifier {
       data["paymentMethod"] = paymentMethod;
       data["voucherId"] = voucherId;
       data["paymentCallbackUrl"] =
-          "http://nvukhoi.id.vn/api/payment/url/return?domain=nvukhoi.id.vn";
+          "http://nvukhoi.id.vn/api/payment/url/return?domain=${domain.split(".")[0]}.nvukhoi.id.vn";
 
       data.removeWhere((key, value) => data[key] == null);
       Uri? uri =
